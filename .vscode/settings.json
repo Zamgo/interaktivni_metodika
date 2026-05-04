@@ -1,4 +1,18 @@
 {
   "files.eol": "\n",
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "search.exclude": {
+    "**/site/node_modules": true,
+    "**/site/public": true,
+    "**/site/public_ftp": true,
+    "**/site/.quartz-cache": true,
+    "**/site/.cache": true
+  },
+  "files.watcherExclude": {
+    "**/site/node_modules/**": true,
+    "**/site/public/**": true,
+    "**/site/public_ftp/**": true,
+    "**/site/.quartz-cache/**": true,
+    "**/site/.cache/**": true
+  }
 }

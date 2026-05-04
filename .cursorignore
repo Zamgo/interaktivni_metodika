@@ -1,0 +1,6 @@
+﻿# Heavy dirs — Agent grep & indexing (aligned with .gitignore Quartz artifacts)
+site/node_modules/
+site/public/
+site/public_ftp/
+site/.quartz-cache/
+site/.cache/

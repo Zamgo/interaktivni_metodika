@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy.md",
+                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-09 - oznameni-o-datu-zahajeni-praci.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy"
+              "title": "FRR-09 - oznameni-o-datu-zahajeni-praci"
             }
           }
         ]
@@ -186,8 +186,9 @@
   },
   "active": "c078a3fb3b9b766e",
   "lastOpenFiles": [
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-03 - vyjadrit-souhlas-se-jmenovanym-zastupcem-zhotovitele.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-10 - odsouhlaseni-podzhotovitele.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-03 - vyjadrit-souhlas-se-jmenovanym-zastupcem-zhotovitele.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-20 - dohoda-o-miste-a-dobe-zkousek.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-24 - pokyn-k-napravnym-pracim.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-27 - zjisteni-a-oznameni-vady-ci-nedodelku-behem-zarucni-doby.md",
@@ -215,7 +216,6 @@
     "07_Sprava_obsahu/Ciselnik spousteci udalost.md",
     "07_Sprava_obsahu/Ciselnik casoveho pravidla.md",
     "07_Sprava_obsahu/Ciselnik etap.md",
-    "07_Sprava_obsahu/Ciselnik fazi.md",
     "02 - Seznam všech činností.base",
     "site/quartz/components/scripts/homeLanding.inline.splitpane.bak.ts",
     "_tmp_chain_frr.py",

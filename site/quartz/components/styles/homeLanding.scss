@@ -533,6 +533,54 @@ article.home-hero {
     color: var(--dark);
   }
 
+  .home-wizard-extra-filters {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0 0 1rem;
+  }
+
+  .home-wizard-filter-block {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .home-wizard-filter-heading {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--darkgray);
+  }
+
+  .home-wizard-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: flex-start;
+  }
+
+  .home-wizard-filter-chip {
+    border: 1px solid color-mix(in srgb, $rsd-blue-dark 35%, var(--lightgray));
+    border-radius: 999px;
+    background: var(--light);
+    color: $rsd-blue-dark;
+    font-size: 0.78rem;
+    padding: 0.28rem 0.65rem;
+    cursor: pointer;
+    line-height: 1.25;
+    transition:
+      background 0.12s ease,
+      border-color 0.12s ease;
+
+    &:hover {
+      background: color-mix(in srgb, $rsd-blue-dark 8%, #fff);
+    }
+
+    &.selected {
+      border-color: $rsd-blue-dark;
+      background: color-mix(in srgb, $rsd-blue-dark 14%, #fff);
+      font-weight: 600;
+    }
+  }
+
   .home-wizard-filter-empty {
     font-size: 0.82rem;
     color: var(--darkgray);
@@ -867,13 +915,57 @@ article.home-hero {
     border-color: color-mix(in srgb, $rsd-green 35%, var(--lightgray));
   }
 
-  // Barevná hlavička sekce etapy
-  .wiz-tl-group-header {
+  // Barevná hlavička sekce etapy (tlačítko = sbalit/rozbalit karty)
+  button.wiz-tl-group-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     padding: 0.6rem 1rem;
     gap: 0.75rem;
+    margin: 0;
+    border: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 55%, var(--gray));
+      outline-offset: 2px;
+    }
+  }
+
+  .wiz-tl-group-header-start {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .wiz-tl-group-chevron {
+    display: flex;
+    flex-shrink: 0;
+    color: inherit;
+    opacity: 0.8;
+  }
+
+  .wiz-tl-group-chevron-svg {
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .wiz-tl-group-header[aria-expanded="false"] .wiz-tl-group-chevron-svg {
+    transform: rotate(-90deg);
+  }
+
+  .wiz-tl-group--collapsed {
+    .wiz-tl-group-header--blue,
+    .wiz-tl-group-header--orange,
+    .wiz-tl-group-header--green {
+      border-bottom: none;
+    }
   }
 
   .wiz-tl-group-header--blue {
@@ -922,6 +1014,8 @@ article.home-hero {
   }
 
   .wiz-tl-group-label {
+    flex: 1;
+    min-width: 0;
     font-size: 0.88rem;
     font-weight: 700;
     line-height: 1.3;
@@ -1026,6 +1120,29 @@ article.home-hero {
   .wiz-tl-card-zdroj-label {
     font-weight: 700;
     color: var(--dark);
+  }
+
+  .wiz-tl-card-meta {
+    margin: 0.35rem 0 0;
+    padding-top: 0.35rem;
+    border-top: 1px dashed color-mix(in srgb, var(--lightgray) 70%, transparent);
+  }
+
+  .wiz-tl-card-meta-line {
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: var(--darkgray);
+    margin: 0 0 0.2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .wiz-tl-card-meta-label {
+    font-weight: 700;
+    color: var(--dark);
+    margin-right: 0.25rem;
   }
 
   // RACI řádky na kartě
