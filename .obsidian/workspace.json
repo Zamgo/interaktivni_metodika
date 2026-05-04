@@ -6,7 +6,7 @@
       {
         "id": "00d9111c15930570",
         "type": "tabs",
-        "dimension": 69.30604982206405,
+        "dimension": 49.08637873754153,
         "children": [
           {
             "id": "c87f27a3c1c62110",
@@ -14,12 +14,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_Katalog všech činností/1 - Posouzení a zohlednění potřeb.md",
+                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-01 - povereni-asistentu-spravce-stavby.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "1 - Posouzení a zohlednění potřeb"
+              "title": "FRR-01 - povereni-asistentu-spravce-stavby"
             }
           }
         ]
@@ -27,7 +27,7 @@
       {
         "id": "5e16900759830820",
         "type": "tabs",
-        "dimension": 30.693950177935942,
+        "dimension": 50.91362126245848,
         "children": [
           {
             "id": "bc0ad9d629b7a54d",
@@ -57,8 +57,7 @@
               "title": "FRR-18 - souhlas-se-vzorky-materialu"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -115,7 +114,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 368.5
+    "width": 288.5
   },
   "right": {
     "id": "925f1fb0b98116e3",
@@ -221,30 +220,39 @@
       "bases:Vytvořit novou základnu": false
     }
   },
-  "active": "6ed3e31a2ef3654b",
+  "active": "c87f27a3c1c62110",
   "lastOpenFiles": [
-    "site/public/index.html",
-    "site/public/tags/index.html",
     "site/public/static/giscus/light.css",
     "site/public/static/giscus/dark.css",
-    "site/public/static/og-image.png",
-    "site/public/static/rsd-logo.svg",
+    "site/public/pojem/smluvni-strana/vedouci-poverena-strana.html",
+    "site/public/pojem/smluvni-strana/poverena-strana.html",
+    "site/public/pojem/smluvni-strana/poverujici-strana.html",
+    "site/public/pojem/rizeni/workflow.html",
+    "site/public/pojem/rizeni/verifikace.html",
+    "site/public/pojem/rizeni/ucel-uziti.html",
+    "site/public/pojem/rizeni/validace.html",
+    "site/public/pojem/rizeni/pristupova-opravneni.html",
+    "site/public/pojem/rizeni/auditni-stopa.html",
+    "site/public/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "site/public/static/rsd-icon.svg",
+    "site/public/static/rsd-logo.svg",
+    "site/public/static/og-image.png",
     "site/public/static/icon.png",
-    "site/public/static/giscus",
-    "site/public/static/contentIndex.json",
-    "site/public/static",
-    "site/public/index.xml",
-    "site/public/sitemap.xml",
-    "site/public/index.css",
-    "site/public/00_Podklady/_seed_metadata_hodnoty.html",
+    "site/public/00_Podklady/rsd-logo-sirkove-2c-barevne-rgb.svg",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-02 - predani-organigramu-tymu-spravce-stavby-objednateli-i-zhotoviteli.md",
+    "03_Katalog všech činností/1.2 - Stanovení projektových požadavků na informace (PIR).md",
+    "03_Katalog všech činností/1 - Posouzení a zohlednění potřeb.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-01 - povereni-asistentu-spravce-stavby.md",
+    "07_Sprava_obsahu/Ciselnik spousteci udalost.md",
+    "07_Sprava_obsahu/Ciselnik etap.md",
+    "07_Sprava_obsahu/Ciselnik typu lhut.md",
+    "07_Sprava_obsahu/Ciselnik fazi.md",
+    "07_Sprava_obsahu/Ciselnik casoveho pravidla.md",
     "site/public/images/social-image-preview-light.png",
     "site/public/images/social-image-preview-dark.png",
     "site/public/images/quartz-transform-pipeline.png",
     "site/public/images/quartz-layout-tablet.png",
     "site/public/images/quartz-layout-mobile.png",
-    "site/public/images/quartz-layout-desktop.png",
-    "site/public/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "05_Knihovna průvodce/FAQ - Zkušenosti z projektů ŘSD (CDE).md",
     "03_Katalog všech činností/1.4 - Stanovení projektového informačního standardu.md",
     "03_Katalog všech činností/1.4.1 - Stanovit informacni standard.md",
@@ -261,15 +269,6 @@
     "03_Katalog všech činností/1.3 - Stanovení projektových milníků pro předání informací.md",
     "03_Katalog všech činností/1.2.1 - Stanovit pozadavky na informace PIR.md",
     "03_Katalog všech činností/1.1.5 - Stanovit kompetence pro funkci.md",
-    "03_Katalog všech činností/1.1.4 - Stanovit pravomoce delegovani.md",
-    "03_Katalog všech činností/1.1.3 - Stanovit ukoly v ramci sluzeb.md",
-    "03_Katalog všech činností/1.1.2 - Stanovit rozsah sluzeb.md",
-    "03_Katalog všech činností/1.1.1 - Poverit jednotlivce pro management informaci.md",
-    "Požadavky na management informací.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-18 - souhlas-se-vzorky-materialu.md",
-    "03_Katalog všech činností/1.1 - Pověření jednotlivců k plnění funkcí při managementu informací.md",
-    "03_Katalog všech činností/1 - Posouzení a zohlednění potřeb.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-04 - nastavit-a-pripomenout-pravidla-komunikace-a-spoluprace-se-zhotovitelem-tymem-sps.md",
     "Nová složka/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "site/public_ftp/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "05_Knihovna průvodce/Diagramy/Hierarchie týmu správce stavby.canvas",

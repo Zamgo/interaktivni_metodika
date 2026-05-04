@@ -13,6 +13,7 @@
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
+    "dev": "npx --yes cross-env QUARTZ_BASE_URL=localhost npx quartz build --serve -d ..",
     "ftp:pack": "powershell -NoProfile -ExecutionPolicy Bypass -File ../scripts/pack-for-ftp.ps1",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",

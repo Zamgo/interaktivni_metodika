@@ -29,6 +29,8 @@ jobs:
 
       - name: Build site
         working-directory: site
+        env:
+          QUARTZ_BASE_URL: www.ceskesilnice.cz/RSD_Plzen
         run: node ./quartz/bootstrap-cli.mjs build -d ..
 
       - name: Copy Apache rules for Quartz (no .html)

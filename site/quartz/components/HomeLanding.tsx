@@ -23,6 +23,8 @@ type ActivityEntry = {
   title: string
   oznaceni: string
   faze: string[]
+  etapa: string[]
+  spousteciUdalost: string[]
   rRoles: string[]
   aRoles: string[]
   cRoles: string[]
@@ -51,6 +53,33 @@ const PHASE_DEFS: { key: string; label: string; match: string[]; color: string }
     match: ["provoz a údržba", "provoz"],
     color: "green",
   },
+]
+
+type EtapaDef = {
+  key: string
+  label: string
+  phaseKeys: string[]
+}
+
+/**
+ * Etapy navázané na 3fázový wizard:
+ * - původní "navrh" vrstvy mapujeme do "priprava", protože wizard aktuálně používá
+ *   pouze kroky příprava/realizace/provoz.
+ */
+const ETAPA_DEFS: EtapaDef[] = [
+  {
+    key: "strategicka_priprava",
+    label: "Strategická příprava / Definice investičního záměru",
+    phaseKeys: ["priprava"],
+  },
+  { key: "priprava_projektu", label: "Příprava projektu", phaseKeys: ["priprava"] },
+  { key: "studie", label: "Studie", phaseKeys: ["priprava"] },
+  { key: "DPZ", label: "Dokumentace pro povolení záměru", phaseKeys: ["priprava"] },
+  { key: "DPS", label: "Dokumentace pro provádění stavby", phaseKeys: ["priprava"] },
+  { key: "soupis_praci", label: "Soupis prací a dodávek", phaseKeys: ["priprava"] },
+  { key: "realizace_stavby", label: "Realizace / Dozor projektanta", phaseKeys: ["realizace"] },
+  { key: "predani_stavby", label: "Předání a uvedení do provozu", phaseKeys: ["realizace"] },
+  { key: "provoz_a_sprava", label: "Provoz a správa aktiv", phaseKeys: ["provoz"] },
 ]
 
 function coerceString(value: unknown): string {
@@ -139,6 +168,8 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
     const oznaceni = coerceString(fm.oznaceni)
     const popis = coerceString(fm.popis)
     const faze = coerceLinkArray(fm.faze)
+    const etapa = coerceArray(fm.etapa)
+    const spousteciUdalost = coerceArray(fm.spousteci_udalost)
 
     // Frontmatter klíče obsahují mezery a pomlčky — proto vybíráme dynamicky.
     let rRoles: string[] = []
@@ -164,6 +195,8 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
       title,
       oznaceni,
       faze,
+      etapa,
+      spousteciUdalost,
       rRoles,
       aRoles,
       cRoles,
@@ -214,6 +247,8 @@ const HomeLanding: QuartzComponent = ({
       title: a.title,
       oznaceni: a.oznaceni,
       faze: a.faze,
+      etapa: a.etapa,
+      spousteciUdalost: a.spousteciUdalost,
       rRoles: a.rRoles,
       aRoles: a.aRoles,
       cRoles: a.cRoles,
@@ -224,6 +259,11 @@ const HomeLanding: QuartzComponent = ({
       key: p.key,
       label: p.label,
       match: p.match,
+    })),
+    etapy: ETAPA_DEFS.map((e) => ({
+      key: e.key,
+      label: e.label,
+      phaseKeys: e.phaseKeys,
     })),
   }
 
@@ -316,6 +356,43 @@ const HomeLanding: QuartzComponent = ({
               <span class="home-wizard-phase-label">{phase.label}</span>
             </button>
           ))}
+        </div>
+        <p class="home-wizard-step-hint home-wizard-step-hint-sub">
+          Volitelně upřesněte etapy (dle zvolených fází).
+        </p>
+        <div class="home-wizard-etapa-grid" role="list">
+          {ETAPA_DEFS.map((etapa) => (
+            <button
+              type="button"
+              class="home-wizard-etapa-card"
+              data-etapa-key={etapa.key}
+              data-etapa-phase-keys={etapa.phaseKeys.join("|")}
+              role="listitem"
+              aria-pressed="false"
+            >
+              <span class="home-wizard-etapa-label">{etapa.label}</span>
+            </button>
+          ))}
+        </div>
+        <p class="home-wizard-step-hint home-wizard-step-hint-sub">
+          Volitelně upřesněte spouštěcí události.
+        </p>
+        <div class="home-wizard-trigger-grid" data-wizard-trigger-category-cards />
+        <label class="home-wizard-trigger-search-wrap">
+          <span>Hledat konkrétní spouštěcí událost</span>
+          <input
+            type="search"
+            class="home-wizard-trigger-search"
+            data-wizard-trigger-search
+            placeholder="Např. odevzdání modelu, claim, audit…"
+            autocomplete="off"
+          />
+        </label>
+        <div class="home-wizard-trigger-grid" data-wizard-trigger-event-cards />
+        <div class="home-wizard-filter-actions">
+          <button type="button" class="home-wizard-advanced-reset" data-wizard-trigger-reset hidden>
+            Reset filtrů etap a spouštěcích událostí
+          </button>
         </div>
       </section>
 

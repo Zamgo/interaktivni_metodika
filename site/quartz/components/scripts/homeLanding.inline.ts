@@ -10,6 +10,8 @@ type WizardActivity = {
   title: string
   oznaceni: string
   faze: string[]
+  etapa: string[]
+  spousteciUdalost: string[]
   rRoles: string[]
   aRoles: string[]
   cRoles: string[]
@@ -27,6 +29,7 @@ type WizardData = {
   roles: WizardRole[]
   activities: WizardActivity[]
   phases: WizardPhase[]
+  etapy: Array<{ key: string; label: string; phaseKeys: string[] }>
 }
 
 type IndexItem = {
@@ -35,22 +38,44 @@ type IndexItem = {
   tags?: string[]
 }
 
-type ContentIndex = Record<string, IndexItem>
+type WizardContentIndex = Record<string, IndexItem>
 
-let indexPromise: Promise<ContentIndex> | null = null
+let indexPromise: Promise<WizardContentIndex> | null = null
 const pagePreviewCache = new Map<string, string>()
 const RACI_ORDER = ["R", "A", "C", "I"] as const
 const popoverParser = new DOMParser()
 let activePreviewPopoverLink: HTMLAnchorElement | null = null
+const TRIGGER_CATEGORY_ORDER = [
+  "projekt",
+  "faze",
+  "dokumentace",
+  "bim",
+  "cde",
+  "smlouva",
+  "kontrola",
+  "periodicky",
+  "provoz",
+] as const
+const TRIGGER_CATEGORY_LABELS: Record<string, string> = {
+  projekt: "Projekt",
+  faze: "Fáze",
+  dokumentace: "Dokumentace",
+  bim: "BIM",
+  cde: "CDE",
+  smlouva: "Smlouva",
+  kontrola: "Kontrola",
+  periodicky: "Periodicky",
+  provoz: "Provoz",
+}
 
-function getContentIndex(): Promise<ContentIndex> {
+function getContentIndex(): Promise<WizardContentIndex> {
   if (!indexPromise) {
     indexPromise = fetch(new URL("../static/contentIndex.json", window.location.href).toString())
       .then((res) => {
         if (!res.ok) throw new Error("Nepodarilo se nacist index vyhledavani")
-        return res.json() as Promise<ContentIndex>
+        return res.json() as Promise<WizardContentIndex>
       })
-      .catch(() => ({} as ContentIndex))
+      .catch(() => ({} as WizardContentIndex))
   }
   return indexPromise
 }
@@ -274,6 +299,36 @@ function normalizeLower(s: string): string {
   return s.trim().toLowerCase()
 }
 
+function normalizeMetaId(s: string): string {
+  return s.trim().toLowerCase()
+}
+
+function getTriggerCategoryKey(eventId: string): string {
+  const raw = normalizeMetaId(eventId)
+  const sep = raw.indexOf("_")
+  return sep > 0 ? raw.slice(0, sep) : raw
+}
+
+function getTriggerCategoryLabel(categoryKey: string): string {
+  return TRIGGER_CATEGORY_LABELS[categoryKey] ?? categoryKey
+}
+
+function prettifyTriggerEvent(eventId: string): string {
+  const normalized = normalizeMetaId(eventId)
+  const category = getTriggerCategoryKey(normalized)
+  const prefixLen = category.length + 1
+  const tail = normalized.length > prefixLen ? normalized.slice(prefixLen) : normalized
+  const readable = tail.replace(/_/g, " ").trim()
+  if (!readable) return getTriggerCategoryLabel(category)
+  return `${getTriggerCategoryLabel(category)} - ${readable}`
+}
+
+function summarizeLabels(labels: string[], max = 2): string {
+  if (labels.length <= max) return labels.join(", ")
+  const first = labels.slice(0, max).join(", ")
+  return `${first} +${labels.length - max}`
+}
+
 function activityMatchesRole(activity: WizardActivity, role: WizardRole): boolean {
   const roleNames = new Set<string>([role.title, ...role.aliases].map(normalizeLower))
   const haystack = [...activity.rRoles, ...activity.aRoles, ...activity.cRoles, ...activity.iRoles].map(
@@ -299,6 +354,9 @@ function filterActivities(
   roleKeys: Set<string>,
   phaseKeys: Set<string>,
   raciKeys: Set<string>,
+  etapaKeys: Set<string>,
+  triggerCategoryKeys: Set<string>,
+  triggerEventKeys: Set<string>,
 ): WizardActivity[] {
   if (roleKeys.size === 0 || phaseKeys.size === 0) return []
   if (raciKeys.size === 0) return []
@@ -309,8 +367,41 @@ function filterActivities(
     (a) =>
       selectedRoles.some((role) => activityMatchesRole(a, role)) &&
       selectedPhases.some((phase) => activityMatchesPhase(a, phase)) &&
-      activityMatchesAnySelectedRoleRaci(a, selectedRoles, raciKeys),
+      activityMatchesAnySelectedRoleRaci(a, selectedRoles, raciKeys) &&
+      activityMatchesEtapa(a, etapaKeys) &&
+      activityMatchesTrigger(a, triggerCategoryKeys, triggerEventKeys),
   )
+}
+
+function activityMatchesEtapa(activity: WizardActivity, etapaKeys: Set<string>): boolean {
+  if (etapaKeys.size === 0) return true
+  if (!Array.isArray(activity.etapa) || activity.etapa.length === 0) return false
+  const ids = new Set(activity.etapa.map(normalizeMetaId))
+  for (const key of etapaKeys) {
+    if (ids.has(normalizeMetaId(key))) return true
+  }
+  return false
+}
+
+function activityMatchesTrigger(
+  activity: WizardActivity,
+  triggerCategoryKeys: Set<string>,
+  triggerEventKeys: Set<string>,
+): boolean {
+  if (triggerCategoryKeys.size === 0 && triggerEventKeys.size === 0) return true
+  if (!Array.isArray(activity.spousteciUdalost) || activity.spousteciUdalost.length === 0) return false
+  const eventIds = activity.spousteciUdalost.map(normalizeMetaId)
+  if (triggerEventKeys.size > 0) {
+    for (const eventId of eventIds) {
+      if (triggerEventKeys.has(eventId)) return true
+    }
+  }
+  if (triggerCategoryKeys.size > 0) {
+    for (const eventId of eventIds) {
+      if (triggerCategoryKeys.has(getTriggerCategoryKey(eventId))) return true
+    }
+  }
+  return false
 }
 
 function activityMatchesRaci(activity: WizardActivity, role: WizardRole, raciKeys: Set<string>): boolean {
@@ -337,22 +428,56 @@ function wireWizard() {
   const data = parseWizardData()
   if (!data) return
 
-  const state: { roleKeys: Set<string>; phaseKeys: Set<string>; raciKeys: Set<string> } = {
+  const state: {
+    roleKeys: Set<string>
+    phaseKeys: Set<string>
+    raciKeys: Set<string>
+    etapaKeys: Set<string>
+    triggerCategoryKeys: Set<string>
+    triggerEventKeys: Set<string>
+    triggerSearchQuery: string
+  } = {
     roleKeys: new Set<string>(),
     phaseKeys: new Set<string>(),
     raciKeys: new Set<string>(["R", "A", "C", "I"]),
+    etapaKeys: new Set<string>(),
+    triggerCategoryKeys: new Set<string>(),
+    triggerEventKeys: new Set<string>(),
+    triggerSearchQuery: "",
   }
 
   const step2 = root.querySelector<HTMLElement>('[data-wizard-step="2"]')
   const step3 = root.querySelector<HTMLElement>('[data-wizard-step="3"]')
   const roleCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-role-card"))
   const phaseCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-phase-card"))
+  const etapaCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-etapa-card"))
   const raciCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-raci-card"))
   const listEl = root.querySelector<HTMLElement>("[data-wizard-list]")
   const previewEl = root.querySelector<HTMLElement>("[data-wizard-preview]")
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
+  const triggerCategoryCardsEl = root.querySelector<HTMLElement>("[data-wizard-trigger-category-cards]")
+  const triggerEventCardsEl = root.querySelector<HTMLElement>("[data-wizard-trigger-event-cards]")
+  const triggerSearchInput = root.querySelector<HTMLInputElement>("[data-wizard-trigger-search]")
+  const triggerResetBtn = root.querySelector<HTMLButtonElement>("[data-wizard-trigger-reset]")
 
-  if (!step2 || !step3 || !listEl || !previewEl || !summaryEl) return
+  if (
+    !step2 ||
+    !step3 ||
+    !listEl ||
+    !previewEl ||
+    !summaryEl ||
+    !triggerCategoryCardsEl ||
+    !triggerEventCardsEl ||
+    !triggerSearchInput ||
+    !triggerResetBtn
+  ) {
+    return
+  }
+  const wizardData = data
+  const triggerCategoryCards = triggerCategoryCardsEl
+  const triggerEventCards = triggerEventCardsEl
+  const triggerSearch = triggerSearchInput
+  const triggerReset = triggerResetBtn
 
   const previewEmptyHtml = `<p class="home-wizard-result-preview-empty">Vyberte úkol v levém seznamu pro náhled.</p>`
   const listEmptyHtml = `<li class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</li>`
@@ -384,9 +509,18 @@ function wireWizard() {
       })
     } else {
       step3!.hidden = true
+      state.etapaKeys.clear()
+      state.triggerCategoryKeys.clear()
+      state.triggerEventKeys.clear()
+      state.triggerSearchQuery = ""
+      triggerSearch.value = ""
       listEl!.innerHTML = listEmptyHtml
       previewEl!.innerHTML = previewEmptyHtml
       summaryEl!.innerHTML = ""
+      triggerCategoryCards.innerHTML = ""
+      triggerEventCards.innerHTML = ""
+      triggerReset.hidden = true
+      syncEtapaCards()
     }
   }
 
@@ -399,6 +533,31 @@ function wireWizard() {
     }
   }
 
+  function syncEtapaCards() {
+    const allowed = new Set<string>()
+    for (const etapaDef of wizardData.etapy) {
+      if (etapaDef.phaseKeys.some((phaseKey) => state.phaseKeys.has(phaseKey))) {
+        allowed.add(normalizeMetaId(etapaDef.key))
+      }
+    }
+    for (const selected of [...state.etapaKeys]) {
+      if (!allowed.has(normalizeMetaId(selected))) state.etapaKeys.delete(selected)
+    }
+    for (const card of etapaCards) {
+      const key = normalizeMetaId(card.dataset.etapaKey ?? "")
+      const isAllowed = state.phaseKeys.size > 0 && allowed.has(key)
+      card.hidden = !isAllowed
+      if (!isAllowed) {
+        card.classList.remove("selected")
+        card.setAttribute("aria-pressed", "false")
+        continue
+      }
+      const isSelected = state.etapaKeys.has(key)
+      card.classList.toggle("selected", isSelected)
+      card.setAttribute("aria-pressed", isSelected ? "true" : "false")
+    }
+  }
+
   function togglePhase(key: string) {
     if (state.phaseKeys.has(key)) {
       state.phaseKeys.delete(key)
@@ -406,6 +565,7 @@ function wireWizard() {
       state.phaseKeys.add(key)
     }
     syncPhaseCards()
+    syncEtapaCards()
     step3!.hidden = state.phaseKeys.size === 0
     if (state.phaseKeys.size > 0) {
       renderResult()
@@ -413,9 +573,17 @@ function wireWizard() {
         step3!.scrollIntoView({ behavior: "smooth", block: "start" })
       })
     } else {
+      state.etapaKeys.clear()
+      state.triggerCategoryKeys.clear()
+      state.triggerEventKeys.clear()
+      state.triggerSearchQuery = ""
+      triggerSearch.value = ""
       listEl!.innerHTML = listEmptyHtml
       previewEl!.innerHTML = previewEmptyHtml
       summaryEl!.innerHTML = ""
+      triggerCategoryCards.innerHTML = ""
+      triggerEventCards.innerHTML = ""
+      triggerReset.hidden = true
     }
   }
 
@@ -438,23 +606,139 @@ function wireWizard() {
     if (state.phaseKeys.size > 0) renderResult()
   }
 
+  function baseScopedActivities(selectedRoles: WizardRole[], selectedPhases: WizardPhase[]) {
+    return wizardData.activities.filter(
+      (a) =>
+        selectedRoles.some((role) => activityMatchesRole(a, role)) &&
+        selectedPhases.some((phase) => activityMatchesPhase(a, phase)) &&
+        activityMatchesAnySelectedRoleRaci(a, selectedRoles, state.raciKeys),
+    )
+  }
+
+  function renderTriggerCards(baseRowsWithEtapa: WizardActivity[]) {
+    const eventCount = new Map<string, number>()
+    for (const row of baseRowsWithEtapa) {
+      for (const eventIdRaw of row.spousteciUdalost ?? []) {
+        const eventId = normalizeMetaId(eventIdRaw)
+        eventCount.set(eventId, (eventCount.get(eventId) ?? 0) + 1)
+      }
+    }
+
+    const availableEventIds = [...eventCount.keys()].sort((a, b) =>
+      prettifyTriggerEvent(a).localeCompare(prettifyTriggerEvent(b), "cs"),
+    )
+    const availableEventSet = new Set(availableEventIds)
+    for (const selected of [...state.triggerEventKeys]) {
+      if (!availableEventSet.has(selected)) state.triggerEventKeys.delete(selected)
+    }
+
+    const availableCategorySet = new Set<string>()
+    for (const eventId of availableEventIds) {
+      availableCategorySet.add(getTriggerCategoryKey(eventId))
+    }
+    for (const selected of [...state.triggerCategoryKeys]) {
+      if (!availableCategorySet.has(selected)) state.triggerCategoryKeys.delete(selected)
+    }
+
+    triggerCategoryCards.innerHTML = ""
+    const orderedCategories = [
+      ...TRIGGER_CATEGORY_ORDER.filter((k) => availableCategorySet.has(k)),
+      ...[...availableCategorySet]
+        .filter((k) => !(TRIGGER_CATEGORY_ORDER as readonly string[]).includes(k))
+        .sort(),
+    ]
+    for (const categoryKey of orderedCategories) {
+      const btn = document.createElement("button")
+      btn.type = "button"
+      btn.className =
+        "home-wizard-trigger-card home-wizard-trigger-card-category" +
+        (state.triggerCategoryKeys.has(categoryKey) ? " selected" : "")
+      btn.setAttribute("aria-pressed", state.triggerCategoryKeys.has(categoryKey) ? "true" : "false")
+      btn.textContent = getTriggerCategoryLabel(categoryKey)
+      btn.addEventListener("click", () => {
+        if (state.triggerCategoryKeys.has(categoryKey)) state.triggerCategoryKeys.delete(categoryKey)
+        else state.triggerCategoryKeys.add(categoryKey)
+        renderResult()
+      })
+      triggerCategoryCards.appendChild(btn)
+    }
+    if (orderedCategories.length === 0) {
+      triggerCategoryCards.innerHTML = `<span class="home-wizard-filter-empty">Žádné kategorie pro aktuální výběr.</span>`
+    }
+
+    triggerEventCards.innerHTML = ""
+    const q = state.triggerSearchQuery.trim().toLowerCase()
+    const filteredEventIds = availableEventIds.filter((eventId) => {
+      if (!q) return true
+      return prettifyTriggerEvent(eventId).toLowerCase().includes(q)
+    })
+    for (const eventId of filteredEventIds) {
+      const btn = document.createElement("button")
+      btn.type = "button"
+      btn.className = "home-wizard-trigger-card home-wizard-trigger-card-event"
+      if (state.triggerEventKeys.has(eventId)) btn.classList.add("selected")
+      btn.setAttribute("aria-pressed", state.triggerEventKeys.has(eventId) ? "true" : "false")
+      btn.textContent = `${prettifyTriggerEvent(eventId)} (${eventCount.get(eventId) ?? 0})`
+      btn.addEventListener("click", () => {
+        if (state.triggerEventKeys.has(eventId)) state.triggerEventKeys.delete(eventId)
+        else state.triggerEventKeys.add(eventId)
+        renderResult()
+      })
+      triggerEventCards.appendChild(btn)
+    }
+    if (filteredEventIds.length === 0) {
+      triggerEventCards.innerHTML = `<span class="home-wizard-filter-empty">Žádná spouštěcí událost neodpovídá hledání.</span>`
+    }
+  }
+
+  function renderAdvancedFilters(selectedRoles: WizardRole[], selectedPhases: WizardPhase[]) {
+    const baseRows = baseScopedActivities(selectedRoles, selectedPhases)
+    const etapaScopedRows = baseRows.filter((a) => activityMatchesEtapa(a, state.etapaKeys))
+    renderTriggerCards(etapaScopedRows)
+    triggerReset.hidden =
+      state.etapaKeys.size === 0 &&
+      state.triggerCategoryKeys.size === 0 &&
+      state.triggerEventKeys.size === 0 &&
+      state.triggerSearchQuery.trim() === ""
+  }
+
   function renderResult() {
     if (state.roleKeys.size === 0 || state.phaseKeys.size === 0) return
 
-    const selectedRoles = data!.roles.filter((r) => state.roleKeys.has(r.key))
-    const selectedPhases = data!.phases.filter((p) => state.phaseKeys.has(p.key))
-    const filtered = filterActivities(data!, state.roleKeys, state.phaseKeys, state.raciKeys)
+    const selectedRoles = wizardData.roles.filter((r) => state.roleKeys.has(r.key))
+    const selectedPhases = wizardData.phases.filter((p) => state.phaseKeys.has(p.key))
+    renderAdvancedFilters(selectedRoles, selectedPhases)
+    const filtered = filterActivities(
+      wizardData,
+      state.roleKeys,
+      state.phaseKeys,
+      state.raciKeys,
+      state.etapaKeys,
+      state.triggerCategoryKeys,
+      state.triggerEventKeys,
+    )
     const roleLabels = selectedRoles.map((r) => r.title).join(", ")
     const phaseLabels = selectedPhases.map((p) => p.label).join(", ")
 
     // Summary
     if (selectedRoles.length > 0 && selectedPhases.length > 0) {
+      const etapaLabels = wizardData.etapy
+        .filter((e) => state.etapaKeys.has(normalizeMetaId(e.key)))
+        .map((e) => e.label)
+      const triggerCategoryLabels = [...state.triggerCategoryKeys].map((k) => getTriggerCategoryLabel(k))
+      const triggerEventLabels = [...state.triggerEventKeys].map((k) => prettifyTriggerEvent(k))
+      const summaryTags = [
+        roleLabels,
+        phaseLabels,
+        formatRaciKeys(state.raciKeys) || "—",
+        ...(etapaLabels.length > 0 ? [`Etapa: ${summarizeLabels(etapaLabels)}`] : []),
+        ...(triggerCategoryLabels.length > 0
+          ? [`Kategorie: ${summarizeLabels(triggerCategoryLabels)}`]
+          : []),
+        ...(triggerEventLabels.length > 0 ? [`Události: ${summarizeLabels(triggerEventLabels)}`] : []),
+      ]
       summaryEl!.innerHTML = `
-        <span class="home-wizard-result-tag">${escapeHtml(roleLabels)}</span>
-        ·
-        <span class="home-wizard-result-tag">${escapeHtml(phaseLabels)}</span>
-        ·
-        <span class="home-wizard-result-tag">${formatRaciKeys(state.raciKeys) || "—"}</span>
+        ${summaryTags.map((tag) => `<span class="home-wizard-result-tag">${escapeHtml(tag)}</span>`).join(" · ")}
         — ${filtered.length} ${pluralCinnosti(filtered.length)}
       `
     }
@@ -563,6 +847,16 @@ function wireWizard() {
       if (key) togglePhase(key)
     })
   }
+  for (const card of etapaCards) {
+    card.addEventListener("click", () => {
+      const key = normalizeMetaId(card.dataset.etapaKey ?? "")
+      if (!key || card.hidden) return
+      if (state.etapaKeys.has(key)) state.etapaKeys.delete(key)
+      else state.etapaKeys.add(key)
+      syncEtapaCards()
+      if (state.phaseKeys.size > 0) renderResult()
+    })
+  }
   for (const card of raciCards) {
     card.addEventListener("click", () => {
       const key = (card.dataset.raciKey || "").toUpperCase()
@@ -570,8 +864,21 @@ function wireWizard() {
       toggleRaciKey(key)
     })
   }
+  triggerSearch.addEventListener("input", () => {
+    state.triggerSearchQuery = triggerSearch.value
+    renderResult()
+  })
+  triggerReset.addEventListener("click", () => {
+    state.etapaKeys.clear()
+    state.triggerCategoryKeys.clear()
+    state.triggerEventKeys.clear()
+    state.triggerSearchQuery = ""
+    triggerSearch.value = ""
+    renderResult()
+  })
   syncRoleCards()
   syncPhaseCards()
+  syncEtapaCards()
   syncRaciCards()
 }
 

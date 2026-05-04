@@ -6,6 +6,8 @@ popis: Archivování projektového informačního modelu (PIM) a zachycení pona
 zdroj: ČSN EN ISO 19650-2; 5.8
 faze:
   - "provoz"
+stav: skryto
+
 ---
 # Obecný popis
 

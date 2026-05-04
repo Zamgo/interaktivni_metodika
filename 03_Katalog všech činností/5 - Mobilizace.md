@@ -6,6 +6,8 @@ popis: Po pověření realizační tým mobilizuje zdroje, IT infrastrukturu a C
 zdroj: ČSN EN ISO 19650-2; 5.5
 faze:
   - "priprava"
+stav: skryto
+
 ---
 # Obecný popis
 

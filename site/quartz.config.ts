@@ -1,6 +1,7 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
+// Pro náhled na PC nastavte QUARTZ_BASE_URL=localhost (např. npm run dev). Pro FTP build je URL v CI.
 const baseUrl = process.env.QUARTZ_BASE_URL ?? "www.ceskesilnice.cz/RSD_Plzen"
 
 /**
@@ -85,7 +86,7 @@ const config: QuartzConfig = {
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
-    filters: [Plugin.RemoveDrafts()],
+    filters: [Plugin.RemoveDrafts(), Plugin.RemoveSkryto()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),

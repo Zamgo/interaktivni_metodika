@@ -6,6 +6,8 @@ popis: Formální předložení informačního modelu stavby k autorizování ve
 zdroj: ČSN EN ISO 19650-2; 5.7
 faze:
   - "realizace"
+stav: skryto
+
 ---
 # Obecný popis
 

@@ -6,6 +6,8 @@ popis: Uchazeč (budoucí vedoucí pověřená strana) připraví odpověď -- n
 zdroj: ČSN EN ISO 19650-2; 5.3
 faze:
   - "priprava"
+stav: skryto
+
 ---
 # Obecný popis
 

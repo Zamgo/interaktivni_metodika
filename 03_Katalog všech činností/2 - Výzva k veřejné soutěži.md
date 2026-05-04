@@ -6,6 +6,8 @@ popis: Objednatel připraví výzvu k veřejné soutěži -- stanoví EIR, shrom
 zdroj: ČSN EN ISO 19650-2; 5.2
 faze:
   - "priprava"
+stav: skryto
+
 ---
 # Obecný popis
 

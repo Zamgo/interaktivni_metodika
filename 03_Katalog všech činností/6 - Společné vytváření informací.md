@@ -6,6 +6,8 @@ popis: Realizační tým společně vytváří informace dle TIDP, provádí kon
 zdroj: ČSN EN ISO 19650-2; 5.6
 faze:
   - "realizace"
+stav: skryto
+
 ---
 # Obecný popis
 

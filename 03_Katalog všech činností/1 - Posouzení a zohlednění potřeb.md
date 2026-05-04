@@ -6,6 +6,8 @@ popis: "Pověřující strana (Objednatel) stanoví základní rámec management
 zdroj: "ČSN EN ISO 19650-2; 5.1"
 faze:
   - "priprava"
+stav: skryto
+
 ---
 # Obecný popis
 
