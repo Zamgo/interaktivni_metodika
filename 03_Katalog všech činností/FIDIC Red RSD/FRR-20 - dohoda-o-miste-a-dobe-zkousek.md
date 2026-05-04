@@ -1,18 +1,18 @@
 ---
-title: "FIDIC RSD - Dohoda o místě a době zkoušek"
+title: Dohoda o místě a době zkoušek
 typ: ukol
 oznaceni: ""
-popis: "Zhotovitel a Správce stavby se dohodnou na místě a době pro provedení zkoušení"
-zdroj: "FIDIC_red_RSD; 49; 7.4"
+popis: Zhotovitel a Správce stavby se dohodnou na místě a době pro provedení zkoušení
+zdroj: FIDIC_red_RSD; 49; 7.4
 faze:
   - realizace
 etapa:
   - zkousky_a_prejimky
 R - Odpovědnost za provádění činnosti:
-  - "Správce stavby"
+  - Správce stavby
 A - Právní odpovědnost za dokončení činnosti: []
 C - Konzultace v průběhu činnosti:
-  - "Zhotovitel"
+  - Zhotovitel
 I - Informování po dokončení činnosti: []
 stav: draft
 oblast: ""
@@ -23,16 +23,16 @@ navazane_workflow: []
 predchozi_cinnost: "[[FRR-19 - provedeni-zkousky-mereni-nebo-oznameni-o-neprovedeni-zkousky-mereni]]"
 nasledujici_cinnost: "[[FRR-21 - oznameni-o-ucasti-na-zkouskach]]"
 nastroj: []
-rezim_cinnosti: "podminena"
+rezim_cinnosti: podminena
 spousteci_udalost:
   - kontrola_zkouska
-opakovatelnost: "podle_potreby"
-casove_pravidlo: "po"
+opakovatelnost: podle_potreby
+casove_pravidlo: po
 casova_poznamka: "Mapováno z časového bloku XLSX: 5. Zkoušky, přejímací zkoušky a přejímací řízení."
 lhuta: ""
 lhuta_typ: ""
-ukoncovaci_podminka: "vystup_zkontrolovan"
-poznamka_k_ukonceni: "Odvozeno z názvu činnosti a popisu v podkladu FIDIC Red RSD."
+ukoncovaci_podminka: vystup_zkontrolovan
+poznamka_k_ukonceni: Odvozeno z názvu činnosti a popisu v podkladu FIDIC Red RSD.
 ---
 
 # Popis

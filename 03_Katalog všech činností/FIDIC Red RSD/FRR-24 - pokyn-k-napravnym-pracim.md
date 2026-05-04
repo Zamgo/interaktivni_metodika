@@ -1,5 +1,5 @@
 ---
-title: FIDIC RSD - Pokyn k nápravným pracím
+title: Pokyn k nápravným pracím
 typ: ukol
 oznaceni: ""
 popis: Správce stavby může dát Zhotoviteli kdykoli pokyn k nápravným pracím, které nejsou v souladu se Smlouvou

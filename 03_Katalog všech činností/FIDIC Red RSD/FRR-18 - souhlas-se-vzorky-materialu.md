@@ -1,5 +1,5 @@
 ---
-title: FIDIC RSD - Souhlas se vzorky Materiálů
+title: Souhlas se vzorky Materiálů
 typ: ukol
 oznaceni: ""
 popis: Správce stavby musí dát souhlas k použití Materiálů

@@ -1,5 +1,5 @@
 ---
-title: FIDIC RSD - Vydání Potvrzení průběžné platby
+title: Vydání Potvrzení průběžné platby
 typ: ukol
 oznaceni: ""
 popis: Správce stavby do 28 dnů po obdržení Vyúčtování a podpůrných dokladů, popř. vydá připomínky k předloženému Vyúčtování při dokončení.

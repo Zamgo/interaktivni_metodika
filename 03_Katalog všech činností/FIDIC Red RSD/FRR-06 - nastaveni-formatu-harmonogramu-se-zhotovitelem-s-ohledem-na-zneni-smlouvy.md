@@ -1,5 +1,5 @@
 ---
-title: FIDIC RSD - Nastavení formátu harmonogramu se Zhotovitelem s ohledem na znění Smlouvy
+title: Nastavení formátu harmonogramu se Zhotovitelem s ohledem na znění Smlouvy
 typ: ukol
 oznaceni: ""
 popis: Správce stavby se Zhotovitelem domluví požadovanou podobu a náležitosti harmonogramu, a to s ohledem na Smlouvu a v zájmu zajištění dostatečného časového řízení
@@ -19,7 +19,8 @@ oblast: ""
 cinnost: ""
 vstupy: []
 vystupy: []
-navazane_workflow: []
+navazane_workflow:
+  - "[[HMG]]"
 predchozi_cinnost: "[[FRR-05 - nastaveni-formatu-predkladani-zaznamu-o-personalu-a-vybaveni-zhotovitele]]"
 nasledujici_cinnost: "[[FRR-07 - vyrizeni-poskytnuti-prava-pristupu-na-staveniste]]"
 nastroj: []

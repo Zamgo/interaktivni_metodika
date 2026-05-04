@@ -1,18 +1,17 @@
 ---
-title: "FIDIC RSD - Schválení formy Vyúčtování"
+title: Schválení formy Vyúčtování
 typ: ukol
 oznaceni: ""
-popis: "Správce stavby schválí Zhotovitelem navrženou formu Vyúčtování, popř. ji s odůvodněním neschválí."
-zdroj: "FIDIC_red_RSD; 28; 14.3"
+popis: Správce stavby schválí Zhotovitelem navrženou formu Vyúčtování, popř. ji s odůvodněním neschválí.
+zdroj: FIDIC_red_RSD; 28; 14.3
 faze:
   - realizace
 etapa:
   - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
-  - "Správce stavby"
+  - Správce stavby
 A - Právní odpovědnost za dokončení činnosti: []
-C - Konzultace v průběhu činnosti:
-  []
+C - Konzultace v průběhu činnosti: []
 I - Informování po dokončení činnosti: []
 stav: draft
 oblast: ""
@@ -23,16 +22,16 @@ navazane_workflow: []
 predchozi_cinnost: "[[FRR-11 - reakce-spravce-stavby-na-pocatecni-harmonogram]]"
 nasledujici_cinnost: "[[FRR-13 - potvrzeni-prubezne-platby]]"
 nastroj: []
-rezim_cinnosti: "udalostni"
+rezim_cinnosti: udalostni
 spousteci_udalost:
   - projekt_zahajeni_realizace
-opakovatelnost: "pri_kazde_udalosti"
-casove_pravidlo: "po"
+opakovatelnost: pri_kazde_udalosti
+casove_pravidlo: po
 casova_poznamka: "Mapováno z časového bloku XLSX: 3. po zahájení prací (po Datu zahájení prací)."
 lhuta: ""
 lhuta_typ: ""
-ukoncovaci_podminka: "vystup_schvalen"
-poznamka_k_ukonceni: "Odvozeno z názvu činnosti a popisu v podkladu FIDIC Red RSD."
+ukoncovaci_podminka: vystup_schvalen
+poznamka_k_ukonceni: Odvozeno z názvu činnosti a popisu v podkladu FIDIC Red RSD.
 ---
 
 # Popis

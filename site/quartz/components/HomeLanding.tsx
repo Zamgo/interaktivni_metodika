@@ -358,7 +358,7 @@ const HomeLanding: QuartzComponent = ({
         )}
       </section>
 
-      {/* Wizard Step 2 — výběr fáze */}
+      {/* Wizard Step 2 — výběr etapy */}
       <section
         class="home-wizard-step"
         data-wizard-step="2"
@@ -368,44 +368,11 @@ const HomeLanding: QuartzComponent = ({
         <div class="home-wizard-step-head">
           <span class="home-wizard-step-num">2</span>
           <h2 id="wizard-step2-title" class="home-wizard-step-title">
-            V jaké fázi projektu jste?
-          </h2>
-        </div>
-        <p class="home-wizard-step-hint">
-          Vyberte fáze, o kterých chcete zobrazit informace.
-        </p>
-        <div class="home-wizard-phase-grid" role="list">
-          {PHASE_DEFS.map((phase) => (
-            <button
-              type="button"
-              class={`home-wizard-phase-card home-wizard-phase-${phase.color}`}
-              data-phase-key={phase.key}
-              data-phase-label={phase.label}
-              data-phase-match={phase.match.join("|")}
-              role="listitem"
-              aria-pressed="false"
-            >
-              <span class="home-wizard-phase-label">{phase.label}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Wizard Step 3 — výběr etapy */}
-      <section
-        class="home-wizard-step"
-        data-wizard-step="3"
-        aria-labelledby="wizard-step3-title"
-        hidden
-      >
-        <div class="home-wizard-step-head">
-          <span class="home-wizard-step-num">3</span>
-          <h2 id="wizard-step3-title" class="home-wizard-step-title">
             V jaké etapě se nacházíte?
           </h2>
         </div>
         <p class="home-wizard-step-hint home-wizard-step-hint-sub">
-          Vyberte jednu nebo více etap odpovídajících zvolené fázi.
+          Vyberte jednu nebo více etap.
         </p>
         <div class="home-wizard-etapa-grid" role="list">
           {ETAPA_DEFS.map((etapa) => (
@@ -423,51 +390,16 @@ const HomeLanding: QuartzComponent = ({
         </div>
       </section>
 
-      {/* Wizard Step 4 — výběr spouštěcích událostí */}
-      <section
-        class="home-wizard-step"
-        data-wizard-step="4"
-        aria-labelledby="wizard-step4-title"
-        hidden
-      >
-        <div class="home-wizard-step-head">
-          <span class="home-wizard-step-num">4</span>
-          <h2 id="wizard-step4-title" class="home-wizard-step-title">
-            Které spouštěcí události vás zajímají?
-          </h2>
-        </div>
-        <p class="home-wizard-step-hint home-wizard-step-hint-sub">
-          Volitelně upřesněte výběr podle kategorií a konkrétních událostí.
-        </p>
-        <div class="home-wizard-trigger-grid" data-wizard-trigger-category-cards />
-        <label class="home-wizard-trigger-search-wrap">
-          <span>Hledat konkrétní spouštěcí událost</span>
-          <input
-            type="search"
-            class="home-wizard-trigger-search"
-            data-wizard-trigger-search
-            placeholder="Např. odevzdání modelu, claim, audit…"
-            autocomplete="off"
-          />
-        </label>
-        <div class="home-wizard-trigger-grid" data-wizard-trigger-event-cards />
-        <div class="home-wizard-filter-actions">
-          <button type="button" class="home-wizard-advanced-reset" data-wizard-trigger-reset hidden>
-            Reset filtrů etap a spouštěcích událostí
-          </button>
-        </div>
-      </section>
-
-      {/* Wizard Step 5 — výsledek (split pane) */}
+      {/* Wizard Step 3 — výsledek */}
       <section
         class="home-wizard-step home-wizard-result"
-        data-wizard-step="5"
-        aria-labelledby="wizard-step5-title"
+        data-wizard-step="3"
+        aria-labelledby="wizard-step3-title"
         hidden
       >
         <div class="home-wizard-step-head">
-          <span class="home-wizard-step-num">5</span>
-          <h2 id="wizard-step5-title" class="home-wizard-step-title">
+          <span class="home-wizard-step-num">3</span>
+          <h2 id="wizard-step3-title" class="home-wizard-step-title">
             Jaké úkoly se mě týkají?
           </h2>
         </div>
