@@ -127,9 +127,12 @@ function activityMatchesRole(activity: WizardActivity, role: WizardRole): boolea
 }
 
 function activityMatchesPhase(activity: WizardActivity, phase: WizardPhase): boolean {
+  /** Frontmatter často používá kanonický klíč fáze (priprava, realizace, provoz), ne český popisek. */
+  const phaseKeyNorm = normalizeLower(phase.key)
   const needles = phase.match.map(normalizeLower)
   for (const f of activity.faze) {
     const fl = normalizeLower(f)
+    if (fl === phaseKeyNorm) return true
     if (needles.some((n) => fl === n || fl.includes(n))) return true
   }
   return false
