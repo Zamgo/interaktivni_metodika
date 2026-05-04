@@ -9,6 +9,7 @@ type WizardActivity = {
   href: string
   title: string
   oznaceni: string
+  zdroj: string
   faze: string[]
   etapa: string[]
   spousteciUdalost: string[]
@@ -340,6 +341,9 @@ function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string
   const popisHtml = displayPopis
     ? `<p class="wiz-tl-card-popis"${isTruncated ? ` title="${escapeHtml(rawPopis)}"` : ""}>${escapeHtml(displayPopis)}</p>`
     : ""
+  const zdrojHtml = act.zdroj
+    ? `<p class="wiz-tl-card-zdroj"><span class="wiz-tl-card-zdroj-label">Zdroj:</span> ${escapeHtml(act.zdroj)}</p>`
+    : ""
   const raciHtml = buildRaciFooterHtml(act, selectedRoles)
   const workflowHtml = buildWorkflowLinksHtml(act)
 
@@ -347,9 +351,112 @@ function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string
     `<header class="wiz-tl-card-head">${numHtml}` +
     `<h3 class="wiz-tl-card-title">${escapeHtml(act.title)}</h3></header>` +
     popisHtml +
+    zdrojHtml +
     raciHtml +
     workflowHtml
   )
+}
+
+/* ═══════════ Card hover popover ═══════════ */
+
+/** Sdílený singleton popover element pro všechny wizard karty. */
+let _wizPopoverEl: HTMLElement | null = null
+let _wizPopoverTimer: ReturnType<typeof setTimeout> | null = null
+/** Cache: href → innerHTML pro .popover-inner */
+const _wizPopoverCache = new Map<string, string>()
+
+function getWizPopover(): HTMLElement {
+  if (!_wizPopoverEl) {
+    _wizPopoverEl = document.createElement("div")
+    _wizPopoverEl.className = "popover wiz-card-popover"
+    const inner = document.createElement("div")
+    inner.className = "popover-inner"
+    _wizPopoverEl.appendChild(inner)
+    document.body.appendChild(_wizPopoverEl)
+    // Skrýt popover při opuštění jeho vlastní plochy
+    _wizPopoverEl.addEventListener("mouseleave", hideWizPopover)
+  }
+  return _wizPopoverEl
+}
+
+async function fetchWizPopoverHtml(href: string): Promise<string | null> {
+  if (_wizPopoverCache.has(href)) return _wizPopoverCache.get(href)!
+  try {
+    const resp = await fetch(href)
+    if (!resp.ok) return null
+    const text = await resp.text()
+    const doc = new DOMParser().parseFromString(text, "text/html")
+    // Normalize relative links so they work from any page context
+    doc.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((a) => {
+      try {
+        a.href = new URL(a.getAttribute("href") ?? "", href).href
+      } catch { /* ignore */ }
+    })
+    const hints = [...doc.querySelectorAll(".popover-hint")]
+    if (hints.length === 0) return null
+    const html = hints.map((el) => el.outerHTML).join("")
+    _wizPopoverCache.set(href, html)
+    return html
+  } catch {
+    return null
+  }
+}
+
+function positionWizPopover(popover: HTMLElement, anchor: HTMLElement) {
+  const rect = anchor.getBoundingClientRect()
+  const pw = Math.min(480, window.innerWidth - 32)
+  const ph = 320
+
+  let left = rect.left
+  let top = rect.bottom + 10
+
+  // Prevent going off right edge
+  if (left + pw > window.innerWidth - 16) left = window.innerWidth - pw - 16
+  left = Math.max(16, left)
+
+  // Show above card if not enough space below
+  if (top + ph > window.innerHeight - 16) top = Math.max(8, rect.top - ph - 10)
+
+  popover.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`
+}
+
+function hideWizPopover() {
+  if (_wizPopoverTimer) {
+    clearTimeout(_wizPopoverTimer)
+    _wizPopoverTimer = null
+  }
+  _wizPopoverEl?.classList.remove("active-popover")
+}
+
+/**
+ * Připojí hover popover na kartu aktivity.
+ * Reuse existující .popover CSS ze Quartz — žádný další styl není potřeba.
+ */
+function attachCardPopover(card: HTMLElement, href: string) {
+  card.addEventListener("mouseenter", () => {
+    if (_wizPopoverTimer) clearTimeout(_wizPopoverTimer)
+    _wizPopoverTimer = setTimeout(async () => {
+      const popover = getWizPopover()
+      const inner = popover.querySelector(".popover-inner") as HTMLElement
+
+      let html = _wizPopoverCache.get(href) ?? null
+      if (!html) {
+        html = await fetchWizPopoverHtml(href)
+      }
+      if (!html) return
+
+      inner.innerHTML = html
+      positionWizPopover(popover, card)
+      popover.classList.add("active-popover")
+    }, 280)
+  })
+
+  card.addEventListener("mouseleave", (e) => {
+    // Pokud se myš přesunula na samotný popover, neskrývej
+    const related = (e as MouseEvent).relatedTarget as HTMLElement | null
+    if (related && _wizPopoverEl?.contains(related)) return
+    hideWizPopover()
+  })
 }
 
 /**
@@ -429,6 +536,7 @@ function renderTimeline(
           navigate()
         }
       })
+      attachCardPopover(card, act.href)
 
       cardsEl.appendChild(card)
     }
@@ -633,4 +741,13 @@ function pluralCinnosti(n: number): string {
   return "úkolů"
 }
 
-document.addEventListener("nav", wireWizard)
+document.addEventListener("nav", () => {
+  // Reset popover singleton při každé navigaci (SPA), aby se nepletl s novou stránkou
+  hideWizPopover()
+  if (_wizPopoverEl) {
+    _wizPopoverEl.remove()
+    _wizPopoverEl = null
+  }
+  _wizPopoverCache.clear()
+  wireWizard()
+})

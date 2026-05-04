@@ -22,6 +22,7 @@ type ActivityEntry = {
   href: string
   title: string
   oznaceni: string
+  zdroj: string
   faze: string[]
   etapa: string[]
   spousteciUdalost: string[]
@@ -91,6 +92,12 @@ const ETAPA_DEFS: EtapaDef[] = [
     phaseKeys: ["provoz"],
   },
 ]
+
+function etapaPhaseColor(phaseKeys: string[]): "blue" | "orange" | "green" {
+  if (phaseKeys.includes("provoz")) return "green"
+  if (phaseKeys.includes("realizace")) return "orange"
+  return "blue"
+}
 
 function coerceString(value: unknown): string {
   if (value == null) return ""
@@ -176,6 +183,7 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
 
     const title = coerceString(fm.title) || "Bez názvu"
     const oznaceni = coerceString(fm.oznaceni)
+    const zdroj = coerceString(fm.zdroj)
     const popis = coerceString(fm.popis)
     const faze = coerceLinkArray(fm.faze)
     const etapa = coerceArray(fm.etapa)
@@ -220,6 +228,7 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
       href: resolveRelative(currentSlug, file.slug!),
       title,
       oznaceni,
+      zdroj,
       faze,
       etapa,
       spousteciUdalost,
@@ -275,6 +284,7 @@ const HomeLanding: QuartzComponent = ({
       href: a.href,
       title: a.title,
       oznaceni: a.oznaceni,
+      zdroj: a.zdroj,
       faze: a.faze,
       etapa: a.etapa,
       spousteciUdalost: a.spousteciUdalost,
@@ -378,7 +388,7 @@ const HomeLanding: QuartzComponent = ({
           {ETAPA_DEFS.map((etapa) => (
             <button
               type="button"
-              class="home-wizard-etapa-card"
+              class={`home-wizard-etapa-card home-wizard-etapa-${etapaPhaseColor(etapa.phaseKeys)}`}
               data-etapa-key={etapa.key}
               data-etapa-phase-keys={etapa.phaseKeys.join("|")}
               role="listitem"

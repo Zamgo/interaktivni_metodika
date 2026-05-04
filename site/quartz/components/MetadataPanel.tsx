@@ -126,7 +126,7 @@ const MetadataPanel: QuartzComponent = ({ fileData, displayClass, allFiles }: Qu
     return { key, label: toReadableLabel(key), values }
   })
 
-  const displayRows = rows.filter((row) => row.values.length > 0 || row.key in fm)
+  const displayRows = rows.filter((row) => row.values.length > 0)
 
   if (displayRows.length === 0) return null
 
@@ -152,20 +152,16 @@ const MetadataPanel: QuartzComponent = ({ fileData, displayClass, allFiles }: Qu
           <Fragment key={row.key}>
             <dt>{row.label}</dt>
             <dd>
-              {row.values.length === 0 ? (
-                "—"
-              ) : (
-                row.values.map((v, i) => (
-                  <Fragment key={i}>
-                    {i > 0 ? ", " : null}
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: wikiStringToMetadataHtml(pageSlug, resolveNote, v),
-                      }}
-                    />
-                  </Fragment>
-                ))
-              )}
+              {row.values.map((v, i) => (
+                <Fragment key={i}>
+                  {i > 0 ? ", " : null}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: wikiStringToMetadataHtml(pageSlug, resolveNote, v),
+                    }}
+                  />
+                </Fragment>
+              ))}
             </dd>
           </Fragment>
         ))}

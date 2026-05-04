@@ -294,6 +294,73 @@ article.home-hero {
     color: var(--dark);
   }
 
+  // Barevné varianty etapa karet — shodné s barvami sekcí ve výsledcích
+  .home-wizard-etapa-blue {
+    background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 8%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, $rsd-blue-dark 22%, var(--lightgray));
+
+    &:hover {
+      border-color: $rsd-blue-dark;
+    }
+
+    &.selected {
+      border-color: $rsd-blue-dark;
+      background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 16%, #fff) 0%, #fff 100%);
+
+      &::after {
+        background: $rsd-blue-dark;
+      }
+    }
+
+    .home-wizard-etapa-label {
+      color: $rsd-blue-dark;
+    }
+  }
+
+  .home-wizard-etapa-orange {
+    background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 10%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, $rsd-orange 28%, var(--lightgray));
+
+    &:hover {
+      border-color: $rsd-orange;
+    }
+
+    &.selected {
+      border-color: $rsd-orange;
+      background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 18%, #fff) 0%, #fff 100%);
+
+      &::after {
+        background: $rsd-orange;
+      }
+    }
+
+    .home-wizard-etapa-label {
+      color: color-mix(in srgb, $rsd-orange 80%, #000);
+    }
+  }
+
+  .home-wizard-etapa-green {
+    background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 10%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, $rsd-green 28%, var(--lightgray));
+
+    &:hover {
+      border-color: $rsd-green;
+    }
+
+    &.selected {
+      border-color: $rsd-green;
+      background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 18%, #fff) 0%, #fff 100%);
+
+      &::after {
+        background: $rsd-green;
+      }
+    }
+
+    .home-wizard-etapa-label {
+      color: color-mix(in srgb, $rsd-green 80%, #000);
+    }
+  }
+
   .home-wizard-trigger-card {
     justify-content: flex-start;
     text-align: left;
@@ -947,6 +1014,18 @@ article.home-hero {
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .wiz-tl-card-zdroj {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--darkgray);
+    margin: 0;
+  }
+
+  .wiz-tl-card-zdroj-label {
+    font-weight: 700;
+    color: var(--dark);
   }
 
   // RACI řádky na kartě
