@@ -357,8 +357,23 @@ const HomeLanding: QuartzComponent = ({
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Wizard Step 3 — výběr etapy */}
+      <section
+        class="home-wizard-step"
+        data-wizard-step="3"
+        aria-labelledby="wizard-step3-title"
+        hidden
+      >
+        <div class="home-wizard-step-head">
+          <span class="home-wizard-step-num">3</span>
+          <h2 id="wizard-step3-title" class="home-wizard-step-title">
+            V jaké etapě se nacházíte?
+          </h2>
+        </div>
         <p class="home-wizard-step-hint home-wizard-step-hint-sub">
-          Volitelně upřesněte etapy (dle zvolených fází).
+          Vyberte jednu nebo více etap odpovídajících zvolené fázi.
         </p>
         <div class="home-wizard-etapa-grid" role="list">
           {ETAPA_DEFS.map((etapa) => (
@@ -374,8 +389,23 @@ const HomeLanding: QuartzComponent = ({
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Wizard Step 4 — výběr spouštěcích událostí */}
+      <section
+        class="home-wizard-step"
+        data-wizard-step="4"
+        aria-labelledby="wizard-step4-title"
+        hidden
+      >
+        <div class="home-wizard-step-head">
+          <span class="home-wizard-step-num">4</span>
+          <h2 id="wizard-step4-title" class="home-wizard-step-title">
+            Které spouštěcí události vás zajímají?
+          </h2>
+        </div>
         <p class="home-wizard-step-hint home-wizard-step-hint-sub">
-          Volitelně upřesněte spouštěcí události.
+          Volitelně upřesněte výběr podle kategorií a konkrétních událostí.
         </p>
         <div class="home-wizard-trigger-grid" data-wizard-trigger-category-cards />
         <label class="home-wizard-trigger-search-wrap">
@@ -396,16 +426,16 @@ const HomeLanding: QuartzComponent = ({
         </div>
       </section>
 
-      {/* Wizard Step 3 — výsledek (split pane) */}
+      {/* Wizard Step 5 — výsledek (split pane) */}
       <section
         class="home-wizard-step home-wizard-result"
-        data-wizard-step="3"
-        aria-labelledby="wizard-step3-title"
+        data-wizard-step="5"
+        aria-labelledby="wizard-step5-title"
         hidden
       >
         <div class="home-wizard-step-head">
-          <span class="home-wizard-step-num">3</span>
-          <h2 id="wizard-step3-title" class="home-wizard-step-title">
+          <span class="home-wizard-step-num">5</span>
+          <h2 id="wizard-step5-title" class="home-wizard-step-title">
             Jaké úkoly se mě týkají?
           </h2>
         </div>

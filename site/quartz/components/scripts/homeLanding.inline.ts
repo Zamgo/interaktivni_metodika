@@ -448,6 +448,8 @@ function wireWizard() {
 
   const step2 = root.querySelector<HTMLElement>('[data-wizard-step="2"]')
   const step3 = root.querySelector<HTMLElement>('[data-wizard-step="3"]')
+  const step4 = root.querySelector<HTMLElement>('[data-wizard-step="4"]')
+  const step5 = root.querySelector<HTMLElement>('[data-wizard-step="5"]')
   const roleCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-role-card"))
   const phaseCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-phase-card"))
   const etapaCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-etapa-card"))
@@ -463,6 +465,8 @@ function wireWizard() {
   if (
     !step2 ||
     !step3 ||
+    !step4 ||
+    !step5 ||
     !listEl ||
     !previewEl ||
     !summaryEl ||
@@ -509,6 +513,8 @@ function wireWizard() {
       })
     } else {
       step3!.hidden = true
+      step4!.hidden = true
+      step5!.hidden = true
       state.etapaKeys.clear()
       state.triggerCategoryKeys.clear()
       state.triggerEventKeys.clear()
@@ -566,8 +572,11 @@ function wireWizard() {
     }
     syncPhaseCards()
     syncEtapaCards()
-    step3!.hidden = state.phaseKeys.size === 0
-    if (state.phaseKeys.size > 0) {
+    const hasPhase = state.phaseKeys.size > 0
+    step3!.hidden = !hasPhase
+    step4!.hidden = !hasPhase
+    step5!.hidden = !hasPhase
+    if (hasPhase) {
       renderResult()
       requestAnimationFrame(() => {
         step3!.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -656,9 +665,15 @@ function wireWizard() {
       btn.setAttribute("aria-pressed", state.triggerCategoryKeys.has(categoryKey) ? "true" : "false")
       btn.textContent = getTriggerCategoryLabel(categoryKey)
       btn.addEventListener("click", () => {
+        const hadAnyTrigger = state.triggerCategoryKeys.size > 0 || state.triggerEventKeys.size > 0
         if (state.triggerCategoryKeys.has(categoryKey)) state.triggerCategoryKeys.delete(categoryKey)
         else state.triggerCategoryKeys.add(categoryKey)
         renderResult()
+        if (!hadAnyTrigger && (state.triggerCategoryKeys.size > 0 || state.triggerEventKeys.size > 0)) {
+          requestAnimationFrame(() => {
+            step5!.scrollIntoView({ behavior: "smooth", block: "start" })
+          })
+        }
       })
       triggerCategoryCards.appendChild(btn)
     }
@@ -680,9 +695,15 @@ function wireWizard() {
       btn.setAttribute("aria-pressed", state.triggerEventKeys.has(eventId) ? "true" : "false")
       btn.textContent = `${prettifyTriggerEvent(eventId)} (${eventCount.get(eventId) ?? 0})`
       btn.addEventListener("click", () => {
+        const hadAnyTrigger = state.triggerCategoryKeys.size > 0 || state.triggerEventKeys.size > 0
         if (state.triggerEventKeys.has(eventId)) state.triggerEventKeys.delete(eventId)
         else state.triggerEventKeys.add(eventId)
         renderResult()
+        if (!hadAnyTrigger && (state.triggerCategoryKeys.size > 0 || state.triggerEventKeys.size > 0)) {
+          requestAnimationFrame(() => {
+            step5!.scrollIntoView({ behavior: "smooth", block: "start" })
+          })
+        }
       })
       triggerEventCards.appendChild(btn)
     }
@@ -851,10 +872,18 @@ function wireWizard() {
     card.addEventListener("click", () => {
       const key = normalizeMetaId(card.dataset.etapaKey ?? "")
       if (!key || card.hidden) return
+      const hadAnyEtapa = state.etapaKeys.size > 0
       if (state.etapaKeys.has(key)) state.etapaKeys.delete(key)
       else state.etapaKeys.add(key)
       syncEtapaCards()
-      if (state.phaseKeys.size > 0) renderResult()
+      if (state.phaseKeys.size > 0) {
+        renderResult()
+        if (!hadAnyEtapa && state.etapaKeys.size > 0) {
+          requestAnimationFrame(() => {
+            step4!.scrollIntoView({ behavior: "smooth", block: "start" })
+          })
+        }
+      }
     })
   }
   for (const card of raciCards) {
