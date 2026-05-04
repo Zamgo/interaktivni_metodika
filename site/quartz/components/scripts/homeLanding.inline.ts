@@ -32,52 +32,26 @@ type WizardData = {
   etapy: Array<{ key: string; label: string; phaseKeys: string[] }>
 }
 
-type IndexItem = {
-  title?: string
-  content?: string
-  tags?: string[]
+type TimelineGroup = {
+  milestoneId: string
+  milestoneLabel: string
+  cards: WizardActivity[]
 }
 
-type WizardContentIndex = Record<string, IndexItem>
-
-let indexPromise: Promise<WizardContentIndex> | null = null
-const pagePreviewCache = new Map<string, string>()
 const RACI_ORDER = ["R", "A", "C", "I"] as const
-const popoverParser = new DOMParser()
-let activePreviewPopoverLink: HTMLAnchorElement | null = null
 const TRIGGER_CATEGORY_ORDER = [
   "projekt",
-  "faze",
-  "dokumentace",
-  "bim",
-  "cde",
   "smlouva",
   "kontrola",
-  "periodicky",
+  "bim",
   "provoz",
 ] as const
 const TRIGGER_CATEGORY_LABELS: Record<string, string> = {
   projekt: "Projekt",
-  faze: "Fáze",
-  dokumentace: "Dokumentace",
-  bim: "BIM",
-  cde: "CDE",
   smlouva: "Smlouva",
   kontrola: "Kontrola",
-  periodicky: "Periodicky",
+  bim: "BIM",
   provoz: "Provoz",
-}
-
-function getContentIndex(): Promise<WizardContentIndex> {
-  if (!indexPromise) {
-    indexPromise = fetch(new URL("../static/contentIndex.json", window.location.href).toString())
-      .then((res) => {
-        if (!res.ok) throw new Error("Nepodarilo se nacist index vyhledavani")
-        return res.json() as Promise<WizardContentIndex>
-      })
-      .catch(() => ({} as WizardContentIndex))
-  }
-  return indexPromise
 }
 
 function parseWizardData(): WizardData | null {
@@ -90,43 +64,7 @@ function parseWizardData(): WizardData | null {
   }
 }
 
-/* ═══════════ Preview helpery ═══════════ */
-function absolutizeRelativeUrls(container: HTMLElement, pageUrl: string) {
-  for (const el of container.querySelectorAll<HTMLElement>("[href], [src]")) {
-    const href = el.getAttribute("href")
-    if (href) {
-      try {
-        el.setAttribute("href", new URL(href, pageUrl).toString())
-      } catch {
-        /* ignore */
-      }
-    }
-    const src = el.getAttribute("src")
-    if (src) {
-      try {
-        el.setAttribute("src", new URL(src, pageUrl).toString())
-      } catch {
-        /* ignore */
-      }
-    }
-  }
-}
-
-function makeExcerpt(text: string, maxLen = 520): string {
-  const normalized = text.replace(/\s+/g, " ").trim()
-  if (normalized.length <= maxLen) return normalized
-  return `${normalized.slice(0, maxLen).trimEnd()}…`
-}
-
-function renderTextFallback(title: string, rawContent: string): string {
-  const excerpt = makeExcerpt(rawContent || "Tato stránka zatím neobsahuje delší text.")
-  return `
-    <div class="home-wizard-result-preview-inner home-wizard-result-preview-fallback">
-      <h3>${escapeHtml(title)}</h3>
-      <p>${escapeHtml(excerpt)}</p>
-    </div>
-  `
-}
+/* ═══════════ Utility helpery ═══════════ */
 
 function escapeHtml(s: string): string {
   return s
@@ -141,160 +79,8 @@ function formatRaciKeys(keys: Set<string>): string {
   return RACI_ORDER.filter((key) => keys.has(key)).join(", ")
 }
 
-function cleanupPreviewDom(container: HTMLElement) {
-  container
-    .querySelectorAll(
-      ".page-header, .content-meta, .metadata-panel, .page-footer, hr, nav, .breadcrumb-container",
-    )
-    .forEach((el) => el.remove())
-}
-
-async function fetchCanonical(url: URL): Promise<Response> {
-  const canonicalPath = url.pathname.endsWith("/") ? url.pathname : `${url.pathname}/`
-  const canonicalUrl = new URL(`${canonicalPath}${url.hash}`, url)
-  try {
-    const res = await fetch(canonicalUrl.toString())
-    if (res.ok) return res
-  } catch {
-    // fall back to non-canonical path below
-  }
-  return fetch(url.toString())
-}
-
-async function positionPopover(anchor: HTMLElement, popover: HTMLElement, x: number, y: number) {
-  const { computePosition, inline, shift, flip } = await import("@floating-ui/dom")
-  const position = await computePosition(anchor, popover, {
-    strategy: "fixed",
-    middleware: [inline({ x, y }), shift(), flip()],
-  })
-  popover.style.transform = `translate(${position.x.toFixed()}px, ${position.y.toFixed()}px)`
-}
-
-function clearPreviewPopovers() {
-  activePreviewPopoverLink = null
-  document.querySelectorAll(".popover.active-popover").forEach((el) => {
-    el.classList.remove("active-popover")
-  })
-}
-
-function normalizeRelativeUrlsToAbsolute(container: HTMLElement, base: URL) {
-  container.querySelectorAll<HTMLElement>("[href], [src]").forEach((el) => {
-    const href = el.getAttribute("href")
-    if (href) {
-      try {
-        el.setAttribute("href", new URL(href, base).toString())
-      } catch {}
-    }
-    const src = el.getAttribute("src")
-    if (src) {
-      try {
-        el.setAttribute("src", new URL(src, base).toString())
-      } catch {}
-    }
-  })
-}
-
-async function showPreviewPopover(link: HTMLAnchorElement, event: MouseEvent) {
-  if (link.dataset.noPopover === "true") return
-  activePreviewPopoverLink = link
-
-  const targetUrl = new URL(link.href)
-  const hash = decodeURIComponent(targetUrl.hash)
-  targetUrl.hash = ""
-  targetUrl.search = ""
-  const popoverId = `popover-${link.pathname}`
-
-  const renderExisting = (el: HTMLElement) => {
-    clearPreviewPopovers()
-    activePreviewPopoverLink = link
-    el.classList.add("active-popover")
-    void positionPopover(link, el, event.clientX, event.clientY)
-    if (!hash) return
-    const inner = el.querySelector(".popover-inner") as HTMLElement | null
-    const heading = inner?.querySelector(`#popover-internal-${hash.slice(1)}`) as HTMLElement | null
-    if (inner && heading) inner.scroll({ top: heading.offsetTop - 12, behavior: "instant" })
-  }
-
-  const existing = document.getElementById(popoverId)
-  if (existing) {
-    renderExisting(existing as HTMLElement)
-    return
-  }
-
-  const response = await fetchCanonical(targetUrl).catch(() => null)
-  if (!response?.ok || activePreviewPopoverLink !== link) return
-
-  const [contentType] = (response.headers.get("Content-Type") ?? "").split(";")
-  const [category, typeInfo] = contentType.split("/")
-  const popoverEl = document.createElement("div")
-  popoverEl.id = popoverId
-  popoverEl.classList.add("popover")
-  const inner = document.createElement("div")
-  inner.classList.add("popover-inner")
-  inner.dataset.contentType = contentType
-  popoverEl.appendChild(inner)
-
-  if (category === "image") {
-    const img = document.createElement("img")
-    img.src = targetUrl.toString()
-    inner.appendChild(img)
-  } else if (category === "application" && typeInfo === "pdf") {
-    const pdf = document.createElement("iframe")
-    pdf.src = targetUrl.toString()
-    inner.appendChild(pdf)
-  } else {
-    const html = await response.text()
-    const doc = popoverParser.parseFromString(html, "text/html")
-    const hints = Array.from(doc.getElementsByClassName("popover-hint")) as HTMLElement[]
-    if (hints.length === 0) return
-    hints.forEach((hint) => {
-      hint.querySelectorAll("[id]").forEach((el) => {
-        ;(el as HTMLElement).id = `popover-internal-${(el as HTMLElement).id}`
-      })
-      normalizeRelativeUrlsToAbsolute(hint, targetUrl)
-      inner.appendChild(hint)
-    })
-  }
-
-  if (document.getElementById(popoverId) || activePreviewPopoverLink !== link) return
-  document.body.appendChild(popoverEl)
-  renderExisting(popoverEl)
-}
-
-function attachPreviewPopovers(scope: HTMLElement) {
-  const links = scope.querySelectorAll("a.internal") as NodeListOf<HTMLAnchorElement>
-  links.forEach((link) => {
-    if ((link as HTMLAnchorElement & { __previewPopoverBound?: boolean }).__previewPopoverBound) return
-    ;(link as HTMLAnchorElement & { __previewPopoverBound?: boolean }).__previewPopoverBound = true
-    link.addEventListener("mouseenter", (e) => void showPreviewPopover(link, e))
-    link.addEventListener("mouseleave", clearPreviewPopovers)
-  })
-}
-
-async function loadPreviewHtml(
-  href: string,
-  title: string,
-  fallbackContent: string,
-): Promise<string> {
-  if (pagePreviewCache.has(href)) return pagePreviewCache.get(href)!
-  const html = await fetch(href)
-    .then((res) => (res.ok ? res.text() : ""))
-    .catch(() => "")
-  if (!html) return renderTextFallback(title, fallbackContent)
-  const doc = new DOMParser().parseFromString(html, "text/html")
-  const hints = Array.from(doc.getElementsByClassName("popover-hint")) as HTMLElement[]
-  if (hints.length === 0) return renderTextFallback(title, fallbackContent)
-  const wrapper = document.createElement("div")
-  wrapper.className = "home-wizard-result-preview-inner"
-  wrapper.innerHTML = hints.map((hint) => hint.outerHTML).join("")
-  absolutizeRelativeUrls(wrapper, href)
-  const textLen = wrapper.textContent?.trim().length ?? 0
-  const output = textLen < 40 ? renderTextFallback(title, fallbackContent) : wrapper.outerHTML
-  pagePreviewCache.set(href, output)
-  return output
-}
-
 /* ═══════════ Filtrace činností ═══════════ */
+
 function normalizeLower(s: string): string {
   return s.trim().toLowerCase()
 }
@@ -420,7 +206,180 @@ function activityMatchesAnySelectedRoleRaci(
   return roles.some((role) => activityMatchesRaci(activity, role, raciKeys))
 }
 
+/* ═══════════ Timeline helpery ═══════════ */
+
+/**
+ * Rozdělí aktivity do skupin dle první spouštěcí události.
+ * Pořadí skupin odpovídá prvnímu výskytu klíče v setříděném seznamu aktivit.
+ */
+function groupByMilestone(activities: WizardActivity[]): TimelineGroup[] {
+  const NONE_KEY = "_none_"
+  const groups = new Map<string, TimelineGroup>()
+
+  for (const act of activities) {
+    const rawKey =
+      Array.isArray(act.spousteciUdalost) && act.spousteciUdalost.length > 0
+        ? normalizeMetaId(act.spousteciUdalost[0])
+        : NONE_KEY
+    if (!groups.has(rawKey)) {
+      const label = rawKey === NONE_KEY ? "Ostatní" : prettifyTriggerEvent(rawKey)
+      groups.set(rawKey, { milestoneId: rawKey, milestoneLabel: label, cards: [] })
+    }
+    groups.get(rawKey)!.cards.push(act)
+  }
+
+  return [...groups.values()]
+}
+
+function buildRaciFooterHtml(act: WizardActivity, selectedRoles: WizardRole[]): string {
+  const raciDefs = [
+    { key: "R", keyLower: "r", roles: act.rRoles ?? [] },
+    { key: "A", keyLower: "a", roles: act.aRoles ?? [] },
+    { key: "C", keyLower: "c", roles: act.cRoles ?? [] },
+    { key: "I", keyLower: "i", roles: act.iRoles ?? [] },
+  ]
+  const parts: string[] = []
+  for (const { key, keyLower, roles } of raciDefs) {
+    if (roles.length === 0) continue
+    const matchesSelected = selectedRoles.some((role) => isRoleIn(role, roles))
+    const matchClass = matchesSelected ? " wiz-tl-raci-badge--match" : ""
+    parts.push(
+      `<span class="wiz-tl-raci-group">` +
+        `<span class="wiz-tl-raci-badge raci-${keyLower}${matchClass}">${key}</span>` +
+        `<span class="wiz-tl-raci-roles">${escapeHtml(roles.join(", "))}</span>` +
+        `</span>`,
+    )
+  }
+  return parts.length > 0 ? `<footer class="wiz-tl-card-raci">${parts.join("")}</footer>` : ""
+}
+
+function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string {
+  const MAX_POPIS = 130
+  const rawPopis = act.popis ?? ""
+  const isTruncated = rawPopis.length > MAX_POPIS
+  const displayPopis = isTruncated ? rawPopis.slice(0, MAX_POPIS).trimEnd() + "…" : rawPopis
+
+  const numHtml = act.oznaceni
+    ? `<span class="wiz-tl-card-num">${escapeHtml(act.oznaceni)}</span>`
+    : ""
+  const popisHtml = displayPopis
+    ? `<p class="wiz-tl-card-popis"${isTruncated ? ` title="${escapeHtml(rawPopis)}"` : ""}>${escapeHtml(displayPopis)}</p>`
+    : ""
+  const raciHtml = buildRaciFooterHtml(act, selectedRoles)
+
+  return (
+    `<header class="wiz-tl-card-head">${numHtml}` +
+    `<h3 class="wiz-tl-card-title">${escapeHtml(act.title)}</h3></header>` +
+    popisHtml +
+    raciHtml
+  )
+}
+
+/**
+ * Připojí navigaci šipkami (←/→) pro horizontální procházení karet.
+ * Volá se pouze jednou na kontejner (flag data-arrow-nav-bound).
+ */
+function attachArrowKeyNav(container: HTMLElement) {
+  if (container.dataset.arrowNavBound) return
+  container.dataset.arrowNavBound = "1"
+  container.addEventListener("keydown", (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement
+    if (!target.classList.contains("wiz-tl-card")) return
+    const allCards = Array.from(container.querySelectorAll<HTMLElement>(".wiz-tl-card"))
+    const idx = allCards.indexOf(target)
+    if (idx < 0) return
+    if (e.key === "ArrowRight" && idx < allCards.length - 1) {
+      e.preventDefault()
+      allCards[idx + 1].focus()
+      allCards[idx + 1].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })
+    } else if (e.key === "ArrowLeft" && idx > 0) {
+      e.preventDefault()
+      allCards[idx - 1].focus()
+      allCards[idx - 1].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })
+    }
+  })
+}
+
+/**
+ * Vykreslí timeline karet do kontejneru.
+ * Zachovává třídu wiz-tl-grid mezi re-rendery (přepínání layoutu).
+ */
+function renderTimeline(container: HTMLElement, activities: WizardActivity[], selectedRoles: WizardRole[]) {
+  const wasGrid = container.classList.contains("wiz-tl-grid")
+  container.innerHTML = ""
+  attachArrowKeyNav(container)
+  if (wasGrid) container.classList.add("wiz-tl-grid")
+
+  // Layout toggle button
+  const toggleBtn = document.createElement("button")
+  toggleBtn.type = "button"
+  toggleBtn.className = "wiz-tl-toggle-btn"
+  const updateToggleLabel = (isGrid: boolean) => {
+    toggleBtn.textContent = isGrid ? "↔ Timeline" : "⊞ Mřížka"
+    toggleBtn.setAttribute(
+      "aria-label",
+      isGrid ? "Přepnout na horizontální timeline" : "Přepnout na mřížku",
+    )
+  }
+  updateToggleLabel(wasGrid)
+  toggleBtn.addEventListener("click", () => {
+    const nowGrid = container.classList.toggle("wiz-tl-grid")
+    updateToggleLabel(nowGrid)
+  })
+  container.appendChild(toggleBtn)
+
+  const groups = groupByMilestone(activities)
+  const track = document.createElement("div")
+  track.className = "wiz-tl-track"
+
+  for (const group of groups) {
+    const groupEl = document.createElement("div")
+    groupEl.className = "wiz-tl-group"
+
+    // Milestone node
+    const milestoneEl = document.createElement("div")
+    milestoneEl.className = "wiz-tl-milestone"
+    milestoneEl.innerHTML =
+      `<div class="wiz-tl-milestone-dot"></div>` +
+      `<span class="wiz-tl-milestone-label">${escapeHtml(group.milestoneLabel)}</span>`
+    groupEl.appendChild(milestoneEl)
+
+    // Cards container (flex row → grid in grid mode via CSS)
+    const cardsEl = document.createElement("div")
+    cardsEl.className = "wiz-tl-cards"
+
+    for (const act of group.cards) {
+      const card = document.createElement("article")
+      card.className = "wiz-tl-card"
+      card.tabIndex = 0
+      card.dataset.href = act.href
+      card.setAttribute("role", "button")
+      card.setAttribute("aria-label", `Přejít na: ${act.title}`)
+      card.innerHTML = buildCardHtml(act, selectedRoles)
+
+      const navigate = () => {
+        window.location.href = act.href
+      }
+      card.addEventListener("click", navigate)
+      card.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          navigate()
+        }
+      })
+
+      cardsEl.appendChild(card)
+    }
+
+    groupEl.appendChild(cardsEl)
+    track.appendChild(groupEl)
+  }
+
+  container.appendChild(track)
+}
+
 /* ═══════════ Wizard main ═══════════ */
+
 function wireWizard() {
   const root = document.querySelector<HTMLElement>(".home-landing")
   if (!root) return
@@ -454,8 +413,7 @@ function wireWizard() {
   const phaseCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-phase-card"))
   const etapaCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-etapa-card"))
   const raciCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-raci-card"))
-  const listEl = root.querySelector<HTMLElement>("[data-wizard-list]")
-  const previewEl = root.querySelector<HTMLElement>("[data-wizard-preview]")
+  const timelineEl = root.querySelector<HTMLElement>("[data-wizard-timeline]")
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
   const triggerCategoryCardsEl = root.querySelector<HTMLElement>("[data-wizard-trigger-category-cards]")
   const triggerEventCardsEl = root.querySelector<HTMLElement>("[data-wizard-trigger-event-cards]")
@@ -467,8 +425,7 @@ function wireWizard() {
     !step3 ||
     !step4 ||
     !step5 ||
-    !listEl ||
-    !previewEl ||
+    !timelineEl ||
     !summaryEl ||
     !triggerCategoryCardsEl ||
     !triggerEventCardsEl ||
@@ -477,11 +434,13 @@ function wireWizard() {
   ) {
     return
   }
+
   const wizardData = data
   const triggerCategoryCards = triggerCategoryCardsEl
   const triggerEventCards = triggerEventCardsEl
   const triggerSearch = triggerSearchInput
   const triggerReset = triggerResetBtn
+
   const allTriggerEventCount = new Map<string, number>()
   for (const act of wizardData.activities) {
     for (const raw of act.spousteciUdalost ?? []) {
@@ -493,9 +452,9 @@ function wireWizard() {
     prettifyTriggerEvent(a).localeCompare(prettifyTriggerEvent(b), "cs"),
   )
 
-  const previewEmptyHtml = `<p class="home-wizard-result-preview-empty">Vyberte úkol v levém seznamu pro náhled.</p>`
-  const listEmptyHtml = `<li class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</li>`
-  const listEmptyRaciHtml = `<li class="home-wizard-result-empty">Vyberte alespoň jednu roli v RACI (R, A, C nebo I) pro zobrazení úkolů.</li>`
+  // Prázdné stavy timeline
+  const tlEmptyNoSelection = `<p class="home-wizard-result-empty">Vyberte roli pro zobrazení úkolů.</p>`
+  const tlEmptyNoPhase = `<p class="home-wizard-result-empty">Vyberte fázi pro zobrazení úkolů.</p>`
 
   function updateStepVisibility() {
     const hasRole = state.roleKeys.size > 0
@@ -539,8 +498,7 @@ function wireWizard() {
       state.triggerSearchQuery = ""
       triggerSearch.value = ""
       updateStepVisibility()
-      listEl!.innerHTML = listEmptyHtml
-      previewEl!.innerHTML = previewEmptyHtml
+      timelineEl!.innerHTML = tlEmptyNoSelection
       summaryEl!.innerHTML = ""
       triggerCategoryCards.innerHTML = ""
       triggerEventCards.innerHTML = ""
@@ -603,8 +561,7 @@ function wireWizard() {
       state.triggerEventKeys.clear()
       state.triggerSearchQuery = ""
       triggerSearch.value = ""
-      listEl!.innerHTML = listEmptyHtml
-      previewEl!.innerHTML = previewEmptyHtml
+      timelineEl!.innerHTML = tlEmptyNoPhase
       summaryEl!.innerHTML = ""
       triggerCategoryCards.innerHTML = ""
       triggerEventCards.innerHTML = ""
@@ -691,6 +648,7 @@ function wireWizard() {
       })
       triggerCategoryCards.appendChild(btn)
     }
+
     triggerEventCards.innerHTML = ""
     const q = state.triggerSearchQuery.trim().toLowerCase()
     const filteredEventIds = availableEventIds.filter((eventId) => {
@@ -775,95 +733,16 @@ function wireWizard() {
       `
     }
 
-    // List
-    listEl!.innerHTML = ""
+    // Timeline
     if (filtered.length === 0) {
-      listEl!.innerHTML = state.raciKeys.size === 0 ? listEmptyRaciHtml : listEmptyHtml
-      previewEl!.innerHTML = previewEmptyHtml
+      timelineEl!.innerHTML =
+        state.raciKeys.size === 0
+          ? `<p class="home-wizard-result-empty">Vyberte alespoň jednu roli v RACI (R, A, C nebo I) pro zobrazení úkolů.</p>`
+          : `<p class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</p>`
       return
     }
 
-    for (const act of filtered) {
-      const li = document.createElement("li")
-      li.className = "home-wizard-result-item"
-      li.tabIndex = 0
-      li.setAttribute("role", "button")
-      li.dataset.href = act.href
-      li.dataset.title = act.title
-      li.dataset.fallback = act.popis ?? ""
-
-      // Označení role na aktivitě dle vybraných rolí — R/A/C/I
-      const rMatch = selectedRoles.some((role) => isRoleIn(role, act.rRoles))
-      const aMatch = selectedRoles.some((role) => isRoleIn(role, act.aRoles))
-      const cMatch = selectedRoles.some((role) => isRoleIn(role, act.cRoles ?? []))
-      const iMatch = selectedRoles.some((role) => isRoleIn(role, act.iRoles ?? []))
-      const tagsHtml: string[] = []
-      if (rMatch) tagsHtml.push(`<span class="home-wizard-result-item-tag raci-r">R</span>`)
-      if (aMatch) tagsHtml.push(`<span class="home-wizard-result-item-tag raci-a">A</span>`)
-      if (cMatch) tagsHtml.push(`<span class="home-wizard-result-item-tag raci-c">C</span>`)
-      if (iMatch) tagsHtml.push(`<span class="home-wizard-result-item-tag raci-i">I</span>`)
-
-      li.innerHTML = `
-        ${act.oznaceni ? `<span class="home-wizard-result-item-num">${escapeHtml(act.oznaceni)}</span>` : ""}
-        <span class="home-wizard-result-item-body">
-          <span class="home-wizard-result-item-title">${escapeHtml(act.title)}</span>
-          ${tagsHtml.length > 0 ? `<span class="home-wizard-result-item-tags">${tagsHtml.join("")}</span>` : ""}
-        </span>
-      `
-
-      const activate = () => void showPreview(li, act)
-      li.addEventListener("click", activate)
-      li.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          activate()
-        }
-      })
-      li.addEventListener("mouseenter", () => void showPreview(li, act, /*silent*/ true))
-      listEl!.appendChild(li)
-    }
-
-    // Automaticky vybrat první položku
-    const first = listEl!.querySelector<HTMLElement>(".home-wizard-result-item")
-    if (first) {
-      void showPreview(first, filtered[0])
-    } else {
-      previewEl!.innerHTML = previewEmptyHtml
-    }
-  }
-
-  function markActiveItem(target: HTMLElement) {
-    for (const el of listEl!.querySelectorAll<HTMLElement>(".home-wizard-result-item")) {
-      el.classList.toggle("active", el === target)
-    }
-  }
-
-  async function showPreview(
-    item: HTMLElement,
-    activity: WizardActivity,
-    silent = false,
-  ): Promise<void> {
-    if (!silent) markActiveItem(item)
-    if (!silent) {
-      previewEl!.innerHTML = `<p class="home-wizard-result-preview-loading">Načítám náhled…</p>`
-    }
-    const index = await getContentIndex()
-    const fallbackContent = index[activity.slug]?.content ?? activity.popis ?? ""
-    const html = await loadPreviewHtml(activity.href, activity.title, fallbackContent)
-    // Pokud uživatel mezitím kliknul jinam, nepřepisuj preview
-    const stillActive = listEl!.querySelector<HTMLElement>(".home-wizard-result-item.active")
-    if (!silent && stillActive !== item) return
-    if (silent && !stillActive) {
-      markActiveItem(item)
-    } else if (silent) {
-      return
-    }
-
-    previewEl!.innerHTML = `
-      <a class="home-wizard-result-preview-open" href="${activity.href}">Otevřít celou stránku →</a>
-      ${html}
-    `
-    attachPreviewPopovers(previewEl!)
+    renderTimeline(timelineEl!, filtered, selectedRoles)
   }
 
   /* Připojení kliků */

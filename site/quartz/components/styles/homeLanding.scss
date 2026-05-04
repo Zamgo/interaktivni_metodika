@@ -764,4 +764,334 @@ article.home-hero {
       text-decoration: underline;
     }
   }
+
+  /* ═══════════ Step 5 — Timeline karet ═══════════ */
+
+  $tl-line-color: color-mix(in srgb, $rsd-blue-dark 28%, var(--lightgray));
+
+  // Přepínač layout — vpravo nahoře nad timeline
+  .wiz-tl-toggle-btn {
+    display: block;
+    margin: 0 0 0.7rem auto;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 6px;
+    background: var(--light);
+    color: var(--darkgray);
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 120ms, border-color 120ms, color 120ms;
+
+    &:hover {
+      background: color-mix(in srgb, $rsd-blue-dark 8%, #fff);
+      border-color: $rsd-blue-dark;
+      color: $rsd-blue-dark;
+    }
+  }
+
+  // Vnější obal — horizontální scroll (výchozí)
+  .wiz-tl-wrap {
+    overflow-x: auto;
+    padding: 0.25rem 0.25rem 1.25rem;
+    position: relative;
+
+    &.wiz-tl-grid {
+      overflow-x: visible;
+      padding: 0 0 0.5rem;
+    }
+  }
+
+  // Track — flex řádek skupin
+  .wiz-tl-track {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    .wiz-tl-grid & {
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+  }
+
+  // Skupina aktivit sdílejících milník
+  .wiz-tl-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    flex-shrink: 0;
+
+    .wiz-tl-grid & {
+      flex-shrink: 1;
+      width: 100%;
+      gap: 0.75rem;
+    }
+  }
+
+  // Milník — řádek s tečkou a popiskem
+  .wiz-tl-milestone {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.45rem;
+    max-width: 15rem;
+
+    .wiz-tl-grid & {
+      max-width: none;
+      width: 100%;
+
+      // Linka vlevo od popisku
+      &::after {
+        content: "";
+        flex: 1;
+        height: 2px;
+        background: $tl-line-color;
+        border-radius: 1px;
+      }
+    }
+  }
+
+  .wiz-tl-milestone-dot {
+    width: 0.82rem;
+    height: 0.82rem;
+    border-radius: 50%;
+    background: $rsd-blue-dark;
+    border: 2px solid var(--light);
+    box-shadow: 0 0 0 2px $rsd-blue-dark;
+    flex-shrink: 0;
+  }
+
+  .wiz-tl-milestone-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: $rsd-blue-dark;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 13rem;
+
+    .wiz-tl-grid & {
+      font-size: 0.82rem;
+      max-width: none;
+      overflow: visible;
+      white-space: normal;
+    }
+  }
+
+  // Obal karet — flex řádek → grid v mřížkovém layoutu
+  .wiz-tl-cards {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.65rem;
+
+    .wiz-tl-grid & {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      width: 100%;
+    }
+  }
+
+  // Karta aktivity
+  .wiz-tl-card {
+    width: 228px;
+    min-width: 228px;
+    min-height: 11.5rem;
+    padding: 0.85rem 0.9rem 0.7rem;
+    border: 1px solid var(--lightgray);
+    border-radius: $wizard-card-radius;
+    background: var(--light);
+    color: var(--dark);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.38rem;
+    text-align: left;
+    transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+
+    &:hover {
+      border-color: $rsd-blue-dark;
+      box-shadow: 0 4px 16px rgba(9, 65, 122, 0.13);
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: 2px solid $rsd-blue-dark;
+      outline-offset: 2px;
+      border-color: $rsd-blue-dark;
+    }
+
+    .wiz-tl-grid & {
+      width: auto;
+      min-width: 0;
+    }
+  }
+
+  .wiz-tl-card-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+  }
+
+  .wiz-tl-card-num {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $rsd-blue-dark;
+    background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
+    padding: 0.08rem 0.4rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .wiz-tl-card-title {
+    font-size: 0.93rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--dark);
+    margin: 0;
+  }
+
+  .wiz-tl-card-popis {
+    font-size: 0.81rem;
+    line-height: 1.45;
+    color: var(--darkgray);
+    margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // RACI řádky na kartě
+  .wiz-tl-card-raci {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    margin-top: 0.2rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--lightgray) 55%, transparent);
+  }
+
+  .wiz-tl-raci-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  .wiz-tl-raci-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    border: 1.5px solid transparent;
+
+    &.raci-r {
+      color: #c0392b;
+      background: color-mix(in srgb, #c0392b 14%, #fff);
+    }
+    &.raci-a {
+      color: #2980b9;
+      background: color-mix(in srgb, #2980b9 14%, #fff);
+    }
+    &.raci-c {
+      color: #27ae60;
+      background: color-mix(in srgb, #27ae60 14%, #fff);
+    }
+    &.raci-i {
+      color: #8e44ad;
+      background: color-mix(in srgb, #8e44ad 14%, #fff);
+    }
+
+    // Zvýraznění badge při shodě s vybranou rolí
+    &.wiz-tl-raci-badge--match {
+      &.raci-r {
+        border-color: #c0392b;
+      }
+      &.raci-a {
+        border-color: #2980b9;
+      }
+      &.raci-c {
+        border-color: #27ae60;
+      }
+      &.raci-i {
+        border-color: #8e44ad;
+      }
+    }
+  }
+
+  .wiz-tl-raci-roles {
+    font-size: 0.75rem;
+    color: var(--darkgray);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  // Mobilní zobrazení — vždy mřížkový layout (žádný horizontální scroll)
+  @media all and ($mobile) {
+    .wiz-tl-wrap {
+      overflow-x: visible;
+      padding: 0 0 0.5rem;
+    }
+
+    .wiz-tl-toggle-btn {
+      display: none;
+    }
+
+    .wiz-tl-track {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .wiz-tl-group {
+      flex-shrink: 1;
+      width: 100%;
+      gap: 0.75rem;
+    }
+
+    .wiz-tl-milestone {
+      max-width: none;
+      width: 100%;
+
+      &::after {
+        content: "";
+        flex: 1;
+        height: 2px;
+        background: $tl-line-color;
+        border-radius: 1px;
+      }
+    }
+
+    .wiz-tl-milestone-label {
+      max-width: none;
+      white-space: normal;
+    }
+
+    .wiz-tl-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+    }
+
+    .wiz-tl-card {
+      width: auto;
+      min-width: 0;
+    }
+  }
 }

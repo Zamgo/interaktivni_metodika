@@ -68,18 +68,25 @@ type EtapaDef = {
  */
 const ETAPA_DEFS: EtapaDef[] = [
   {
-    key: "strategicka_priprava",
-    label: "Strategická příprava / Definice investičního záměru",
+    key: "po_uzavreni_smlouvy",
+    label: "Po uzavření smlouvy před zahájením prací",
     phaseKeys: ["priprava"],
   },
-  { key: "priprava_projektu", label: "Příprava projektu", phaseKeys: ["priprava"] },
-  { key: "studie", label: "Studie", phaseKeys: ["priprava"] },
-  { key: "DPZ", label: "Dokumentace pro povolení záměru", phaseKeys: ["priprava"] },
-  { key: "DPS", label: "Dokumentace pro provádění stavby", phaseKeys: ["priprava"] },
-  { key: "soupis_praci", label: "Soupis prací a dodávek", phaseKeys: ["priprava"] },
-  { key: "realizace_stavby", label: "Realizace / Dozor projektanta", phaseKeys: ["realizace"] },
-  { key: "predani_stavby", label: "Předání a uvedení do provozu", phaseKeys: ["realizace"] },
-  { key: "provoz_a_sprava", label: "Provoz a správa aktiv", phaseKeys: ["provoz"] },
+  {
+    key: "po_zahajeni_praci",
+    label: "Po zahájení prací",
+    phaseKeys: ["realizace"],
+  },
+  {
+    key: "zkousky_a_prejimky",
+    label: "Zkoušky, přejímací zkoušky a přejímací řízení",
+    phaseKeys: ["realizace"],
+  },
+  {
+    key: "po_dokonceni_dila",
+    label: "Po dokončení díla / Záruční doba",
+    phaseKeys: ["provoz"],
+  },
 ]
 
 function coerceString(value: unknown): string {
@@ -483,19 +490,29 @@ const HomeLanding: QuartzComponent = ({
         <div class="home-wizard-result-summary" data-wizard-summary>
           {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
         </div>
-        <div class="home-wizard-result-split">
-          <div class="home-wizard-result-list-wrap">
-            <ul class="home-wizard-result-list" data-wizard-list>
-              <li class="home-wizard-result-empty">
-                Zatím nejsou vybrány žádné úkoly.
-              </li>
-            </ul>
+        {/*
+          BACKUP-SPLITPANE: původní split-pane layout (archivováno)
+          Viz homeLanding.inline.splitpane.bak.ts pro JS zálohu.
+          Styly .home-wizard-result-split / -list / -preview jsou zachovány v homeLanding.scss.
+
+          <div class="home-wizard-result-split">
+            <div class="home-wizard-result-list-wrap">
+              <ul class="home-wizard-result-list" data-wizard-list>
+                <li class="home-wizard-result-empty">
+                  Zatím nejsou vybrány žádné úkoly.
+                </li>
+              </ul>
+            </div>
+            <div class="home-wizard-result-preview" data-wizard-preview>
+              <p class="home-wizard-result-preview-empty">
+                Vyberte úkol v levém seznamu pro náhled.
+              </p>
+            </div>
           </div>
-          <div class="home-wizard-result-preview" data-wizard-preview>
-            <p class="home-wizard-result-preview-empty">
-              Vyberte úkol v levém seznamu pro náhled.
-            </p>
-          </div>
+          BACKUP-SPLITPANE */}
+
+        <div class="wiz-tl-wrap" data-wizard-timeline>
+          <p class="home-wizard-result-empty">Zatím nejsou vybrány žádné úkoly.</p>
         </div>
         <div class="home-wizard-result-actions">
           <a class="home-wizard-link" href={cinnostiHref}>
