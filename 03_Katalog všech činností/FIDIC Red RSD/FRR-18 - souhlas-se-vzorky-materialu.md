@@ -4,23 +4,22 @@ typ: ukol
 popis: Správce stavby musí dát souhlas k použití Materiálů
 zdroj: FIDIC_red_RSD; 46; 7.2
 faze:
-- realizace
+  - realizace
 etapa:
-- zkousky_a_prejimky
+  - zkousky_a_prejimky
 R - Odpovědnost za provádění činnosti:
-- '[[Správce stavby]]'
+  - Správce stavby
 A - Právní odpovědnost za dokončení činnosti: []
-- '[[Správce stavby]]'
 C - Konzultace v průběhu činnosti: []
 I - Informování po dokončení činnosti: []
 stav: draft
 charakter: podminena
 spousteci_udalost:
-- kontrola_technicke_review
+  - kontrola_technicke_review
 ukoncovaci_podminka: vystup_schvalen
-oznaceni: ''
-oblast: ''
-cinnost: ''
+oznaceni: ""
+oblast: ""
+cinnost: ""
 ---
 
 # Popis

@@ -4,26 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "00d9111c15930570",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "c87f27a3c1c62110",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-17 - oznameni-spravce-stavby-o-neaktualnosti-predlozeneho-harmonogramu.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "FRR-17 - oznameni-spravce-stavby-o-neaktualnosti-predlozeneho-harmonogramu"
-            }
-          }
-        ]
-      },
-      {
         "id": "d42f3d9b802d3004",
         "type": "tabs",
         "children": [
@@ -33,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-29 - vydani-potvrzeni-zaverecne-platby.md",
+                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "FRR-29 - vydani-potvrzeni-zaverecne-platby"
+              "title": "FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy"
             }
           }
         ]
@@ -204,8 +184,26 @@
       "bases:Vytvořit novou základnu": false
     }
   },
-  "active": "c87f27a3c1c62110",
+  "active": "c078a3fb3b9b766e",
   "lastOpenFiles": [
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-03 - vyjadrit-souhlas-se-jmenovanym-zastupcem-zhotovitele.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-20 - dohoda-o-miste-a-dobe-zkousek.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-24 - pokyn-k-napravnym-pracim.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-27 - zjisteni-a-oznameni-vady-ci-nedodelku-behem-zarucni-doby.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-29 - vydani-potvrzeni-zaverecne-platby.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-28 - vydani-potvrzeni-o-splneni-smlouvy.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-25 - vydani-odmitnuti-vydani-potvrzeni-o-prevzeti.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-22 - potvrzeni-zprav-o-zkouskach.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-18 - souhlas-se-vzorky-materialu.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-15 - reakce-spravce-stavby-na-oznameni-zhotovitele-o-stavu-stavby.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-13 - potvrzeni-prubezne-platby.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-07 - vyrizeni-poskytnuti-prava-pristupu-na-staveniste.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-05 - nastaveni-formatu-predkladani-zaznamu-o-personalu-a-vybaveni-zhotovitele.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-04 - nastavit-a-pripomenout-pravidla-komunikace-a-spoluprace-se-zhotovitelem-tymem-sps.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-02 - predani-organigramu-tymu-spravce-stavby-objednateli-i-zhotoviteli.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-01 - povereni-asistentu-spravce-stavby.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-17 - oznameni-spravce-stavby-o-neaktualnosti-predlozeneho-harmonogramu.md",
     "00_Podklady/frr_charakter_refactor.py",
     "07_Sprava_obsahu/Ciselnik charakteru cinnosti.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-08 - kontrola-pristupu-na-staveniste-reseni-situaci.md",
@@ -218,30 +216,12 @@
     "07_Sprava_obsahu/Ciselnik casoveho pravidla.md",
     "07_Sprava_obsahu/Ciselnik etap.md",
     "07_Sprava_obsahu/Ciselnik fazi.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-04 - nastavit-a-pripomenout-pravidla-komunikace-a-spoluprace-se-zhotovitelem-tymem-sps.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-11 - reakce-spravce-stavby-na-pocatecni-harmonogram.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-14 - odepreni-vydani-potvrzeni-prubezne-platby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-10 - odsouhlaseni-podzhotovitele.md",
-    "07_Sprava_obsahu/Ciselnik opakovatelnosti.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-09 - oznameni-o-datu-zahajeni-praci.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-07 - vyrizeni-poskytnuti-prava-pristupu-na-staveniste.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-05 - nastaveni-formatu-predkladani-zaznamu-o-personalu-a-vybaveni-zhotovitele.md",
-    "07_Sprava_obsahu/Ciselnik workflow.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-01 - povereni-asistentu-spravce-stavby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-29 - vydani-potvrzeni-zaverecne-platby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-28 - vydani-potvrzeni-o-splneni-smlouvy.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-27 - zjisteni-a-oznameni-vady-ci-nedodelku-behem-zarucni-doby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-26 - vydani-potvrzeni-prubezne-platby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-25 - vydani-odmitnuti-vydani-potvrzeni-o-prevzeti.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-24 - pokyn-k-napravnym-pracim.md",
     "02 - Seznam všech činností.base",
     "site/quartz/components/scripts/homeLanding.inline.splitpane.bak.ts",
     "_tmp_chain_frr.py",
     "site/public/proces/provoz-a-udrzba/export-do-aspehub-pavlina.html",
     "site/public/proces/provoz-a-udrzba",
     "site/public/proces",
-    "site/public/zaloha-iso-19650-činnosti/index.html",
     "site/public/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "site/public/static/rsd-logo.svg",
     "site/public/static/rsd-icon.svg",
