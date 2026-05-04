@@ -487,6 +487,16 @@ function wireWizard() {
   const listEmptyHtml = `<li class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</li>`
   const listEmptyRaciHtml = `<li class="home-wizard-result-empty">Vyberte alespoň jednu roli v RACI (R, A, C nebo I) pro zobrazení úkolů.</li>`
 
+  function updateStepVisibility() {
+    const hasRole = state.roleKeys.size > 0
+    const hasPhase = state.phaseKeys.size > 0
+    const hasEtapa = state.etapaKeys.size > 0
+    step2!.hidden = !hasRole
+    step3!.hidden = !hasPhase
+    step4!.hidden = !hasEtapa
+    step5!.hidden = !hasEtapa
+  }
+
   function syncRoleCards() {
     for (const card of roleCards) {
       const roleKey = card.dataset.roleKey || ""
@@ -503,7 +513,7 @@ function wireWizard() {
       state.roleKeys.add(key)
     }
     syncRoleCards()
-    step2!.hidden = state.roleKeys.size === 0
+    updateStepVisibility()
     // Při změně role pokud je zvolená alespoň jedna fáze, přerenderuj výsledek
     if (state.phaseKeys.size > 0) renderResult()
     // Plynule scrollnout na step 2, aby uživatel viděl co má dál vybrat
@@ -512,14 +522,13 @@ function wireWizard() {
         step2!.scrollIntoView({ behavior: "smooth", block: "start" })
       })
     } else {
-      step3!.hidden = true
-      step4!.hidden = true
-      step5!.hidden = true
+      state.phaseKeys.clear()
       state.etapaKeys.clear()
       state.triggerCategoryKeys.clear()
       state.triggerEventKeys.clear()
       state.triggerSearchQuery = ""
       triggerSearch.value = ""
+      updateStepVisibility()
       listEl!.innerHTML = listEmptyHtml
       previewEl!.innerHTML = previewEmptyHtml
       summaryEl!.innerHTML = ""
@@ -572,11 +581,8 @@ function wireWizard() {
     }
     syncPhaseCards()
     syncEtapaCards()
-    const hasPhase = state.phaseKeys.size > 0
-    step3!.hidden = !hasPhase
-    step4!.hidden = !hasPhase
-    step5!.hidden = !hasPhase
-    if (hasPhase) {
+    updateStepVisibility()
+    if (state.phaseKeys.size > 0) {
       renderResult()
       requestAnimationFrame(() => {
         step3!.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -876,6 +882,7 @@ function wireWizard() {
       if (state.etapaKeys.has(key)) state.etapaKeys.delete(key)
       else state.etapaKeys.add(key)
       syncEtapaCards()
+      updateStepVisibility()
       if (state.phaseKeys.size > 0) {
         renderResult()
         if (!hadAnyEtapa && state.etapaKeys.size > 0) {
@@ -903,6 +910,7 @@ function wireWizard() {
     state.triggerEventKeys.clear()
     state.triggerSearchQuery = ""
     triggerSearch.value = ""
+    updateStepVisibility()
     renderResult()
   })
   syncRoleCards()
