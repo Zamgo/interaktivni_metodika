@@ -304,6 +304,10 @@ article.home-hero {
     &.home-wizard-trigger-card-category {
       font-weight: 600;
     }
+
+    &.is-empty {
+      opacity: 0.72;
+    }
   }
 
   /* Barevné varianty fází */

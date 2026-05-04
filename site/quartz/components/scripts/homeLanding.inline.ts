@@ -482,6 +482,16 @@ function wireWizard() {
   const triggerEventCards = triggerEventCardsEl
   const triggerSearch = triggerSearchInput
   const triggerReset = triggerResetBtn
+  const allTriggerEventCount = new Map<string, number>()
+  for (const act of wizardData.activities) {
+    for (const raw of act.spousteciUdalost ?? []) {
+      const id = normalizeMetaId(raw)
+      allTriggerEventCount.set(id, (allTriggerEventCount.get(id) ?? 0) + 1)
+    }
+  }
+  const allTriggerEventIds = [...allTriggerEventCount.keys()].sort((a, b) =>
+    prettifyTriggerEvent(a).localeCompare(prettifyTriggerEvent(b), "cs"),
+  )
 
   const previewEmptyHtml = `<p class="home-wizard-result-preview-empty">Vyberte úkol v levém seznamu pro náhled.</p>`
   const listEmptyHtml = `<li class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</li>`
@@ -639,16 +649,18 @@ function wireWizard() {
       }
     }
 
-    const availableEventIds = [...eventCount.keys()].sort((a, b) =>
+    const availableEventIdsRaw = [...eventCount.keys()].sort((a, b) =>
       prettifyTriggerEvent(a).localeCompare(prettifyTriggerEvent(b), "cs"),
     )
+    const availableEventIds =
+      availableEventIdsRaw.length > 0 ? availableEventIdsRaw : [...allTriggerEventIds]
     const availableEventSet = new Set(availableEventIds)
     for (const selected of [...state.triggerEventKeys]) {
       if (!availableEventSet.has(selected)) state.triggerEventKeys.delete(selected)
     }
 
     const availableCategorySet = new Set<string>()
-    for (const eventId of availableEventIds) {
+    for (const eventId of availableEventIdsRaw) {
       availableCategorySet.add(getTriggerCategoryKey(eventId))
     }
     for (const selected of [...state.triggerCategoryKeys]) {
@@ -656,18 +668,14 @@ function wireWizard() {
     }
 
     triggerCategoryCards.innerHTML = ""
-    const orderedCategories = [
-      ...TRIGGER_CATEGORY_ORDER.filter((k) => availableCategorySet.has(k)),
-      ...[...availableCategorySet]
-        .filter((k) => !(TRIGGER_CATEGORY_ORDER as readonly string[]).includes(k))
-        .sort(),
-    ]
+    const orderedCategories = [...TRIGGER_CATEGORY_ORDER]
     for (const categoryKey of orderedCategories) {
       const btn = document.createElement("button")
       btn.type = "button"
       btn.className =
         "home-wizard-trigger-card home-wizard-trigger-card-category" +
         (state.triggerCategoryKeys.has(categoryKey) ? " selected" : "")
+      if (!availableCategorySet.has(categoryKey)) btn.classList.add("is-empty")
       btn.setAttribute("aria-pressed", state.triggerCategoryKeys.has(categoryKey) ? "true" : "false")
       btn.textContent = getTriggerCategoryLabel(categoryKey)
       btn.addEventListener("click", () => {
@@ -683,10 +691,6 @@ function wireWizard() {
       })
       triggerCategoryCards.appendChild(btn)
     }
-    if (orderedCategories.length === 0) {
-      triggerCategoryCards.innerHTML = `<span class="home-wizard-filter-empty">Žádné kategorie pro aktuální výběr.</span>`
-    }
-
     triggerEventCards.innerHTML = ""
     const q = state.triggerSearchQuery.trim().toLowerCase()
     const filteredEventIds = availableEventIds.filter((eventId) => {
@@ -699,7 +703,8 @@ function wireWizard() {
       btn.className = "home-wizard-trigger-card home-wizard-trigger-card-event"
       if (state.triggerEventKeys.has(eventId)) btn.classList.add("selected")
       btn.setAttribute("aria-pressed", state.triggerEventKeys.has(eventId) ? "true" : "false")
-      btn.textContent = `${prettifyTriggerEvent(eventId)} (${eventCount.get(eventId) ?? 0})`
+      const count = eventCount.get(eventId) ?? allTriggerEventCount.get(eventId) ?? 0
+      btn.textContent = `${prettifyTriggerEvent(eventId)} (${count})`
       btn.addEventListener("click", () => {
         const hadAnyTrigger = state.triggerCategoryKeys.size > 0 || state.triggerEventKeys.size > 0
         if (state.triggerEventKeys.has(eventId)) state.triggerEventKeys.delete(eventId)
