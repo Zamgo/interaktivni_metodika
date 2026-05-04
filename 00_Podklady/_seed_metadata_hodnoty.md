@@ -9,14 +9,10 @@ etapa:
   - po_zahajeni_praci
   - zkousky_a_prejimky
   - po_dokonceni_dila
-rezim_cinnosti:
-  - fazova
-  - milnikova
-  - udalostni
-  - periodicka
-  - prubezna
+charakter:
+  - jednorazove
+  - opakujici
   - podminena
-  - aktualizacni
 spousteci_udalost:
   - projekt_uzavreni_smlouvy
   - projekt_predani_staveniste
@@ -31,6 +27,11 @@ spousteci_udalost:
   - smlouva_prodleni
   - smlouva_preruseni_praci
   - smlouva_nepredvidatelna_okolnost
+  - smlouva_predlozeni_vyuctovani
+  - smlouva_zadost_podzhotovitele
+  - smlouva_oznameni_zhotovitele
+  - smlouva_predlozeni_harmonogramu
+  - smlouva_zadost_o_prevzeti
   - kontrola_bim_review
   - kontrola_technicke_review
   - kontrola_zkouska
@@ -43,14 +44,7 @@ spousteci_udalost:
   - provoz_predani_stavby
   - provoz_zahajeni_zkusebniho_provozu
   - provoz_predani_asset_dat
-opakovatelnost:
-  - jednorazove
-  - jednou_za_fazi
-  - pri_kazde_udalosti
-  - pri_zmene
-  - periodicky
-  - prubezne
-  - podle_potreby
+  - provoz_zjisteni_vady
 casove_pravidlo:
   - pred
   - pri
@@ -58,12 +52,6 @@ casove_pravidlo:
   - po
   - prubezne
   - ve_lhute
-lhuta_typ:
-  - smluvni
-  - zakonna
-  - interni
-  - projektova
-  - bez_lhuty
 ukoncovaci_podminka:
   - vystup_vytvoren
   - vystup_odevzdan

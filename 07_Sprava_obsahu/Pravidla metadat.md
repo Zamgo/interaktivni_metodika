@@ -42,38 +42,38 @@ Tato stránka definuje jednotná pravidla pro frontmatter ve všech stránkách 
 | `I - Informování po dokončení činnosti` | Seznam rolí pro informování I | seznam | `ukol` |
 | `oblast` | Wikilink na nadřazenou oblast | wikilink | všechny |
 | `cinnost` | Wikilink na nadřazenou činnost | wikilink | `cinnost`, `ukol` |
-| `vstupy` | Wikilinky na vstupní dokumenty/artefakty | seznam wikilinků | všechny |
-| `vystupy` | Wikilinky na výstupní artefakty | seznam wikilinků | všechny |
-| `navazane_workflow` | Wikilinky na workflow stránky v `05_Knihovna průvodce/CDE workflow/` | seznam wikilinků | všechny |
-| `nastroj` | CDE nástroje relevantní pro činnost (`controlis`, `aspehub`, ...) | seznam | `ukol` |
+| `navazane_workflow` | Wikilinky na workflow stránky v `05_Knihovna průvodce/CDE workflow/` (jen kde má činnost vazbu — bez prázdného `[]`) | seznam wikilinků | `ukol` |
 | `etapa` | Etapa stavebního projektu (jemnější granularita než `faze`); viz [[Ciselnik etap]] | seznam | `cinnost`, `ukol` |
 
 ## Klíče časového chování (typ `ukol`)
 
-Tato vrstva metadat popisuje, **kdy** se činnost provádí, **čím** je aktivovaná a **kdy** je dokončená. Vrstva je doplňková a v MVP žádný klíč není striktně povinný — `spousteci_udalost`, `opakovatelnost` a `ukoncovaci_podminka` jsou ale doporučené pro každou novou činnost.
+Tato vrstva metadat popisuje, **kdy** se činnost provádí, **čím** je aktivovaná a **kdy** je dokončená.
 
 | Klíč | Popis | Typ | Povinnost |
 |------|-------|-----|-----------|
-| `rezim_cinnosti` | Jak se činnost chová v čase (`fazova`, `milnikova`, `udalostni`, `periodicka`, `prubezna`, `podminena`, `aktualizacni`); viz [[Ciselnik rezimu cinnosti]] | text | volitelné |
-| `spousteci_udalost` | Co činnost aktivuje (1–3 hodnoty); viz [[Ciselnik spousteci udalost]] | seznam | doporučené |
-| `opakovatelnost` | Jak často se činnost provádí; viz [[Ciselnik opakovatelnosti]]. | text | doporučené |
+| `charakter` | Zda a jak se činnost vyskytuje na projektu (`jednorazove`, `opakujici`, `podminena`); viz [[Ciselnik charakteru cinnosti]] | text | **povinné** pro `ukol` |
+| `spousteci_udalost` | Co činnost aktivuje (1–3 hodnoty); viz [[Ciselnik spousteci udalost]] | seznam | viz pravidlo níže |
 | `casove_pravidlo` | Pozice činnosti vůči `spousteci_udalost` (`pred`, `pri`, `ihned_po`, `po`, `prubezne`, `ve_lhute`); viz [[Ciselnik casoveho pravidla]]. Default `po` (reaktivní) — pokud sedí default, klíč nevyplňovat. | text | volitelné |
 | `casova_poznamka` | Volné slovní upřesnění časového pravidla (např. „do 5 pracovních dnů od odevzdání modelu") | text | volitelné |
-| `lhuta` | Konkrétní časový limit (volný text, např. „Do 28 kalendářních dnů od oznámení") | text | volitelné |
-| `lhuta_typ` | Klasifikace lhůty pro filtrování (`smluvni`, `zakonna`, `interni`, `projektova`, `bez_lhuty`); viz [[Ciselnik typu lhut]] | text | volitelné |
+| `lhuta` | Konkrétní časový limit včetně povahy lhůty v jednom textu (např. „Smluvní: do 28 kalendářních dnů od oznámení") | text | volitelné |
 | `ukoncovaci_podminka` | Kdy se činnost považuje za dokončenou; viz [[Ciselnik ukoncovacich podminek]] | text | doporučené |
-| `poznamka_k_ukonceni` | Volné slovní upřesnění ukončení (např. „schváleno zadavatelem v CDE") | text | volitelné |
 
-### Princip vrstev metadat
+Úmyslně se nepoužívá sekvenční vazba mezi úkoly (`predchozi_cinnost` / `nasledujici_cinnost`): pořadí vyjadřuje kombinace `spousteci_udalost`, `etapa` a případně tvrdých závislostí v textu poznámky.
 
-Časová vrstva je **doplňkem**, ne náhradou stávající kontextové a procesní vrstvy. Existující soubory bez těchto klíčů zůstávají platné — doplňují se postupně, jak procházíš jednotlivé činnosti. Žádný hromadný refactor 120 stávajících souborů se v MVP nedělá.
+### Pravidlo pro `spousteci_udalost`
 
-### Vztah k `rezim_cinnosti`
+| `charakter` | Pravidlo vyplnění `spousteci_udalost` |
+|---|---|
+| `jednorazove` | Vyplnit jen pokud trigger = konkrétní akce smluvní strany; pokud timing = „vstup do fáze", nevyplňovat (kryje `etapa`) |
+| `opakujici` | Vyplnit jen pokud má každý cyklus konkrétní smluvní trigger |
+| `podminena` | **Vždy vyplnit** — bez triggeru není podmíněná povinnost použitelná |
 
-V praxi je `casove_pravidlo` často odvoditelné z `rezim_cinnosti` (např. periodická → `po`, průběžná → `prubezne`). Vyplňuj `casove_pravidlo` jen tam, kde:
+### Kdy vyplnit `casove_pravidlo`
 
-- činnost je **proaktivní/přípravná** (`pred` — typicky před vyhlášením zakázky, před zahájením fáze),
-- má **smluvní/zákonnou lhůtu** (`ve_lhute` — typicky FIDIC SC 20.2.1, 28 dní pro Notice of Claim),
+Vyplňuj jen tam, kde:
+
+- činnost je **proaktivní/přípravná** (`pred` — typicky před zahájením fáze),
+- má **smluvní/zákonnou lhůtu** (`ve_lhute` — typicky FIDIC SC 14.6: 28 dní pro certifikát, SC 20.2.1: 28 dní pro Notice of Claim),
 - jde o **synchronní** činnost (`pri` — výjimečně).
 
 ## Klíče specifické pro typ `workflow`
@@ -137,16 +137,13 @@ Následující pole se vždy zapisují jako seznamy (i když obsahují jen jednu
 - `etapa`
 - `role`
 - `tags`
-- `vstupy`
-- `vystupy`
 - `navazane_workflow`
 - `navazane_cinnosti`
-- `nastroj`
 - `spousteci_udalost`
 
 ## Vazba na číselníky
 
-Hodnoty pro řízené klíče se berou **výhradně** z číselníků. Volný text se použije jen tam, kde to klíč explicitně připouští (`zdroj`, `casova_poznamka`, `lhuta`, `poznamka_k_ukonceni`).
+Hodnoty pro řízené klíče se berou **výhradně** z číselníků. Volný text se použije jen tam, kde to klíč explicitně připouští (`zdroj`, `casova_poznamka`, `lhuta`).
 
 ### Základní číselníky
 
@@ -161,7 +158,6 @@ Hodnoty pro řízené klíče se berou **výhradně** z číselníků. Volný te
 - [[Ciselnik spousteci udalost]] — pro `spousteci_udalost`
 - [[Ciselnik opakovatelnosti]] — pro `opakovatelnost`
 - [[Ciselnik casoveho pravidla]] — pro `casove_pravidlo`
-- [[Ciselnik typu lhut]] — pro `lhuta_typ`
 - [[Ciselnik ukoncovacich podminek]] — pro `ukoncovaci_podminka`
 
 ### Pravidlo přidávání nové hodnoty
@@ -220,13 +216,12 @@ permalink: /workflow/zbv
 ---
 ```
 
-### Úkol (se skeleton poli pro vstupy/výstupy/návaznosti a časové chování)
+### Úkol (příklad s časovým chováním)
 
 ```yaml
 ---
 title: "4.5.1 - Sloučení TIDP do MIDP"
 typ: ukol
-oznaceni: "4.5.1"
 popis: ""
 zdroj: "ČSN EN ISO 19650-2; 5.4.5"
 faze: [priprava]
@@ -236,26 +231,20 @@ A - Právní odpovědnost za dokončení činnosti: []
 C - Konzultace v průběhu činnosti: []
 I - Informování po dokončení činnosti: []
 stav: draft
-oblast: "[[4 - Proces managementu informací – Pověření]]"
-cinnost: "[[4.5 - Stanovení hlavního plánu předávání informací (MIDP)]]"
-vstupy: []
-vystupy: []
-navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: "[[4.5.2 - Zakotveni vystupu a dat v MIDP]]"
-nastroj: []
-# časové chování — doplnit dle reálné činnosti
 rezim_cinnosti: udalostni
 spousteci_udalost: [bim_milnik_informacniho_predani]
 opakovatelnost: pri_kazde_udalosti
-casove_pravidlo: ""              # default `po`, nevyplňovat
-casova_poznamka: ""
-lhuta: ""
-lhuta_typ: ""
+# casove_pravidlo neuvedeno — platí default `po`
 ukoncovaci_podminka: vystup_schvalen
-poznamka_k_ukonceni: ""
+oznaceni: ""
+oblast: ""
+cinnost: ""
 ---
 ```
+
+Volitelně lze doplnit např. `navazane_workflow`, `casove_pravidlo`, `casova_poznamka` nebo `lhuta` — jen pokud mají hodnotu (Obsidian Properties je pak zobrazí).
+
+Úplné vyplnění `oznaceni` / `oblast` / `cinnost` přijde při napojení na RACI strukturu z ISO vrstvy vaultu.
 
 ### Úkol s FIDIC vazbou a smluvní lhůtou (vzor pro Notice of Claim)
 
@@ -269,15 +258,14 @@ zdroj: "FIDIC Red Book SC 20.2.1; ŘSD Zvláštní podmínky 5. vyd."
 faze: [realizace]
 etapa: [po_zahajeni_praci]
 stav: draft
-# časové chování
 rezim_cinnosti: podminena
 spousteci_udalost: [smlouva_vznik_claimove_udalosti, smlouva_prodleni, smlouva_nepredvidatelna_okolnost]
 opakovatelnost: pri_kazde_udalosti
 casove_pravidlo: ve_lhute
 casova_poznamka: "Lhůta běží od okamžiku, kdy si zhotovitel měl nebo mohl být vědom události."
-lhuta: "Do 28 kalendářních dnů od vzniku události"
-lhuta_typ: smluvni
+lhuta: "Smluvní — do 28 kalendářních dnů od vzniku události; notice předat správci stavby ve lhůtě."
 ukoncovaci_podminka: claim_oznamen
-poznamka_k_ukonceni: "Notice odesláno správci stavby ve smluvní lhůtě."
+oblast: ""
+cinnost: ""
 ---
 ```

@@ -13,6 +13,16 @@ Tento číselník je jediný zdroj hodnot pro metadata `spousteci_udalost`. Popi
 
 Pole je multi-select. **Doporučení: 1–3 hodnoty na činnost.** Pokud má činnost 5+ spouštěcích událostí, je pravděpodobně příliš obecná a měla by se rozdělit na více činností.
 
+## Pravidlo vyplňování (FIDIC)
+
+Vyplňovat vždy, když trigger = **konkrétní akce smluvní strany nebo fyzická/kontrolní událost**. Nevyplňovat tehdy, kdy jediným signálem je „vstup do fáze" — ten kryje `etapa`.
+
+| `charakter` | Pravidlo |
+|---|---|
+| `jednorazove` | Vyplnit jen pokud trigger = konkrétní podání/žádost/oznámení; jinak nechte prázdné |
+| `opakujici` | Vyplnit jen pokud má každý cyklus konkrétní smluvní trigger |
+| `podminena` | **Vždy vyplnit** — bez triggeru není podmíněná povinnost použitelná |
+
 ## Konvence zápisu
 
 Hodnoty mají pevný formát `<kategorie>_<konkretni_udalost>` v ID stylu (snake_case bez diakritiky).
@@ -51,6 +61,11 @@ Lidský label je tvořen prefixem kategorie před em-dash, např. `Projekt – z
 | `smlouva_prodleni` | Smlouva – prodlení |
 | `smlouva_preruseni_praci` | Smlouva – přerušení prací |
 | `smlouva_nepredvidatelna_okolnost` | Smlouva – nepředvídatelná okolnost |
+| `smlouva_predlozeni_vyuctovani` | Smlouva – předložení Vyúčtování Zhotovitelem |
+| `smlouva_zadost_podzhotovitele` | Smlouva – žádost o souhlas s Podzhotovitelem |
+| `smlouva_oznameni_zhotovitele` | Smlouva – oznámení Zhotovitele o stavu Stavby |
+| `smlouva_predlozeni_harmonogramu` | Smlouva – předložení harmonogramu Zhotovitelem |
+| `smlouva_zadost_o_prevzeti` | Smlouva – žádost Zhotovitele o vydání Potvrzení o převzetí |
 
 ## Kontrolní spouštěcí události
 
@@ -78,3 +93,4 @@ Lidský label je tvořen prefixem kategorie před em-dash, např. `Projekt – z
 | `provoz_predani_stavby`              | Provoz – předání stavby                                |
 | `provoz_zahajeni_zkusebniho_provozu` | Provoz – zahájení zkušebního provozu                   |
 | `provoz_predani_IMS`                 | Provoz – předání provozního informačního modelu stavby |
+| `provoz_zjisteni_vady`               | Provoz – zjištění vady/nedodělku v záruční době        |

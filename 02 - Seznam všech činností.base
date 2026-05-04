@@ -31,24 +31,20 @@ properties:
     displayName: Fáze
   etapa:
     displayName: Etapa
-  rezim_cinnosti:
-    displayName: Režim
+  charakter:
+    displayName: Charakter
   spousteci_udalost:
     displayName: Spouštěcí událost
-  opakovatelnost:
-    displayName: Opakovatelnost
   casove_pravidlo:
     displayName: Časové pravidlo
   casova_poznamka:
     displayName: Časová poznámka
   lhuta:
     displayName: Lhůta
-  lhuta_typ:
-    displayName: Typ lhůty
   ukoncovaci_podminka:
     displayName: Ukončovací podmínka
-  poznamka_k_ukonceni:
-    displayName: Poznámka k ukončení
+  navazane_workflow:
+    displayName: Navázané workflow
   stav:
     displayName: Stav
 views:
@@ -69,9 +65,8 @@ views:
       - faze
       - etapa
       - zdroj
-      - rezim_cinnosti
-      - opakovatelnost
-      - lhuta_typ
+      - charakter
+      - navazane_workflow
       - stav
     sort:
       - property: oblast
@@ -93,9 +88,58 @@ views:
       note.C - Konzultace v průběhu činnosti: 254
       note.faze: 303
       note.etapa: 280
-      note.rezim_cinnosti: 160
-      note.opakovatelnost: 220
-      note.lhuta_typ: 160
+      note.charakter: 160
+      note.navazane_workflow: 220
+  - type: table
+    name: Checklist — každý projekt
+    filters:
+      and:
+        - typ == "ukol"
+        - or:
+            - charakter == "jednorazove"
+            - charakter == "opakujici"
+    order:
+      - etapa
+      - charakter
+      - formula.dilci_cinnost
+      - spousteci_udalost
+      - ukoncovaci_podminka
+      - stav
+    sort:
+      - property: etapa
+        direction: ASC
+      - property: charakter
+        direction: ASC
+    columnSize:
+      note.etapa: 220
+      note.charakter: 140
+      formula.dilci_cinnost: 480
+      note.spousteci_udalost: 320
+      note.ukoncovaci_podminka: 240
+  - type: table
+    name: Podmíněné — zkontroluj jestli se týká
+    filters:
+      and:
+        - typ == "ukol"
+        - charakter == "podminena"
+    order:
+      - etapa
+      - formula.dilci_cinnost
+      - spousteci_udalost
+      - ukoncovaci_podminka
+      - casove_pravidlo
+      - lhuta
+      - stav
+    sort:
+      - property: etapa
+        direction: ASC
+    columnSize:
+      note.etapa: 220
+      formula.dilci_cinnost: 480
+      note.spousteci_udalost: 320
+      note.ukoncovaci_podminka: 240
+      note.casove_pravidlo: 150
+      note.lhuta: 280
   - type: table
     name: Časové chování
     filters:
@@ -104,15 +148,13 @@ views:
     order:
       - oznaceni
       - formula.dilci_cinnost
-      - rezim_cinnosti
+      - charakter
       - spousteci_udalost
-      - opakovatelnost
       - casove_pravidlo
       - casova_poznamka
       - lhuta
-      - lhuta_typ
       - ukoncovaci_podminka
-      - poznamka_k_ukonceni
+      - navazane_workflow
       - faze
       - etapa
       - stav
@@ -126,15 +168,13 @@ views:
     columnSize:
       note.oznaceni: 120
       formula.dilci_cinnost: 380
-      note.rezim_cinnosti: 140
+      note.charakter: 140
       note.spousteci_udalost: 320
-      note.opakovatelnost: 200
       note.casove_pravidlo: 150
       note.casova_poznamka: 320
       note.lhuta: 280
-      note.lhuta_typ: 140
       note.ukoncovaci_podminka: 220
-      note.poznamka_k_ukonceni: 320
+      note.navazane_workflow: 240
       note.faze: 140
       note.etapa: 220
   - type: table
@@ -151,9 +191,9 @@ views:
       - zdroj
       - faze
       - etapa
-      - rezim_cinnosti
+      - charakter
       - lhuta
-      - lhuta_typ
+      - navazane_workflow
       - stav
     sort:
       - property: oznaceni
@@ -164,8 +204,9 @@ views:
       note.oblast: 280
       note.cinnost: 320
       note.zdroj: 380
+      note.charakter: 140
       note.lhuta: 280
-      note.lhuta_typ: 140
+      note.navazane_workflow: 240
   - type: table
     name: Dle zdroje (ISO 19650)
     filters:
@@ -180,7 +221,7 @@ views:
       - zdroj
       - faze
       - etapa
-      - rezim_cinnosti
+      - charakter
       - stav
     sort:
       - property: oznaceni
@@ -192,22 +233,22 @@ views:
       note.cinnost: 320
       note.zdroj: 380
   - type: table
-    name: Nevyplněná časová metadata
+    name: Nevyplněná metadata
     filters:
       and:
         - typ == "ukol"
         - or:
             - etapa == []
-            - opakovatelnost == ""
+            - charakter == ""
             - ukoncovaci_podminka == ""
     order:
       - oznaceni
       - formula.dilci_cinnost
       - etapa
-      - opakovatelnost
+      - charakter
       - ukoncovaci_podminka
       - casove_pravidlo
-      - lhuta_typ
+      - spousteci_udalost
       - stav
     sort:
       - property: oznaceni
@@ -216,10 +257,10 @@ views:
       note.oznaceni: 120
       formula.dilci_cinnost: 380
       note.etapa: 220
-      note.opakovatelnost: 220
+      note.charakter: 160
       note.ukoncovaci_podminka: 240
       note.casove_pravidlo: 150
-      note.lhuta_typ: 140
+      note.spousteci_udalost: 280
   - type: table
     name: Procesní oblasti činností
     filters:

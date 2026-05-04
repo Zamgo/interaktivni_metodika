@@ -429,34 +429,41 @@ function hideWizPopover() {
 }
 
 /**
- * Připojí hover popover na kartu aktivity.
- * Reuse existující .popover CSS ze Quartz — žádný další styl není potřeba.
+ * Popover pouze u odkazy „Navázané workflow“ na kartě (např. HMG).
+ * Reuse existující .popover CSS ze Quartz.
  */
-function attachCardPopover(card: HTMLElement, href: string) {
-  card.addEventListener("mouseenter", () => {
-    if (_wizPopoverTimer) clearTimeout(_wizPopoverTimer)
-    _wizPopoverTimer = setTimeout(async () => {
-      const popover = getWizPopover()
-      const inner = popover.querySelector(".popover-inner") as HTMLElement
+function attachWorkflowLinkPopovers(card: HTMLElement) {
+  const links = card.querySelectorAll<HTMLAnchorElement>("a.wiz-tl-workflow-link")
+  for (const link of links) {
+    // Klik na odkaz nesmí bublovat na kartu (ta by přesměrovala na stránku činnosti).
+    link.addEventListener("click", (e) => e.stopPropagation())
 
-      let html = _wizPopoverCache.get(href) ?? null
-      if (!html) {
-        html = await fetchWizPopoverHtml(href)
-      }
-      if (!html) return
+    link.addEventListener("mouseenter", () => {
+      const href = link.href
+      if (!href) return
+      if (_wizPopoverTimer) clearTimeout(_wizPopoverTimer)
+      _wizPopoverTimer = setTimeout(async () => {
+        const popover = getWizPopover()
+        const inner = popover.querySelector(".popover-inner") as HTMLElement
 
-      inner.innerHTML = html
-      positionWizPopover(popover, card)
-      popover.classList.add("active-popover")
-    }, 280)
-  })
+        let html = _wizPopoverCache.get(href) ?? null
+        if (!html) {
+          html = await fetchWizPopoverHtml(href)
+        }
+        if (!html) return
 
-  card.addEventListener("mouseleave", (e) => {
-    // Pokud se myš přesunula na samotný popover, neskrývej
-    const related = (e as MouseEvent).relatedTarget as HTMLElement | null
-    if (related && _wizPopoverEl?.contains(related)) return
-    hideWizPopover()
-  })
+        inner.innerHTML = html
+        positionWizPopover(popover, link)
+        popover.classList.add("active-popover")
+      }, 280)
+    })
+
+    link.addEventListener("mouseleave", (e) => {
+      const related = (e as MouseEvent).relatedTarget as HTMLElement | null
+      if (related && _wizPopoverEl?.contains(related)) return
+      hideWizPopover()
+    })
+  }
 }
 
 /**
@@ -536,7 +543,7 @@ function renderTimeline(
           navigate()
         }
       })
-      attachCardPopover(card, act.href)
+      attachWorkflowLinkPopovers(card)
 
       cardsEl.appendChild(card)
     }

@@ -23,13 +23,11 @@ aliases: [Správa obsahu - index]
 - [[Ciselnik etap]]
 - [[Ciselnik workflow]]
 
-### Časové chování činnosti
+### Chování a spouštění činnosti
 
-- [[Ciselnik rezimu cinnosti]]
+- [[Ciselnik charakteru cinnosti]]
 - [[Ciselnik spousteci udalost]]
-- [[Ciselnik opakovatelnosti]]
 - [[Ciselnik casoveho pravidla]]
-- [[Ciselnik typu lhut]]
 - [[Ciselnik ukoncovacich podminek]]
 
 ## Zdroje a doplnění

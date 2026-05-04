@@ -40,10 +40,10 @@ casove_pravidlo: po                            # PO odevzdání, jako reakce (de
 | `ihned_po` | Ihned po | Činnost následuje bezprostředně po události |
 | `po` | Po | Činnost se provádí po události, bez přesného určení (default) |
 | `prubezne` | Průběžně | Činnost nemá jeden konkrétní okamžik |
-| `ve_lhute` | Ve lhůtě | Činnost se provádí ve smluvní/zákonné/projektové lhůtě (viz `lhuta` + `lhuta_typ`) |
+| `ve_lhute` | Ve lhůtě | Činnost se provádí ve lhůtě — konkrétní text a povaha lhůty jsou ve volném poli `lhuta` |
 
 ## Vazba na související klíče
 
 - `spousteci_udalost` — vůči čemu se pozice měří.
 - `casova_poznamka` — volný text pro slovní upřesnění (např. „do 5 pracovních dnů od odevzdání modelu“).
-- `lhuta` + `lhuta_typ` — strukturované vyjádření lhůty pro hodnotu `ve_lhute`.
+- `lhuta` — konkrétní lhůta (volný text; typ lhůty lze uvést přímo v textu, např. „smluvní — do 28 dnů …”) pro hodnotu `ve_lhute`.
