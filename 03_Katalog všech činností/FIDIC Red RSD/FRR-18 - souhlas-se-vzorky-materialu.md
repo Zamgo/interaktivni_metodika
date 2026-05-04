@@ -7,8 +7,7 @@ zdroj: FIDIC_red_RSD; 46; 7.2
 faze:
   - realizace
 etapa:
-  - realizace_stavby
-  - predani_stavby
+  - zkousky_a_prejimky
 R - Odpovědnost za provádění činnosti:
   - "[[Správce stavby]]"
 A - Právní odpovědnost za dokončení činnosti:
@@ -21,11 +20,12 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-17 - oznameni-spravce-stavby-o-neaktualnosti-predlozeneho-harmonogramu]]"
+nasledujici_cinnost: "[[FRR-19 - provedeni-zkousky-mereni-nebo-oznameni-o-neprovedeni-zkousky-mereni]]"
 nastroj: []
 rezim_cinnosti: podminena
 spousteci_udalost:
+  - kontrola_technicke_review
 opakovatelnost: podle_potreby
 casove_pravidlo: po
 casova_poznamka: "Mapováno z časového bloku XLSX: 5. Zkoušky, přejímací zkoušky a přejímací řízení."

@@ -720,6 +720,6 @@ Při přenosu činností z podkladů FIDIC Red RSD se časové bloky ze vstupní
 - `spousteci_udalost` nese primární časový kontext,
 - `etapa` nese projektové zasazení činnosti,
 - `casove_pravidlo` upřesňuje vztah k události (typicky `po`),
-- `zdroj` má formát `FIDIC_red_RSD; <cislo_bodu>; <clanek_fidic>`.
+- `zdroj` má formát `FIDIC_red_RSD; <cislo_bodu>; <clanek_smlouvy>`.
 
 Tím je zachována kompatibilita katalogu pro ISO 19650 i FIDIC bez změny struktury frontmatteru.

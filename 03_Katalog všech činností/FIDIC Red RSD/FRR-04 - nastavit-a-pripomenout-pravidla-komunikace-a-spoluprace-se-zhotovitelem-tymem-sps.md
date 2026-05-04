@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby na úvodním jednání připomene Zhotovitele (a popř. i dalším), jakým způsobem bude probíhat komunikace, dojde k představení týmů. Správce stavby předá Objednateli i Zhotoviteli organigram svého týmu."
 zdroj: "FIDIC_red_RSD; 14; 1.3 OP + 1.3 Přílohy k nabídce"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-03 - vyjadrit-souhlas-se-jmenovanym-zastupcem-zhotovitele]]"
+nasledujici_cinnost: "[[FRR-05 - nastaveni-formatu-predkladani-zaznamu-o-personalu-a-vybaveni-zhotovitele]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

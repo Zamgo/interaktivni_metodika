@@ -16,8 +16,6 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
 nastroj: []
 rezim_cinnosti: ""
 spousteci_udalost: []
@@ -58,7 +56,6 @@ poznamka_k_ukonceni: ""
 |---|---|
 | `R/A/C/I` role | Wikilinky na role z [[Ciselnik roli]] |
 | `vstupy` / `vystupy` | Wikilinky na dokumenty/artefakty |
-| `predchozi_cinnost` / `nasledujici_cinnost` | Wikilink v sekvenci |
 | `navazane_workflow` | Wikilinky na CDE workflow |
 | `nastroj` | Seznam CDE nástrojů |
 
@@ -78,7 +75,7 @@ poznamka_k_ukonceni: ""
 
 ## Pravidla zápisu
 
-- Klíče i ID hodnoty číselníků jsou **česky bez diakritiky** (snake_case): `bim_odevzdani_modelu`, `ve_lhute`, `priprava_projektu`.
+- Klíče i ID hodnoty číselníků jsou **česky bez diakritiky** (snake_case): `bim_odevzdani_modelu`, `ve_lhute`, `po_uzavreni_smlouvy`.
 - Pole označená v [[Pravidla metadat]] jako seznam se vždy zapisují jako seznam (`[]` i pro prázdnou hodnotu, `[hodnota]` i pro jednu).
 - `casove_pravidlo` se nevyplňuje, pokud platí default `po` (reaktivní činnost).
 - Pokud činnost potřebuje hodnotu, která není v číselníku - **nejprve doplň hodnotu do číselníku**, pak ji použij ve frontmatteru.

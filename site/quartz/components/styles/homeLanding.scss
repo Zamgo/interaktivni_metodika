@@ -1043,6 +1043,37 @@ article.home-hero {
     min-width: 0;
   }
 
+  // Navázané workflow linky pod RACI sekcí
+  .wiz-tl-card-workflows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-top: 0.45rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--lightgray) 55%, transparent);
+  }
+
+  .wiz-tl-workflow-link {
+    display: inline-block;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: $rsd-blue-dark;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &::before {
+      content: "↗ ";
+      opacity: 0.65;
+    }
+
+    &:hover {
+      text-decoration: underline;
+      color: $rsd-blue-light;
+    }
+  }
+
   // Mobilní zobrazení — vždy mřížkový layout (žádný horizontální scroll)
   @media all and ($mobile) {
     .wiz-tl-wrap {

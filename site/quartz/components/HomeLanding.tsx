@@ -30,6 +30,9 @@ type ActivityEntry = {
   cRoles: string[]
   iRoles: string[]
   popis: string
+  predchoziCinnost: string[]
+  nasledujiciCinnost: string[]
+  navazaneWorkflow: Array<{ label: string; href: string }>
 }
 
 const ROLE_TYPES = new Set(["role", "smluvni_strana"])
@@ -196,6 +199,22 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
       }
     }
 
+    const predchoziCinnost = coerceLinkArray(fm.predchozi_cinnost)
+    const nasledujiciCinnost = coerceLinkArray(fm.nasledujici_cinnost)
+
+    // Resolve navazane_workflow wikilinks to { label, href } pairs
+    const navazaneWorkflowRaw = coerceLinkArray(fm.navazane_workflow)
+    const navazaneWorkflow: Array<{ label: string; href: string }> = []
+    for (const label of navazaneWorkflowRaw) {
+      const match = allFiles.find((f) => {
+        const ffm = (f.frontmatter ?? {}) as FrontmatterLike
+        return coerceString(ffm.title) === label
+      })
+      if (match) {
+        navazaneWorkflow.push({ label, href: resolveRelative(currentSlug, match.slug!) })
+      }
+    }
+
     out.push({
       slug: file.slug!,
       href: resolveRelative(currentSlug, file.slug!),
@@ -209,6 +228,9 @@ function pickActivities(currentSlug: FullSlug, allFiles: QuartzPluginData[]): Ac
       cRoles,
       iRoles,
       popis,
+      predchoziCinnost,
+      nasledujiciCinnost,
+      navazaneWorkflow,
     })
   }
 
@@ -261,6 +283,9 @@ const HomeLanding: QuartzComponent = ({
       cRoles: a.cRoles,
       iRoles: a.iRoles,
       popis: a.popis,
+      predchoziCinnost: a.predchoziCinnost,
+      nasledujiciCinnost: a.nasledujiciCinnost,
+      navazaneWorkflow: a.navazaneWorkflow,
     })),
     phases: PHASE_DEFS.map((p) => ({
       key: p.key,

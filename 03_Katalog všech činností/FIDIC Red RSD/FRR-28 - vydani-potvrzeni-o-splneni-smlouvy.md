@@ -4,10 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby vydá Potvrzení o splnění smlouvy do 28 dnů poté, co uplyne poslední ze Záručních dob, popř. co nejdříve po dodání všech Dokumentů zhotovitele a dokončení Díla Zhotovitelem. Kopie Potvrzení o splnění Smlouvy musí být vydání Objednateli."
 zdroj: "FIDIC_red_RSD; 64; 11.9"
-faze: []
+faze:
+  - provoz
 etapa:
-  - predani_stavby
-  - provoz_a_sprava
+  - po_dokonceni_dila
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -20,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-27 - zjisteni-a-oznameni-vady-ci-nedodelku-behem-zarucni-doby]]"
+nasledujici_cinnost: "[[FRR-29 - vydani-potvrzeni-zaverecne-platby]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

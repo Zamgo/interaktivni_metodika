@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby bez zbytečného odkladu reaguje na oznámení Zhotovitele podle uvedených Pod-čl."
 zdroj: "FIDIC_red_RSD; 37; 1.8, 1,9, 8.3, 16.1, 19.2"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-14 - odepreni-vydani-potvrzeni-prubezne-platby]]"
+nasledujici_cinnost: "[[FRR-16 - reakce-na-nepredvidatelne-fyzicke-podminky]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

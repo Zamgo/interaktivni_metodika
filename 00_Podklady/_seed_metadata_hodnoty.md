@@ -5,15 +5,10 @@ faze: []
 stav: draft
 permalink: /sprava-obsahu/seed-metadata-hodnoty
 etapa:
-  - strategicka_priprava
-  - priprava_projektu
-  - studie
-  - DPZ
-  - DPS
-  - soupis_praci
-  - realizace_stavby
-  - predani_stavby
-  - provoz_a_sprava
+  - po_uzavreni_smlouvy
+  - po_zahajeni_praci
+  - zkousky_a_prejimky
+  - po_dokonceni_dila
 rezim_cinnosti:
   - fazova
   - milnikova
@@ -23,25 +18,30 @@ rezim_cinnosti:
   - podminena
   - aktualizacni
 spousteci_udalost:
-  - projekt_zahajeni_projektu
-  - projekt_vyhlaseni_zakazky
   - projekt_uzavreni_smlouvy
+  - projekt_predani_staveniste
   - projekt_zahajeni_realizace
-  - dokumentace_odevzdani_dokumentace
-  - dokumentace_predlozeni_ke_kontrole
-  - dokumentace_schvaleni_dokumentace
-  - bim_predlozeni_bep
+  - projekt_ukonceni_realizace
+  - projekt_zahajeni_predani_stavby
+  - projekt_uvedeni_stavby_do_provozu
+  - smlouva_pokyn_spravce_stavby
+  - smlouva_pokyn_objednatele
+  - smlouva_zadost_o_zmenu
+  - smlouva_vznik_claimove_udalosti
+  - smlouva_prodleni
+  - smlouva_preruseni_praci
+  - smlouva_nepredvidatelna_okolnost
+  - kontrola_bim_review
+  - kontrola_technicke_review
+  - kontrola_zkouska
+  - kontrola_prejimka
+  - kontrola_inspekce
   - bim_odevzdani_modelu
   - bim_milnik_informacniho_predani
-  - bim_vytvoreni_issue
-  - cde_predani_kontejneru_ke_kontrole
-  - cde_schvaleni_kontejneru
-  - cde_audit_cde
-  - smlouva_vznik_claimove_udalosti
-  - smlouva_oznameni_claimu
-  - smlouva_vznik_zmeny
-  - kontrola_bim_review
-  - periodicky_mesicni_reporting
+  - bim_schvaleni_modelu
+  - bim_zamitnuti_modelu
+  - provoz_predani_stavby
+  - provoz_zahajeni_zkusebniho_provozu
   - provoz_predani_asset_dat
 opakovatelnost:
   - jednorazove

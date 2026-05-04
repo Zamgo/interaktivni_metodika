@@ -17,6 +17,9 @@ type WizardActivity = {
   cRoles: string[]
   iRoles: string[]
   popis: string
+  predchoziCinnost: string[]
+  nasledujiciCinnost: string[]
+  navazaneWorkflow: Array<{ label: string; href: string }>
 }
 
 type WizardPhase = {
@@ -212,6 +215,84 @@ function activityMatchesAnySelectedRoleRaci(
 /* ═══════════ Timeline helpery ═══════════ */
 
 /**
+ * Extrahuje číselnou část z označení FRR-XX (nebo jiného formátu s číslem).
+ * Vrací číslo pro porovnání, nebo Infinity pokud nenalezeno.
+ */
+function extractSeqNum(oznaceni: string): number {
+  const m = oznaceni.match(/(\d+)/)
+  return m ? parseInt(m[1], 10) : Infinity
+}
+
+/**
+ * Seřadí aktivity dle FIDIC sekvence (predchozi_cinnost / nasledujici_cinnost linked-list).
+ *
+ * Algoritmus:
+ *  1. Sestaví mapu oznaceni → aktivita pro aktuální filtrovanou sadu.
+ *  2. Pro každou aktivitu zkusí matchovat hodnoty nasledujiciCinnost na oznaceni sousedů.
+ *     Match: první token tvaru FRR-XX (nebo libovolné číslo) se porovná s oznaceni souseda.
+ *  3. Najde "kořeny" — aktivity, na které žádná jiná neodkazuje přes nasledujiciCinnost.
+ *  4. Prochází řetězce BFS od kořenů.
+ *  5. Nenavštívené aktivity (izolované nebo v cyklu) se přidají na konec seřazené dle oznaceni.
+ */
+function sortBySequence(activities: WizardActivity[]): WizardActivity[] {
+  if (activities.length <= 1) return activities
+
+  // Mapa normalizovaného čísla → aktivita
+  const byNum = new Map<number, WizardActivity>()
+  for (const act of activities) {
+    const n = extractSeqNum(act.oznaceni)
+    if (n !== Infinity) byNum.set(n, act)
+  }
+
+  // Pro každou aktivitu sestavíme next ukazatel: index cíle v byNum
+  const nextOf = new Map<WizardActivity, WizardActivity>()
+  for (const act of activities) {
+    for (const raw of act.nasledujiciCinnost ?? []) {
+      // Vezmi první číslo z raw textu (např. "FRR-03 Název..." → 3)
+      const m = raw.match(/(\d+)/)
+      if (!m) continue
+      const targetNum = parseInt(m[1], 10)
+      const target = byNum.get(targetNum)
+      if (target && target !== act) {
+        nextOf.set(act, target)
+        break
+      }
+    }
+  }
+
+  // Množina aktivit, na které někdo ukazuje přes next (= mají predecessora)
+  const hasIncoming = new Set<WizardActivity>(nextOf.values())
+
+  // Kořeny: aktivity bez predecessora v aktuální sadě
+  const roots = activities.filter((a) => !hasIncoming.has(a))
+
+  // BFS walk od kořenů
+  const visited = new Set<WizardActivity>()
+  const result: WizardActivity[] = []
+
+  const walk = (start: WizardActivity) => {
+    let cur: WizardActivity | undefined = start
+    while (cur && !visited.has(cur)) {
+      visited.add(cur)
+      result.push(cur)
+      cur = nextOf.get(cur)
+    }
+  }
+
+  // Seřaď kořeny dle oznaceni pro deterministický výstup
+  roots.sort((a, b) => extractSeqNum(a.oznaceni) - extractSeqNum(b.oznaceni))
+  for (const root of roots) walk(root)
+
+  // Zbylé (izolované / v cyklu) — seřadit dle oznaceni
+  const remaining = activities
+    .filter((a) => !visited.has(a))
+    .sort((a, b) => extractSeqNum(a.oznaceni) - extractSeqNum(b.oznaceni))
+  result.push(...remaining)
+
+  return result
+}
+
+/**
  * Rozdělí aktivity do skupin dle první spouštěcí události.
  * Pořadí skupin odpovídá prvnímu výskytu klíče v setříděném seznamu aktivit.
  */
@@ -219,7 +300,9 @@ function groupByMilestone(activities: WizardActivity[]): TimelineGroup[] {
   const NONE_KEY = "_none_"
   const groups = new Map<string, TimelineGroup>()
 
-  for (const act of activities) {
+  const sorted = sortBySequence(activities)
+
+  for (const act of sorted) {
     const rawKey =
       Array.isArray(act.spousteciUdalost) && act.spousteciUdalost.length > 0
         ? normalizeMetaId(act.spousteciUdalost[0])
@@ -256,6 +339,18 @@ function buildRaciFooterHtml(act: WizardActivity, selectedRoles: WizardRole[]): 
   return parts.length > 0 ? `<footer class="wiz-tl-card-raci">${parts.join("")}</footer>` : ""
 }
 
+function buildWorkflowLinksHtml(act: WizardActivity): string {
+  const links = act.navazaneWorkflow ?? []
+  if (links.length === 0) return ""
+  const items = links
+    .map(
+      ({ label, href }) =>
+        `<a class="wiz-tl-workflow-link" href="${escapeHtml(href)}">${escapeHtml(label)}</a>`,
+    )
+    .join("")
+  return `<div class="wiz-tl-card-workflows">${items}</div>`
+}
+
 function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string {
   const MAX_POPIS = 130
   const rawPopis = act.popis ?? ""
@@ -269,12 +364,14 @@ function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string
     ? `<p class="wiz-tl-card-popis"${isTruncated ? ` title="${escapeHtml(rawPopis)}"` : ""}>${escapeHtml(displayPopis)}</p>`
     : ""
   const raciHtml = buildRaciFooterHtml(act, selectedRoles)
+  const workflowHtml = buildWorkflowLinksHtml(act)
 
   return (
     `<header class="wiz-tl-card-head">${numHtml}` +
     `<h3 class="wiz-tl-card-title">${escapeHtml(act.title)}</h3></header>` +
     popisHtml +
-    raciHtml
+    raciHtml +
+    workflowHtml
   )
 }
 

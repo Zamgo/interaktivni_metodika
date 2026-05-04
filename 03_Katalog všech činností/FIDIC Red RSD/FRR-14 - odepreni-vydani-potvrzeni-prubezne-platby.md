@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby může odepřít vydání Potvrzení průběžné platby, nastanou-li předvídané důvod."
 zdroj: "FIDIC_red_RSD; 33; 14.6"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-13 - potvrzeni-prubezne-platby]]"
+nasledujici_cinnost: "[[FRR-15 - reakce-spravce-stavby-na-oznameni-zhotovitele-o-stavu-stavby]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

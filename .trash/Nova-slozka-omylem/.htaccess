@@ -1,8 +1,0 @@
-RewriteEngine On
-ErrorDocument 404 404.html
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
-RewriteRule ^(.*)$ $1.html [L]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.*)/$ $1/index.html [L]

@@ -1,5 +1,5 @@
 ---
-title: FIDIC RSD - Pověření asistentů Správce stavby
+title: Pověření asistentů Správce stavby
 typ: ukol
 oznaceni: ""
 popis: Správce stavby pověří dle uvážení asistenty a přenese na ně vymezené povinnosti.
@@ -7,7 +7,7 @@ zdroj: FIDIC_red_RSD; 7; 3.2
 faze:
   - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - Správce stavby
 A - Právní odpovědnost za dokončení činnosti: []
@@ -20,7 +20,7 @@ vstupy: []
 vystupy: []
 navazane_workflow: []
 predchozi_cinnost: ""
-nasledujici_cinnost: ""
+nasledujici_cinnost: "[[FRR-02 - predani-organigramu-tymu-spravce-stavby-objednateli-i-zhotoviteli]]"
 nastroj: []
 rezim_cinnosti: milnikova
 spousteci_udalost:

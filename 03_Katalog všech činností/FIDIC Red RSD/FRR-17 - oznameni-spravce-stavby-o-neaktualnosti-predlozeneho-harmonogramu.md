@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby dá Zhotoviteli oznámení o tom, že předložený harmonogram neodpovídá skutečnosti."
 zdroj: "FIDIC_red_RSD; 39; 8.3"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-16 - reakce-na-nepredvidatelne-fyzicke-podminky]]"
+nasledujici_cinnost: "[[FRR-18 - souhlas-se-vzorky-materialu]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

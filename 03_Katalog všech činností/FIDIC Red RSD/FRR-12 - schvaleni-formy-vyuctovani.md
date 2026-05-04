@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby schválí Zhotovitelem navrženou formu Vyúčtování, popř. ji s odůvodněním neschválí."
 zdroj: "FIDIC_red_RSD; 28; 14.3"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-11 - reakce-spravce-stavby-na-pocatecni-harmonogram]]"
+nasledujici_cinnost: "[[FRR-13 - potvrzeni-prubezne-platby]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

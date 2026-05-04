@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby do 21 dnů od předložení harmonogramu může oznámit Zhotoviteli, že harmonogram v popsaném rozsahu neodpovídá Smlouvě."
 zdroj: "FIDIC_red_RSD; 25; 8.3"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-10 - odsouhlaseni-podzhotovitele]]"
+nasledujici_cinnost: "[[FRR-12 - schvaleni-formy-vyuctovani]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

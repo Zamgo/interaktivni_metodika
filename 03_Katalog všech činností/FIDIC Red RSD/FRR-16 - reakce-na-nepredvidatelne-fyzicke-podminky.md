@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby musí na oznámení Zhotovitele o  Archeologických a jiných nálezech reagovat Pokynem"
 zdroj: "FIDIC_red_RSD; 38; 4.24"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-15 - reakce-spravce-stavby-na-oznameni-zhotovitele-o-stavu-stavby]]"
+nasledujici_cinnost: "[[FRR-17 - oznameni-spravce-stavby-o-neaktualnosti-predlozeneho-harmonogramu]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

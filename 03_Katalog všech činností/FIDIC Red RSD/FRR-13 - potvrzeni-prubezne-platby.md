@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby do 28 dnů po obdržení Vyúčtování a podpůrných dokladů, popř. vydá připomínky k předloženému Vyúčtování."
 zdroj: "FIDIC_red_RSD; 32; 14.6"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-12 - schvaleni-formy-vyuctovani]]"
+nasledujici_cinnost: "[[FRR-14 - odepreni-vydani-potvrzeni-prubezne-platby]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

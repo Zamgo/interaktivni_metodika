@@ -42,6 +42,8 @@ const PREFERRED_FIELDS: FieldDef[] = [
   { key: "vstupy", label: "Vstupy" },
   { key: "vystupy", label: "Výstupy" },
   { key: "navazane_workflow", label: "Navázané workflow" },
+  { key: "predchozi_cinnost_fidic", label: "Předchozí činnost (FIDIC)" },
+  { key: "nasledujici_cinnost_fidic", label: "Následující činnost (FIDIC)" },
   { key: "predchozi_cinnost", label: "Předchozí činnost" },
   { key: "nasledujici_cinnost", label: "Následující činnost" },
   { key: "nastroj", label: "Nástroj" },

@@ -4,10 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby/Objednatel oznámí Zhotoviteli zjištěný nedodělek, vadu či poškození"
 zdroj: "FIDIC_red_RSD; 62; 11.1"
-faze: []
+faze:
+  - provoz
 etapa:
-  - predani_stavby
-  - provoz_a_sprava
+  - po_dokonceni_dila
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -20,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-26 - vydani-potvrzeni-prubezne-platby]]"
+nasledujici_cinnost: "[[FRR-28 - vydani-potvrzeni-o-splneni-smlouvy]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

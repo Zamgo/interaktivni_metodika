@@ -45,8 +45,6 @@ Tato stránka definuje jednotná pravidla pro frontmatter ve všech stránkách 
 | `vstupy` | Wikilinky na vstupní dokumenty/artefakty | seznam wikilinků | všechny |
 | `vystupy` | Wikilinky na výstupní artefakty | seznam wikilinků | všechny |
 | `navazane_workflow` | Wikilinky na workflow stránky v `05_Knihovna průvodce/CDE workflow/` | seznam wikilinků | všechny |
-| `predchozi_cinnost` | Wikilink na předchozí úkol v sekvenci | wikilink | `ukol` |
-| `nasledujici_cinnost` | Wikilink na následující úkol v sekvenci | wikilink | `ukol` |
 | `nastroj` | CDE nástroje relevantní pro činnost (`controlis`, `aspehub`, ...) | seznam | `ukol` |
 | `etapa` | Etapa stavebního projektu (jemnější granularita než `faze`); viz [[Ciselnik etap]] | seznam | `cinnost`, `ukol` |
 
@@ -232,7 +230,7 @@ oznaceni: "4.5.1"
 popis: ""
 zdroj: "ČSN EN ISO 19650-2; 5.4.5"
 faze: [priprava]
-etapa: [priprava_projektu, studie]
+etapa: [po_uzavreni_smlouvy]
 R - Odpovědnost za provádění činnosti: []
 A - Právní odpovědnost za dokončení činnosti: []
 C - Konzultace v průběhu činnosti: []
@@ -269,7 +267,7 @@ oznaceni: "9.1.1"
 popis: "Vedoucí pověřená strana písemně oznámí pověřující straně událost vedoucí k nároku."
 zdroj: "FIDIC Red Book SC 20.2.1; ŘSD Zvláštní podmínky 5. vyd."
 faze: [realizace]
-etapa: [realizace_stavby]
+etapa: [po_zahajeni_praci]
 stav: draft
 # časové chování
 rezim_cinnosti: podminena

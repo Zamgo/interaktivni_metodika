@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby odsouhlasí Podzhotovitele, pakliže je to možné."
 zdroj: "FIDIC_red_RSD; 22; 4.4"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
+  - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-09 - oznameni-o-datu-zahajeni-praci]]"
+nasledujici_cinnost: "[[FRR-11 - reakce-spravce-stavby-na-pocatecni-harmonogram]]"
 nastroj: []
 rezim_cinnosti: "udalostni"
 spousteci_udalost:

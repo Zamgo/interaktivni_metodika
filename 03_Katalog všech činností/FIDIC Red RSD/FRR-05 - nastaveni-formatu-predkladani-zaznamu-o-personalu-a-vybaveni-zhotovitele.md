@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby nastaví ve spolupráci se Zhotovitelem formát předkládání záznamů podle Pod-čl. 6.10"
 zdroj: "FIDIC_red_RSD; 15; 6.10"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-04 - nastavit-a-pripomenout-pravidla-komunikace-a-spoluprace-se-zhotovitelem-tymem-sps]]"
+nasledujici_cinnost: "[[FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

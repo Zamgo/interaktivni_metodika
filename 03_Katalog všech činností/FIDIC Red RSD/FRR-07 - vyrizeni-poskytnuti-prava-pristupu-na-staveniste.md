@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Objednatel poskytne Zhotoviteli právo přístupu na všechny Staveniště, jeho předání a umožnění jeho užívání během doby (nebo dob) stanovené v příloze k nabídce"
 zdroj: "FIDIC_red_RSD; 17; 2.1"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-06 - nastaveni-formatu-harmonogramu-se-zhotovitelem-s-ohledem-na-zneni-smlouvy]]"
+nasledujici_cinnost: "[[FRR-08 - kontrola-pristupu-na-staveniste-reseni-situaci]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

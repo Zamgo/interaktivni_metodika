@@ -4,10 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby oznámí min. 24 hodin předem, že se zúčastní zkoušek."
 zdroj: "FIDIC_red_RSD; 50; 7.4"
-faze: []
+faze:
+  - realizace
 etapa:
-  - realizace_stavby
-  - predani_stavby
+  - zkousky_a_prejimky
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -20,12 +20,12 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-20 - dohoda-o-miste-a-dobe-zkousek]]"
+nasledujici_cinnost: "[[FRR-22 - potvrzeni-zprav-o-zkouskach]]"
 nastroj: []
 rezim_cinnosti: "podminena"
 spousteci_udalost:
-  - kontrola_bim_review
+  - kontrola_zkouska
 opakovatelnost: "podle_potreby"
 casove_pravidlo: "po"
 casova_poznamka: "Mapováno z časového bloku XLSX: 5. Zkoušky, přejímací zkoušky a přejímací řízení."

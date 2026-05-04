@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby oznámí Zhotoviteli nejméně 7 dní předem. Není-li stanoveno jinak ve Zvláštních podmínkách, musí být Datum zahájení prací do 42 dnů poté, co Zhotovitel obdrží Dopis o přijetí nabídky"
 zdroj: "FIDIC_red_RSD; 19; 8.1"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-08 - kontrola-pristupu-na-staveniste-reseni-situaci]]"
+nasledujici_cinnost: "[[FRR-10 - odsouhlaseni-podzhotovitele]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

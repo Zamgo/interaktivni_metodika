@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Pokud z nějakého důvodu není možné předat všechny části Staveniště v souladu s Přílohou k nabídce, Správce stavby ve spolupráci s Objednatelem začne nastalou situaci řešit"
 zdroj: "FIDIC_red_RSD; 18; 2.1"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-07 - vyrizeni-poskytnuti-prava-pristupu-na-staveniste]]"
+nasledujici_cinnost: "[[FRR-09 - oznameni-o-datu-zahajeni-praci]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:

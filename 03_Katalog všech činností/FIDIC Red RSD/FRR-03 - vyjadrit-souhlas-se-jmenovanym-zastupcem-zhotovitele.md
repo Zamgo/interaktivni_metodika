@@ -4,9 +4,10 @@ typ: ukol
 oznaceni: ""
 popis: "Správce stavby vyjádří souhlas se jmenovaným Zástupcem zhotovitele. Pokud Zhotovitel Zástupce zhotovitele nejmenoval, Správce stavby jej k tomu vyzve."
 zdroj: "FIDIC_red_RSD; 10; 4.3"
-faze: []
+faze:
+  - priprava
 etapa:
-  - priprava_projektu
+  - po_uzavreni_smlouvy
 R - Odpovědnost za provádění činnosti:
   - "Správce stavby"
 A - Právní odpovědnost za dokončení činnosti: []
@@ -19,8 +20,8 @@ cinnost: ""
 vstupy: []
 vystupy: []
 navazane_workflow: []
-predchozi_cinnost: ""
-nasledujici_cinnost: ""
+predchozi_cinnost: "[[FRR-02 - predani-organigramu-tymu-spravce-stavby-objednateli-i-zhotoviteli]]"
+nasledujici_cinnost: "[[FRR-04 - nastavit-a-pripomenout-pravidla-komunikace-a-spoluprace-se-zhotovitelem-tymem-sps]]"
 nastroj: []
 rezim_cinnosti: "milnikova"
 spousteci_udalost:
