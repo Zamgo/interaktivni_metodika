@@ -93,32 +93,6 @@ function labelSpousteciKey(key: string): string {
   return SPOUSTECI_UDALOST_LABELS[key] ?? humanizeEventId(key)
 }
 
-function collectCharakterOptions(activities: WizardActivity[]): string[] {
-  const keys = new Set<string>()
-  let hasEmpty = false
-  for (const a of activities) {
-    const c = (a.charakter ?? "").trim()
-    if (!c) hasEmpty = true
-    else keys.add(normalizeMetaId(c))
-  }
-  const sorted = [...keys].sort((a, b) => a.localeCompare(b, "cs"))
-  if (hasEmpty) sorted.push(KEY_NONE_CHAR)
-  return sorted
-}
-
-function collectSpousteciOptions(activities: WizardActivity[]): string[] {
-  const keys = new Set<string>()
-  let hasEmpty = false
-  for (const a of activities) {
-    const ev = (a.spousteciUdalost ?? []).map((s) => s.trim()).filter(Boolean)
-    if (ev.length === 0) hasEmpty = true
-    else ev.forEach((id) => keys.add(normalizeMetaId(id)))
-  }
-  const sorted = [...keys].sort((a, b) => a.localeCompare(b, "cs"))
-  if (hasEmpty) sorted.push(KEY_NONE_SPOUSTECI)
-  return sorted
-}
-
 function parseWizardData(): WizardData | null {
   const dataEl = document.getElementById("home-wizard-data")
   if (!dataEl) return null
@@ -195,12 +169,9 @@ function filterActivities(
   roleKeys: Set<string>,
   raciKeys: Set<string>,
   etapaKeys: Set<string>,
-  charakterKeys: Set<string>,
-  spousteciKeys: Set<string>,
 ): WizardActivity[] {
   if (roleKeys.size === 0 || etapaKeys.size === 0) return []
   if (raciKeys.size === 0) return []
-  if (charakterKeys.size === 0 || spousteciKeys.size === 0) return []
   const selectedRoles = data.roles.filter((r) => roleKeys.has(r.key))
   if (selectedRoles.length === 0) return []
   // Odvodit fáze z vybraných etap
@@ -215,22 +186,8 @@ function filterActivities(
       selectedRoles.some((role) => activityMatchesRole(a, role)) &&
       (selectedPhases.length === 0 || selectedPhases.some((phase) => activityMatchesPhase(a, phase))) &&
       activityMatchesAnySelectedRoleRaci(a, selectedRoles, raciKeys) &&
-      activityMatchesEtapa(a, etapaKeys) &&
-      activityMatchesCharakter(a, charakterKeys) &&
-      activityMatchesSpousteci(a, spousteciKeys),
+      activityMatchesEtapa(a, etapaKeys),
   )
-}
-
-function activityMatchesCharakter(activity: WizardActivity, keys: Set<string>): boolean {
-  const raw = (activity.charakter ?? "").trim()
-  if (!raw) return keys.has(KEY_NONE_CHAR)
-  return keys.has(normalizeMetaId(raw))
-}
-
-function activityMatchesSpousteci(activity: WizardActivity, keys: Set<string>): boolean {
-  const ev = (activity.spousteciUdalost ?? []).map((s) => s.trim()).filter(Boolean)
-  if (ev.length === 0) return keys.has(KEY_NONE_SPOUSTECI)
-  return ev.some((id) => keys.has(normalizeMetaId(id)))
 }
 
 function activityMatchesEtapa(activity: WizardActivity, etapaKeys: Set<string>): boolean {
@@ -338,6 +295,65 @@ function sortBySequence(activities: WizardActivity[]): WizardActivity[] {
   result.push(...remaining)
 
   return result
+}
+
+/** Pořadí podskupin — známé hodnoty charakteru první, ostatní abecedně za nimi. */
+const META_CHAR_ORDER = ["jednorazove", "opakujici", "podminena", KEY_NONE_CHAR] as const
+
+function metaGroupKey(act: WizardActivity): string {
+  const ch = (act.charakter ?? "").trim()
+  const chNorm = ch ? normalizeMetaId(ch) : KEY_NONE_CHAR
+  const ev = (act.spousteciUdalost ?? []).map((s) => s.trim()).filter(Boolean)
+  const evNorm =
+    ev.length === 0
+      ? KEY_NONE_SPOUSTECI
+      : [...new Set(ev.map(normalizeMetaId))].sort((a, b) => a.localeCompare(b, "cs")).join("|")
+  return `${chNorm}\t${evNorm}`
+}
+
+function metaGroupTitleFromKey(metaKey: string): string {
+  const tab = metaKey.indexOf("\t")
+  const chNorm = tab >= 0 ? metaKey.slice(0, tab) : metaKey
+  const evNorm = tab >= 0 ? metaKey.slice(tab + 1) : KEY_NONE_SPOUSTECI
+  const charLabel = labelCharakterKey(chNorm)
+  const spLabel =
+    evNorm === KEY_NONE_SPOUSTECI
+      ? labelSpousteciKey(KEY_NONE_SPOUSTECI)
+      : evNorm
+          .split("|")
+          .map((id) => labelSpousteciKey(id))
+          .join(", ")
+  return `${charLabel} · ${spLabel}`
+}
+
+function compareMetaGroupKeys(ka: string, kb: string): number {
+  const [aCh, aEv] = ka.split("\t")
+  const [bCh, bEv] = kb.split("\t")
+  const ia = (META_CHAR_ORDER as readonly string[]).indexOf(aCh)
+  const ib = (META_CHAR_ORDER as readonly string[]).indexOf(bCh)
+  const ra = ia >= 0 ? ia : 100
+  const rb = ib >= 0 ? ib : 100
+  if (ra !== rb) return ra - rb
+  if (aCh !== bCh) return aCh.localeCompare(bCh, "cs")
+  return aEv.localeCompare(bEv, "cs")
+}
+
+/**
+ * Rozdělí aktivity jedné etapy do podskupin dle charakteru + spouštěcí události (bez dalších klikacích filtrů).
+ */
+function splitIntoMetaSubGroups(cards: WizardActivity[]): Array<{ metaKey: string; title: string; cards: WizardActivity[] }> {
+  const bucket = new Map<string, WizardActivity[]>()
+  for (const act of cards) {
+    const k = metaGroupKey(act)
+    if (!bucket.has(k)) bucket.set(k, [])
+    bucket.get(k)!.push(act)
+  }
+  const keys = [...bucket.keys()].sort(compareMetaGroupKeys)
+  return keys.map((metaKey) => ({
+    metaKey,
+    title: metaGroupTitleFromKey(metaKey),
+    cards: sortBySequence(bucket.get(metaKey)!),
+  }))
 }
 
 /**
@@ -652,43 +668,61 @@ function renderTimeline(
       `<span class="wiz-tl-group-count">${group.cards.length} ${pluralCinnosti(group.cards.length)}</span>`
     groupEl.appendChild(headerEl)
 
-    // Mřížka karet
-    const cardsEl = document.createElement("div")
-    cardsEl.className = "wiz-tl-cards"
-    cardsEl.id = panelId
+    const cardsWrap = document.createElement("div")
+    cardsWrap.className = "wiz-tl-cards-stack"
+    cardsWrap.id = panelId
 
-    for (const act of group.cards) {
-      const card = document.createElement("article")
-      card.className = "wiz-tl-card"
-      card.tabIndex = 0
-      card.dataset.href = act.href
-      card.setAttribute("role", "button")
-      card.setAttribute("aria-label", `Přejít na: ${act.title}`)
-      card.innerHTML = buildCardHtml(act, selectedRoles)
+    const subgroups = splitIntoMetaSubGroups(group.cards)
+    for (const sub of subgroups) {
+      const subEl = document.createElement("div")
+      subEl.className = "wiz-tl-meta-subgroup"
 
-      const navigate = () => {
-        window.location.href = act.href
-      }
-      card.addEventListener("click", navigate)
-      card.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          navigate()
+      const subHead = document.createElement("div")
+      subHead.className = "wiz-tl-meta-subgroup-head"
+      subHead.innerHTML =
+        `<span class="wiz-tl-meta-subgroup-title">${escapeHtml(sub.title)}</span>` +
+        `<span class="wiz-tl-meta-subgroup-count">${sub.cards.length} ${pluralCinnosti(sub.cards.length)}</span>`
+      subEl.appendChild(subHead)
+
+      const cardsEl = document.createElement("div")
+      cardsEl.className = "wiz-tl-cards"
+
+      for (const act of sub.cards) {
+        const card = document.createElement("article")
+        card.className = "wiz-tl-card"
+        card.tabIndex = 0
+        card.dataset.href = act.href
+        card.setAttribute("role", "button")
+        card.setAttribute("aria-label", `Přejít na: ${act.title}`)
+        card.innerHTML = buildCardHtml(act, selectedRoles)
+
+        const navigate = () => {
+          window.location.href = act.href
         }
-      })
-      attachWorkflowLinkPopovers(card)
+        card.addEventListener("click", navigate)
+        card.addEventListener("keydown", (e: KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault()
+            navigate()
+          }
+        })
+        attachWorkflowLinkPopovers(card)
 
-      cardsEl.appendChild(card)
+        cardsEl.appendChild(card)
+      }
+
+      subEl.appendChild(cardsEl)
+      cardsWrap.appendChild(subEl)
     }
 
-    groupEl.appendChild(cardsEl)
+    groupEl.appendChild(cardsWrap)
     track.appendChild(groupEl)
 
     headerEl.addEventListener("click", () => {
       const expanded = headerEl.getAttribute("aria-expanded") === "true"
       const next = !expanded
       headerEl.setAttribute("aria-expanded", String(next))
-      cardsEl.hidden = !next
+      cardsWrap.hidden = !next
       groupEl.classList.toggle("wiz-tl-group--collapsed", !next)
     })
   }
@@ -705,21 +739,14 @@ function wireWizard() {
   const data = parseWizardData()
   if (!data) return
 
-  const charakterOptions = collectCharakterOptions(data.activities)
-  const spousteciOptions = collectSpousteciOptions(data.activities)
-
   const state: {
     roleKeys: Set<string>
     raciKeys: Set<string>
     etapaKeys: Set<string>
-    charakterKeys: Set<string>
-    spousteciKeys: Set<string>
   } = {
     roleKeys: new Set<string>(),
     raciKeys: new Set<string>(["R", "A", "C", "I"]),
     etapaKeys: new Set<string>(),
-    charakterKeys: new Set<string>(charakterOptions),
-    spousteciKeys: new Set<string>(spousteciOptions),
   }
 
   const step2 = root.querySelector<HTMLElement>('[data-wizard-step="2"]')
@@ -727,8 +754,6 @@ function wireWizard() {
   const roleCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-role-card"))
   const etapaCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-etapa-card"))
   const raciCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-raci-card"))
-  const charakterChips = root.querySelector<HTMLElement>("[data-wizard-filter-charakter]")
-  const spousteciChips = root.querySelector<HTMLElement>("[data-wizard-filter-spousteci]")
   const timelineEl = root.querySelector<HTMLElement>("[data-wizard-timeline]")
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
 
@@ -806,38 +831,6 @@ function wireWizard() {
     }
   }
 
-  function renderCharakterChips() {
-    if (!charakterChips) return
-    charakterChips.innerHTML = ""
-    for (const key of charakterOptions) {
-      const btn = document.createElement("button")
-      btn.type = "button"
-      btn.className = "home-wizard-filter-chip"
-      btn.dataset.filterKind = "charakter"
-      btn.dataset.filterKey = key
-      btn.setAttribute("aria-pressed", state.charakterKeys.has(key) ? "true" : "false")
-      btn.classList.toggle("selected", state.charakterKeys.has(key))
-      btn.textContent = labelCharakterKey(key)
-      charakterChips.appendChild(btn)
-    }
-  }
-
-  function renderSpousteciChips() {
-    if (!spousteciChips) return
-    spousteciChips.innerHTML = ""
-    for (const key of spousteciOptions) {
-      const btn = document.createElement("button")
-      btn.type = "button"
-      btn.className = "home-wizard-filter-chip"
-      btn.dataset.filterKind = "spousteci"
-      btn.dataset.filterKey = key
-      btn.setAttribute("aria-pressed", state.spousteciKeys.has(key) ? "true" : "false")
-      btn.classList.toggle("selected", state.spousteciKeys.has(key))
-      btn.textContent = labelSpousteciKey(key)
-      spousteciChips.appendChild(btn)
-    }
-  }
-
   function toggleRaciKey(key: string) {
     if (state.raciKeys.has(key)) {
       state.raciKeys.delete(key)
@@ -848,50 +841,21 @@ function wireWizard() {
     if (state.etapaKeys.size > 0) renderResult()
   }
 
-  function toggleCharakterKey(key: string) {
-    if (state.charakterKeys.has(key)) state.charakterKeys.delete(key)
-    else state.charakterKeys.add(key)
-    renderCharakterChips()
-    if (state.etapaKeys.size > 0) renderResult()
-  }
-
-  function toggleSpousteciKey(key: string) {
-    if (state.spousteciKeys.has(key)) state.spousteciKeys.delete(key)
-    else state.spousteciKeys.add(key)
-    renderSpousteciChips()
-    if (state.etapaKeys.size > 0) renderResult()
-  }
-
   function renderResult() {
     if (state.roleKeys.size === 0 || state.etapaKeys.size === 0) return
 
     const selectedRoles = wizardData.roles.filter((r) => state.roleKeys.has(r.key))
-    const filtered = filterActivities(
-      wizardData,
-      state.roleKeys,
-      state.raciKeys,
-      state.etapaKeys,
-      state.charakterKeys,
-      state.spousteciKeys,
-    )
+    const filtered = filterActivities(wizardData, state.roleKeys, state.raciKeys, state.etapaKeys)
     const roleLabels = selectedRoles.map((r) => r.title).join(", ")
 
     // Summary
     const etapaLabels = wizardData.etapy
       .filter((e) => state.etapaKeys.has(normalizeMetaId(e.key)))
       .map((e) => e.label)
-    const charLabels = [...state.charakterKeys]
-      .sort((a, b) => a.localeCompare(b, "cs"))
-      .map(labelCharakterKey)
-    const spousteciLabels = [...state.spousteciKeys]
-      .sort((a, b) => a.localeCompare(b, "cs"))
-      .map(labelSpousteciKey)
     const summaryTags = [
       roleLabels,
       formatRaciKeys(state.raciKeys) || "—",
       ...(etapaLabels.length > 0 ? [summarizeLabels(etapaLabels)] : []),
-      ...(charLabels.length > 0 ? [summarizeLabels(charLabels)] : []),
-      ...(spousteciLabels.length > 0 ? [summarizeLabels(spousteciLabels)] : []),
     ]
     summaryEl!.innerHTML = `
       ${summaryTags.map((tag) => `<span class="home-wizard-result-tag">${escapeHtml(tag)}</span>`).join(" · ")}
@@ -903,9 +867,7 @@ function wireWizard() {
       timelineEl!.innerHTML =
         state.raciKeys.size === 0
           ? `<p class="home-wizard-result-empty">Vyberte alespoň jednu roli v RACI (R, A, C nebo I) pro zobrazení úkolů.</p>`
-          : state.charakterKeys.size === 0 || state.spousteciKeys.size === 0
-            ? `<p class="home-wizard-result-empty">Vyberte alespoň jednu položku u filtrů charakter a spouštěcí událost.</p>`
-            : `<p class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</p>`
+          : `<p class="home-wizard-result-empty">Pro zvolenou kombinaci jsme nenašli žádné úkoly.</p>`
       return
     }
 
@@ -943,26 +905,6 @@ function wireWizard() {
       const key = (card.dataset.raciKey || "").toUpperCase()
       if (!key) return
       toggleRaciKey(key)
-    })
-  }
-
-  renderCharakterChips()
-  renderSpousteciChips()
-
-  if (charakterChips) {
-    charakterChips.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter-key]")
-      if (!btn || btn.dataset.filterKind !== "charakter") return
-      const key = btn.dataset.filterKey ?? ""
-      if (key) toggleCharakterKey(key)
-    })
-  }
-  if (spousteciChips) {
-    spousteciChips.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter-key]")
-      if (!btn || btn.dataset.filterKind !== "spousteci") return
-      const key = btn.dataset.filterKey ?? ""
-      if (key) toggleSpousteciKey(key)
     })
   }
 

@@ -459,30 +459,6 @@ const HomeLanding: QuartzComponent = ({
             <span class="home-wizard-raci-text">O průběhu úkolu mám být informován</span>
           </button>
         </div>
-        <div class="home-wizard-extra-filters" data-wizard-extra-filters>
-          <div class="home-wizard-filter-block">
-            <span class="home-wizard-filter-heading" id="wizard-filter-charakter-title">
-              Charakter činnosti
-            </span>
-            <div
-              class="home-wizard-filter-chips"
-              data-wizard-filter-charakter
-              role="group"
-              aria-labelledby="wizard-filter-charakter-title"
-            />
-          </div>
-          <div class="home-wizard-filter-block">
-            <span class="home-wizard-filter-heading" id="wizard-filter-spousteci-title">
-              Spouštěcí událost
-            </span>
-            <div
-              class="home-wizard-filter-chips"
-              data-wizard-filter-spousteci
-              role="group"
-              aria-labelledby="wizard-filter-spousteci-title"
-            />
-          </div>
-        </div>
         <div class="home-wizard-result-summary" data-wizard-summary>
           {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
         </div>

@@ -533,54 +533,6 @@ article.home-hero {
     color: var(--dark);
   }
 
-  .home-wizard-extra-filters {
-    display: grid;
-    gap: 0.75rem;
-    margin: 0 0 1rem;
-  }
-
-  .home-wizard-filter-block {
-    display: grid;
-    gap: 0.35rem;
-  }
-
-  .home-wizard-filter-heading {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--darkgray);
-  }
-
-  .home-wizard-filter-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    align-items: flex-start;
-  }
-
-  .home-wizard-filter-chip {
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 35%, var(--lightgray));
-    border-radius: 999px;
-    background: var(--light);
-    color: $rsd-blue-dark;
-    font-size: 0.78rem;
-    padding: 0.28rem 0.65rem;
-    cursor: pointer;
-    line-height: 1.25;
-    transition:
-      background 0.12s ease,
-      border-color 0.12s ease;
-
-    &:hover {
-      background: color-mix(in srgb, $rsd-blue-dark 8%, #fff);
-    }
-
-    &.selected {
-      border-color: $rsd-blue-dark;
-      background: color-mix(in srgb, $rsd-blue-dark 14%, #fff);
-      font-weight: 600;
-    }
-  }
-
   .home-wizard-filter-empty {
     font-size: 0.82rem;
     color: var(--darkgray);
@@ -1032,6 +984,46 @@ article.home-hero {
     flex-shrink: 0;
   }
 
+  // Podskupiny dle charakteru + spouštěcí události (uvnitř etapy)
+  .wiz-tl-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .wiz-tl-meta-subgroup {
+    border-top: 1px solid color-mix(in srgb, var(--lightgray) 70%, transparent);
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  .wiz-tl-meta-subgroup-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.45rem 0.85rem 0.3rem;
+    background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
+  }
+
+  .wiz-tl-meta-subgroup-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.35;
+    min-width: 0;
+  }
+
+  .wiz-tl-meta-subgroup-count {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--darkgray);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   // Mřížka karet uvnitř sekce
   .wiz-tl-cards {
     display: grid;
@@ -1042,6 +1034,12 @@ article.home-hero {
     @media all and ($mobile) {
       grid-template-columns: 1fr;
     }
+  }
+
+  // Atribut [hidden] má nižší specificitu než layout pravidla — bez tohoto by se blok po sbalení nevyplo.
+  .wiz-tl-cards-stack[hidden],
+  .wiz-tl-cards[hidden] {
+    display: none !important;
   }
 
   // Karta aktivity
