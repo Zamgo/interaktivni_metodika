@@ -51,9 +51,9 @@ const KEY_NONE_CHAR = "_none_char_"
 
 /** Popisky hodnot `charakter` z katalogu (normalizovaný klíč → čeština). */
 const CHARAKTER_LABELS: Record<string, string> = {
-  jednorazove: "Jednorázová",
-  opakujici: "Opakující se",
-  podminena: "Podmíněná",
+  jednorazove: "Jednorázový úkol",
+  opakujici: "Opakující se úkol",
+  podminena: "Podmíněný úkol",
 }
 
 /**

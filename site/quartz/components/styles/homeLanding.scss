@@ -287,6 +287,23 @@ article.home-hero {
     }
   }
 
+  .home-wizard-etapa-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.14rem;
+  }
+
+  .home-wizard-etapa-phase {
+    font-size: 0.66rem;
+    line-height: 1.2;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    opacity: 0.9;
+  }
+
   .home-wizard-etapa-label {
     font-size: 0.88rem;
     line-height: 1.3;
@@ -315,6 +332,10 @@ article.home-hero {
     .home-wizard-etapa-label {
       color: $rsd-blue-dark;
     }
+
+    .home-wizard-etapa-phase {
+      color: color-mix(in srgb, $rsd-blue-dark 72%, #666);
+    }
   }
 
   .home-wizard-etapa-orange {
@@ -337,6 +358,10 @@ article.home-hero {
     .home-wizard-etapa-label {
       color: color-mix(in srgb, $rsd-orange 80%, #000);
     }
+
+    .home-wizard-etapa-phase {
+      color: color-mix(in srgb, $rsd-orange 72%, #666);
+    }
   }
 
   .home-wizard-etapa-green {
@@ -358,6 +383,10 @@ article.home-hero {
 
     .home-wizard-etapa-label {
       color: color-mix(in srgb, $rsd-green 80%, #000);
+    }
+
+    .home-wizard-etapa-phase {
+      color: color-mix(in srgb, $rsd-green 72%, #666);
     }
   }
 
@@ -629,6 +658,18 @@ article.home-hero {
     align-items: center;
     gap: 0.45rem;
     flex-wrap: wrap;
+  }
+
+  .home-wizard-result-fold-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 0.8rem;
+
+    @media all and ($mobile) {
+      justify-content: flex-start;
+    }
   }
 
   .home-wizard-toolbar-btn {
@@ -1198,14 +1239,14 @@ article.home-hero {
 
   .wiz-tl-card-done-toggle {
     position: absolute;
-    top: 0.42rem;
-    right: 0.45rem;
+    top: 0.3rem;
+    right: 0.35rem;
     z-index: 2;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 999px;
-    background: color-mix(in srgb, #fff 85%, var(--lightgray));
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 30%, var(--lightgray));
+    background: transparent;
+    border: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1216,17 +1257,30 @@ article.home-hero {
     appearance: none;
     -webkit-appearance: none;
     margin: 0;
-    width: 0.78rem;
-    height: 0.78rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 999px;
-    border: 1.5px solid color-mix(in srgb, $rsd-blue-dark 70%, #fff);
-    background: #fff;
+    border: 1px solid color-mix(in srgb, $rsd-blue-dark 30%, var(--lightgray));
+    background: color-mix(in srgb, #fff 85%, var(--lightgray));
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+
+    &::before {
+      content: "✓";
+      transform: translateY(-0.01rem);
+    }
 
     &:checked {
-      background: color-mix(in srgb, $rsd-blue-dark 88%, #fff);
-      border-color: color-mix(in srgb, $rsd-blue-dark 92%, #fff);
-      box-shadow: inset 0 0 0 2px #fff;
+      background: $rsd-blue-dark;
+      border-color: $rsd-blue-dark;
+      color: #fff;
     }
   }
 

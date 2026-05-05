@@ -101,6 +101,13 @@ function etapaPhaseColor(phaseKeys: string[]): "blue" | "orange" | "green" {
   return "blue"
 }
 
+function etapaPhaseLabel(phaseKeys: string[]): string {
+  const labels = phaseKeys
+    .map((k) => PHASE_DEFS.find((p) => p.key === k)?.label)
+    .filter((v): v is string => Boolean(v))
+  return labels.join(" · ")
+}
+
 function coerceString(value: unknown): string {
   if (value == null) return ""
   if (Array.isArray(value)) return value.map(coerceString).filter(Boolean).join(", ")
@@ -399,7 +406,10 @@ const HomeLanding: QuartzComponent = ({
               role="listitem"
               aria-pressed="false"
             >
-              <span class="home-wizard-etapa-label">{etapa.label}</span>
+              <span class="home-wizard-etapa-body">
+                <span class="home-wizard-etapa-phase">{etapaPhaseLabel(etapa.phaseKeys)}</span>
+                <span class="home-wizard-etapa-label">{etapa.label}</span>
+              </span>
             </button>
           ))}
         </div>
@@ -467,14 +477,14 @@ const HomeLanding: QuartzComponent = ({
             <div class="home-wizard-result-summary" data-wizard-summary>
               {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
             </div>
-            <div class="home-wizard-result-toolbar-actions">
-              <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
-                Sbalit vše
-              </button>
-              <button type="button" class="home-wizard-toolbar-btn" data-wizard-expand-all>
-                Rozbalit vše
-              </button>
-            </div>
+          </div>
+          <div class="home-wizard-result-fold-actions">
+            <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
+              Sbalit vše
+            </button>
+            <button type="button" class="home-wizard-toolbar-btn" data-wizard-expand-all>
+              Rozbalit vše
+            </button>
           </div>
         {/*
           BACKUP-SPLITPANE: původní split-pane layout (archivováno)
