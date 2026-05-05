@@ -67,7 +67,7 @@ article.home-hero {
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
-    background: color-mix(in srgb, $rsd-blue-dark 7%, #fff);
+    background: $rsd-blue-dark;
     z-index: -1;
     pointer-events: none;
   }
