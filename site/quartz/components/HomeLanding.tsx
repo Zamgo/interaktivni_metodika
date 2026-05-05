@@ -481,7 +481,7 @@ const HomeLanding: QuartzComponent = ({
                 data-wizard-toggle-results
                 aria-expanded="true"
               >
-                Sbalit výsledky
+                Sbalit tabulky
               </button>
             </div>
             <div class="home-wizard-result-summary" data-wizard-summary>
