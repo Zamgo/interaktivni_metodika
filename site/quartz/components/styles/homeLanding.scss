@@ -1080,6 +1080,22 @@ article.home-hero {
     letter-spacing: 0.01em;
   }
 
+  .wiz-tl-group-title-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    min-width: 0;
+  }
+
+  .wiz-tl-group-phase {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.78;
+    line-height: 1.15;
+  }
+
   .wiz-tl-group-count {
     font-size: 0.72rem;
     font-weight: 600;

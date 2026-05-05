@@ -40,6 +40,7 @@ type WizardData = {
 type TimelineGroup = {
   etapaKey: string
   etapaLabel: string
+  phaseLabel: string
   phaseColor: "blue" | "orange" | "green"
   cards: WizardActivity[]
 }
@@ -164,6 +165,18 @@ function phaseToColor(phaseKeys: string[]): "blue" | "orange" | "green" {
   if (phaseKeys.some((k) => k === "provoz")) return "green"
   if (phaseKeys.some((k) => k === "realizace")) return "orange"
   return "blue"
+}
+
+function phaseKeysToLabel(phaseKeys: string[]): string {
+  const phaseLabels: Record<string, string> = {
+    priprava: "Příprava",
+    realizace: "Realizace",
+    provoz: "Provoz a údržba",
+  }
+  const labels = phaseKeys
+    .map((key) => phaseLabels[normalizeMetaId(key)] ?? "")
+    .filter(Boolean)
+  return labels.join(" · ")
 }
 
 function activityMatchesRole(activity: WizardActivity, role: WizardRole): boolean {
@@ -380,6 +393,7 @@ function groupByEtapa(
     groups.set(key, {
       etapaKey: key,
       etapaLabel: def.label,
+      phaseLabel: phaseKeysToLabel(def.phaseKeys),
       phaseColor: phaseToColor(def.phaseKeys),
       cards: [],
     })
@@ -393,7 +407,13 @@ function groupByEtapa(
       groups.get(rawKey)!.cards.push(act)
     } else {
       if (!groups.has("_none_")) {
-        groups.set("_none_", { etapaKey: "_none_", etapaLabel: "Ostatní", phaseColor: "blue", cards: [] })
+        groups.set("_none_", {
+          etapaKey: "_none_",
+          etapaLabel: "Ostatní",
+          phaseLabel: "Příprava",
+          phaseColor: "blue",
+          cards: [],
+        })
       }
       groups.get("_none_")!.cards.push(act)
     }
@@ -677,7 +697,10 @@ function renderTimeline(
     headerEl.innerHTML =
       `<span class="wiz-tl-group-header-start">` +
       `<span class="wiz-tl-group-chevron">${chevronSvg}</span>` +
+      `<span class="wiz-tl-group-title-stack">` +
+      `<span class="wiz-tl-group-phase">${escapeHtml(group.phaseLabel)}</span>` +
       `<span class="wiz-tl-group-label">${escapeHtml(group.etapaLabel)}</span>` +
+      `</span>` +
       `</span>` +
       `<span class="wiz-tl-group-count">${group.cards.length} ${pluralCinnosti(group.cards.length)}</span>`
     groupEl.appendChild(headerEl)
