@@ -478,6 +478,14 @@ const HomeLanding: QuartzComponent = ({
               {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
             </div>
             <div class="home-wizard-result-toolbar-actions">
+              <button
+                type="button"
+                class="home-wizard-toolbar-btn"
+                data-wizard-toggle-results
+                aria-expanded="true"
+              >
+                Sbalit výsledky
+              </button>
               <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
                 Sbalit vše
               </button>
@@ -507,13 +515,15 @@ const HomeLanding: QuartzComponent = ({
           </div>
           BACKUP-SPLITPANE */}
 
-          <div class="wiz-tl-wrap" data-wizard-timeline>
-            <p class="home-wizard-result-empty">Zatím nejsou vybrány žádné úkoly.</p>
-          </div>
-          <div class="home-wizard-result-actions">
-            <a class="home-wizard-link" href={cinnostiHref}>
-              Zobrazit všechny úkoly v tabulce →
-            </a>
+          <div data-wizard-results-body>
+            <div class="wiz-tl-wrap" data-wizard-timeline>
+              <p class="home-wizard-result-empty">Zatím nejsou vybrány žádné úkoly.</p>
+            </div>
+            <div class="home-wizard-result-actions">
+              <a class="home-wizard-link" href={cinnostiHref}>
+                Zobrazit všechny úkoly v tabulce →
+              </a>
+            </div>
           </div>
         </div>
       </section>

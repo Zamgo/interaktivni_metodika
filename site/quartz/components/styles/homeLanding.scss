@@ -57,21 +57,6 @@ article.home-hero {
   position: relative;
   z-index: 0;
 
-  // Podklad pod wizardem hned pod modrým oddělovačem:
-  // stejné bledě modré "full-bleed" pozadí přes celou šířku viewportu.
-  &::before {
-    content: "";
-    position: absolute;
-    top: -0.45rem;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;
-    background: $rsd-blue-dark;
-    z-index: -1;
-    pointer-events: none;
-  }
-
   /* ═══════════ Wizard krok obecně ═══════════ */
   .home-wizard-step {
     margin: 2rem 0;
@@ -658,22 +643,7 @@ article.home-hero {
   }
 
   [data-wizard-result-content] {
-    position: relative;
-    z-index: 0;
     padding-bottom: 1rem;
-
-    // Pod bílým toolbar pásem vrať tmavě modrý full-bleed podklad.
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100vw;
-      background: $rsd-blue-dark;
-      z-index: -1;
-      pointer-events: none;
-    }
   }
 
   .home-wizard-result-toolbar {

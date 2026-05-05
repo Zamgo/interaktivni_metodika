@@ -836,10 +836,25 @@ function wireWizard() {
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
   const collapseAllBtn = root.querySelector<HTMLButtonElement>("[data-wizard-collapse-all]")
   const expandAllBtn = root.querySelector<HTMLButtonElement>("[data-wizard-expand-all]")
+  const toggleResultsBtn = root.querySelector<HTMLButtonElement>("[data-wizard-toggle-results]")
+  const resultsBodyEl = root.querySelector<HTMLElement>("[data-wizard-results-body]")
 
   if (!step2 || !step3 || !timelineEl || !summaryEl || !raciHintEl || !resultContentEl) {
     return
   }
+
+  function setResultsBodyExpanded(expanded: boolean) {
+    if (!toggleResultsBtn || !resultsBodyEl) return
+    toggleResultsBtn.setAttribute("aria-expanded", expanded ? "true" : "false")
+    toggleResultsBtn.textContent = expanded ? "Sbalit výsledky" : "Rozbalit výsledky"
+    resultsBodyEl.hidden = !expanded
+  }
+
+  setResultsBodyExpanded(true)
+  toggleResultsBtn?.addEventListener("click", () => {
+    const isExpanded = toggleResultsBtn.getAttribute("aria-expanded") === "true"
+    setResultsBodyExpanded(!isExpanded)
+  })
 
   collapseAllBtn?.addEventListener("click", () => {
     setAllTimelineGroupsExpanded(timelineEl, false)
