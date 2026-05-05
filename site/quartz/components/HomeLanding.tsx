@@ -474,18 +474,20 @@ const HomeLanding: QuartzComponent = ({
         </p>
         <div data-wizard-result-content hidden>
           <div class="home-wizard-result-toolbar" data-wizard-result-toolbar>
-            <div class="home-wizard-result-summary" data-wizard-summary>
-              {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
-            </div>
-            <div class="home-wizard-result-toolbar-actions">
+            <div class="home-wizard-result-toolbar-actions home-wizard-result-toolbar-actions-primary">
               <button
                 type="button"
-                class="home-wizard-toolbar-btn"
+                class="home-wizard-toolbar-btn home-wizard-toolbar-btn-primary"
                 data-wizard-toggle-results
                 aria-expanded="true"
               >
                 Sbalit výsledky
               </button>
+            </div>
+            <div class="home-wizard-result-summary" data-wizard-summary>
+              {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
+            </div>
+            <div class="home-wizard-result-toolbar-actions">
               <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
                 Sbalit vše
               </button>

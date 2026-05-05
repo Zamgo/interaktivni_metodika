@@ -675,6 +675,10 @@ article.home-hero {
     flex-wrap: wrap;
   }
 
+  .home-wizard-result-toolbar-actions-primary {
+    flex: 0 0 auto;
+  }
+
   .home-wizard-toolbar-btn {
     border: 1px solid color-mix(in srgb, $rsd-blue-dark 34%, var(--lightgray));
     border-radius: 8px;
@@ -697,6 +701,11 @@ article.home-hero {
       outline: 2px solid color-mix(in srgb, $rsd-blue-dark 55%, var(--gray));
       outline-offset: 2px;
     }
+  }
+
+  .home-wizard-toolbar-btn-primary {
+    background: color-mix(in srgb, $rsd-blue-dark 10%, #fff);
+    border-color: color-mix(in srgb, $rsd-blue-dark 50%, var(--lightgray));
   }
 
   .home-wizard-result-split {
