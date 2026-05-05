@@ -426,7 +426,7 @@ const HomeLanding: QuartzComponent = ({
             type="button"
             class="home-wizard-raci-card raci-r"
             data-raci-key="R"
-            aria-pressed="true"
+            aria-pressed="false"
           >
             <span class="home-wizard-raci-code raci-r">R</span>
             <span class="home-wizard-raci-text">Mám odpovědnost za provedení úkolu</span>
@@ -435,7 +435,7 @@ const HomeLanding: QuartzComponent = ({
             type="button"
             class="home-wizard-raci-card raci-a"
             data-raci-key="A"
-            aria-pressed="true"
+            aria-pressed="false"
           >
             <span class="home-wizard-raci-code raci-a">A</span>
             <span class="home-wizard-raci-text">Mám odpovědnost za schválení úkolu</span>
@@ -444,7 +444,7 @@ const HomeLanding: QuartzComponent = ({
             type="button"
             class="home-wizard-raci-card raci-c"
             data-raci-key="C"
-            aria-pressed="true"
+            aria-pressed="false"
           >
             <span class="home-wizard-raci-code raci-c">C</span>
             <span class="home-wizard-raci-text">Úkol má být se mnou konzultován</span>
@@ -453,15 +453,19 @@ const HomeLanding: QuartzComponent = ({
             type="button"
             class="home-wizard-raci-card raci-i"
             data-raci-key="I"
-            aria-pressed="true"
+            aria-pressed="false"
           >
             <span class="home-wizard-raci-code raci-i">I</span>
             <span class="home-wizard-raci-text">O průběhu úkolu mám být informován</span>
           </button>
         </div>
-        <div class="home-wizard-result-summary" data-wizard-summary>
-          {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
-        </div>
+        <p class="home-wizard-result-empty" data-wizard-raci-hint>
+          Vyberte alespoň jednu možnost R, A, C nebo I pro zobrazení výsledků.
+        </p>
+        <div data-wizard-result-content hidden>
+          <div class="home-wizard-result-summary" data-wizard-summary>
+            {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
+          </div>
         {/*
           BACKUP-SPLITPANE: původní split-pane layout (archivováno)
           Viz homeLanding.inline.splitpane.bak.ts pro JS zálohu.
@@ -483,13 +487,14 @@ const HomeLanding: QuartzComponent = ({
           </div>
           BACKUP-SPLITPANE */}
 
-        <div class="wiz-tl-wrap" data-wizard-timeline>
-          <p class="home-wizard-result-empty">Zatím nejsou vybrány žádné úkoly.</p>
-        </div>
-        <div class="home-wizard-result-actions">
-          <a class="home-wizard-link" href={cinnostiHref}>
-            Zobrazit všechny úkoly v tabulce →
-          </a>
+          <div class="wiz-tl-wrap" data-wizard-timeline>
+            <p class="home-wizard-result-empty">Zatím nejsou vybrány žádné úkoly.</p>
+          </div>
+          <div class="home-wizard-result-actions">
+            <a class="home-wizard-link" href={cinnostiHref}>
+              Zobrazit všechny úkoly v tabulce →
+            </a>
+          </div>
         </div>
       </section>
 

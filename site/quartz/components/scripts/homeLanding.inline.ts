@@ -48,8 +48,6 @@ const RACI_ORDER = ["R", "A", "C", "I"] as const
 
 /** Syntetický klíč: úkol bez vyplněného charakteru ve frontmatteru. */
 const KEY_NONE_CHAR = "_none_char_"
-/** Syntetický klíč: úkol bez spouštěcí události. */
-const KEY_NONE_SPOUSTECI = "_none_"
 
 /** Popisky hodnot `charakter` z katalogu (normalizovaný klíč → čeština). */
 const CHARAKTER_LABELS: Record<string, string> = {
@@ -75,6 +73,8 @@ const SPOUSTECI_UDALOST_LABELS: Record<string, string> = {
   kontrola_technicke_review: "Technická kontrola / review",
 }
 
+const COMPLETED_ACTIVITIES_STORAGE_KEY = "homeWizard.completedActivities.v1"
+
 function humanizeEventId(id: string): string {
   const t = id.trim()
   if (!t) return ""
@@ -88,9 +88,34 @@ function labelCharakterKey(key: string): string {
   return CHARAKTER_LABELS[key] ?? humanizeEventId(key)
 }
 
-function labelSpousteciKey(key: string): string {
-  if (key === KEY_NONE_SPOUSTECI) return "Bez spouštěcí události"
-  return SPOUSTECI_UDALOST_LABELS[key] ?? humanizeEventId(key)
+function isCompletableActivity(activity: WizardActivity): boolean {
+  return normalizeMetaId(activity.charakter ?? "") === "jednorazove"
+}
+
+function loadCompletedActivities(): Set<string> {
+  try {
+    const raw = window.localStorage.getItem(COMPLETED_ACTIVITIES_STORAGE_KEY)
+    if (!raw) return new Set<string>()
+    const parsed = JSON.parse(raw) as unknown
+    if (!Array.isArray(parsed)) return new Set<string>()
+    const ids = parsed.filter((v): v is string => typeof v === "string" && v.trim().length > 0)
+    return new Set<string>(ids)
+  } catch {
+    return new Set<string>()
+  }
+}
+
+function saveCompletedActivities(completedIds: Set<string>) {
+  try {
+    window.localStorage.setItem(COMPLETED_ACTIVITIES_STORAGE_KEY, JSON.stringify([...completedIds]))
+  } catch {
+    // Ignore localStorage write errors (privacy mode, quota, ...)
+  }
+}
+
+function syncDoneCardState(card: HTMLElement, isDone: boolean) {
+  card.classList.toggle("wiz-tl-card--done", isDone)
+  card.setAttribute("aria-pressed", isDone ? "true" : "false")
 }
 
 function parseWizardData(): WizardData | null {
@@ -302,44 +327,26 @@ const META_CHAR_ORDER = ["jednorazove", "opakujici", "podminena", KEY_NONE_CHAR]
 
 function metaGroupKey(act: WizardActivity): string {
   const ch = (act.charakter ?? "").trim()
-  const chNorm = ch ? normalizeMetaId(ch) : KEY_NONE_CHAR
-  const ev = (act.spousteciUdalost ?? []).map((s) => s.trim()).filter(Boolean)
-  const evNorm =
-    ev.length === 0
-      ? KEY_NONE_SPOUSTECI
-      : [...new Set(ev.map(normalizeMetaId))].sort((a, b) => a.localeCompare(b, "cs")).join("|")
-  return `${chNorm}\t${evNorm}`
+  return ch ? normalizeMetaId(ch) : KEY_NONE_CHAR
 }
 
 function metaGroupTitleFromKey(metaKey: string): string {
-  const tab = metaKey.indexOf("\t")
-  const chNorm = tab >= 0 ? metaKey.slice(0, tab) : metaKey
-  const evNorm = tab >= 0 ? metaKey.slice(tab + 1) : KEY_NONE_SPOUSTECI
-  const charLabel = labelCharakterKey(chNorm)
-  const spLabel =
-    evNorm === KEY_NONE_SPOUSTECI
-      ? labelSpousteciKey(KEY_NONE_SPOUSTECI)
-      : evNorm
-          .split("|")
-          .map((id) => labelSpousteciKey(id))
-          .join(", ")
-  return `${charLabel} · ${spLabel}`
+  return labelCharakterKey(metaKey)
 }
 
 function compareMetaGroupKeys(ka: string, kb: string): number {
-  const [aCh, aEv] = ka.split("\t")
-  const [bCh, bEv] = kb.split("\t")
+  const aCh = ka
+  const bCh = kb
   const ia = (META_CHAR_ORDER as readonly string[]).indexOf(aCh)
   const ib = (META_CHAR_ORDER as readonly string[]).indexOf(bCh)
   const ra = ia >= 0 ? ia : 100
   const rb = ib >= 0 ? ib : 100
   if (ra !== rb) return ra - rb
-  if (aCh !== bCh) return aCh.localeCompare(bCh, "cs")
-  return aEv.localeCompare(bEv, "cs")
+  return aCh.localeCompare(bCh, "cs")
 }
 
 /**
- * Rozdělí aktivity jedné etapy do podskupin dle charakteru + spouštěcí události (bez dalších klikacích filtrů).
+ * Rozdělí aktivity jedné etapy do podskupin pouze dle charakteru.
  */
 function splitIntoMetaSubGroups(cards: WizardActivity[]): Array<{ metaKey: string; title: string; cards: WizardActivity[] }> {
   const bucket = new Map<string, WizardActivity[]>()
@@ -480,8 +487,14 @@ function buildCardHtml(act: WizardActivity, selectedRoles: WizardRole[]): string
   const metaHtml = buildCardMetaHtml(act)
   const raciHtml = buildRaciFooterHtml(act, selectedRoles)
   const workflowHtml = buildWorkflowLinksHtml(act)
+  const completionToggleHtml = isCompletableActivity(act)
+    ? `<label class="wiz-tl-card-done-toggle" title="Označit činnost jako hotovou">` +
+        `<input class="wiz-tl-card-done-checkbox" type="checkbox" aria-label="Činnost hotová" />` +
+      `</label>`
+    : ""
 
   return (
+    completionToggleHtml +
     `<header class="wiz-tl-card-head">${numHtml}` +
     `<h3 class="wiz-tl-card-title">${escapeHtml(act.title)}</h3></header>` +
     popisHtml +
@@ -635,6 +648,7 @@ function renderTimeline(
   activities: WizardActivity[],
   selectedRoles: WizardRole[],
   etapy: Array<{ key: string; label: string; phaseKeys: string[] }>,
+  completedActivityIds: Set<string>,
 ) {
   container.innerHTML = ""
   attachArrowKeyNav(container)
@@ -692,9 +706,12 @@ function renderTimeline(
         card.className = "wiz-tl-card"
         card.tabIndex = 0
         card.dataset.href = act.href
+        card.dataset.activityId = act.slug
+        card.dataset.completable = isCompletableActivity(act) ? "true" : "false"
         card.setAttribute("role", "button")
         card.setAttribute("aria-label", `Přejít na: ${act.title}`)
         card.innerHTML = buildCardHtml(act, selectedRoles)
+        syncDoneCardState(card, completedActivityIds.has(act.slug))
 
         const navigate = () => {
           window.location.href = act.href
@@ -706,6 +723,20 @@ function renderTimeline(
             navigate()
           }
         })
+
+        const doneCheckbox = card.querySelector<HTMLInputElement>(".wiz-tl-card-done-checkbox")
+        if (doneCheckbox) {
+          doneCheckbox.checked = completedActivityIds.has(act.slug)
+          doneCheckbox.addEventListener("click", (e) => e.stopPropagation())
+          doneCheckbox.addEventListener("keydown", (e) => e.stopPropagation())
+          doneCheckbox.addEventListener("change", () => {
+            const isChecked = doneCheckbox.checked
+            if (isChecked) completedActivityIds.add(act.slug)
+            else completedActivityIds.delete(act.slug)
+            saveCompletedActivities(completedActivityIds)
+            syncDoneCardState(card, isChecked)
+          })
+        }
         attachWorkflowLinkPopovers(card)
 
         cardsEl.appendChild(card)
@@ -743,10 +774,12 @@ function wireWizard() {
     roleKeys: Set<string>
     raciKeys: Set<string>
     etapaKeys: Set<string>
+    completedActivityIds: Set<string>
   } = {
     roleKeys: new Set<string>(),
-    raciKeys: new Set<string>(["R", "A", "C", "I"]),
+    raciKeys: new Set<string>(),
     etapaKeys: new Set<string>(),
+    completedActivityIds: loadCompletedActivities(),
   }
 
   const step2 = root.querySelector<HTMLElement>('[data-wizard-step="2"]')
@@ -754,10 +787,12 @@ function wireWizard() {
   const roleCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-role-card"))
   const etapaCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-etapa-card"))
   const raciCards = Array.from(root.querySelectorAll<HTMLButtonElement>(".home-wizard-raci-card"))
+  const raciHintEl = root.querySelector<HTMLElement>("[data-wizard-raci-hint]")
+  const resultContentEl = root.querySelector<HTMLElement>("[data-wizard-result-content]")
   const timelineEl = root.querySelector<HTMLElement>("[data-wizard-timeline]")
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
 
-  if (!step2 || !step3 || !timelineEl || !summaryEl) {
+  if (!step2 || !step3 || !timelineEl || !summaryEl || !raciHintEl || !resultContentEl) {
     return
   }
 
@@ -829,6 +864,9 @@ function wireWizard() {
       card.classList.toggle("selected", isSelected)
       card.setAttribute("aria-pressed", isSelected ? "true" : "false")
     }
+    const hasRaci = state.raciKeys.size > 0
+    raciHintEl!.hidden = hasRaci
+    resultContentEl!.hidden = !hasRaci
   }
 
   function toggleRaciKey(key: string) {
@@ -843,6 +881,12 @@ function wireWizard() {
 
   function renderResult() {
     if (state.roleKeys.size === 0 || state.etapaKeys.size === 0) return
+    if (state.raciKeys.size === 0) {
+      summaryEl!.innerHTML = ""
+      timelineEl!.innerHTML =
+        `<p class="home-wizard-result-empty">Vyberte alespoň jednu roli v RACI (R, A, C nebo I) pro zobrazení úkolů.</p>`
+      return
+    }
 
     const selectedRoles = wizardData.roles.filter((r) => state.roleKeys.has(r.key))
     const filtered = filterActivities(wizardData, state.roleKeys, state.raciKeys, state.etapaKeys)
@@ -871,7 +915,7 @@ function wireWizard() {
       return
     }
 
-    renderTimeline(timelineEl!, filtered, selectedRoles, wizardData.etapy)
+    renderTimeline(timelineEl!, filtered, selectedRoles, wizardData.etapy, state.completedActivityIds)
   }
 
   /* Připojení kliků */

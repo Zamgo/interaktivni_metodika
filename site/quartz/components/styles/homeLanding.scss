@@ -984,7 +984,7 @@ article.home-hero {
     flex-shrink: 0;
   }
 
-  // Podskupiny dle charakteru + spouštěcí události (uvnitř etapy)
+  // Podskupiny dle charakteru (uvnitř etapy)
   .wiz-tl-cards-stack {
     display: flex;
     flex-direction: column;
@@ -1056,6 +1056,8 @@ article.home-hero {
     gap: 0.38rem;
     text-align: left;
     transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+    position: relative;
+    overflow: hidden;
 
     &:hover {
       border-color: $rsd-blue-dark;
@@ -1068,6 +1070,67 @@ article.home-hero {
       outline-offset: 2px;
       border-color: $rsd-blue-dark;
     }
+
+    &.wiz-tl-card--done {
+      border-color: color-mix(in srgb, var(--gray) 60%, var(--lightgray));
+      background: color-mix(in srgb, var(--lightgray) 55%, var(--light));
+      color: color-mix(in srgb, var(--darkgray) 80%, #777);
+
+      .wiz-tl-card-title,
+      .wiz-tl-card-zdroj-label,
+      .wiz-tl-card-meta-label {
+        color: color-mix(in srgb, var(--darkgray) 85%, #666);
+      }
+
+      .wiz-tl-card-popis,
+      .wiz-tl-card-zdroj,
+      .wiz-tl-card-meta-line,
+      .wiz-tl-raci-roles {
+        color: color-mix(in srgb, var(--gray) 75%, #777);
+      }
+
+      .wiz-tl-card-workflows {
+        opacity: 0.65;
+      }
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.8rem;
+        font-weight: 800;
+        color: color-mix(in srgb, #2f855a 72%, #fff);
+        background: color-mix(in srgb, #f0f3f5 70%, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  .wiz-tl-card-done-toggle {
+    position: absolute;
+    top: 0.42rem;
+    right: 0.45rem;
+    z-index: 2;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 4px;
+    background: color-mix(in srgb, #fff 85%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, var(--gray) 40%, var(--lightgray));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .wiz-tl-card-done-checkbox {
+    margin: 0;
+    width: 0.86rem;
+    height: 0.86rem;
+    cursor: pointer;
+    accent-color: #2f855a;
   }
 
   .wiz-tl-card-head {
