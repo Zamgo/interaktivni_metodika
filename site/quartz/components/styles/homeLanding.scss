@@ -6,6 +6,8 @@ $rsd-orange: #d97706;
 $rsd-green: #2f855a;
 $wizard-card-radius: 10px;
 $wizard-card-min-height: 3.5rem;
+$wizard-card-text-size: 0.9rem;
+$wizard-card-text-line: 1.3;
 
 /* Homepage hero (z index.md přes cssclasses: [home-hero]) */
 article.home-hero {
@@ -52,6 +54,23 @@ article.home-hero {
 
 .home-landing {
   margin: -0.55rem 0 2.5rem;
+  position: relative;
+  z-index: 0;
+
+  // Podklad pod wizardem hned pod modrým oddělovačem:
+  // stejné bledě modré "full-bleed" pozadí přes celou šířku viewportu.
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.45rem;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    background: color-mix(in srgb, $rsd-blue-dark 7%, #fff);
+    z-index: -1;
+    pointer-events: none;
+  }
 
   /* ═══════════ Wizard krok obecně ═══════════ */
   .home-wizard-step {
@@ -140,8 +159,9 @@ article.home-hero {
     cursor: pointer;
     font: inherit;
     color: var(--dark);
-    font-size: 0.9rem;
-    line-height: 1.3;
+    font-size: $wizard-card-text-size;
+    line-height: $wizard-card-text-line;
+    font-weight: 500;
     transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease,
       background 120ms ease;
     position: relative;
@@ -188,16 +208,16 @@ article.home-hero {
   }
 
   .home-wizard-role-title {
-    font-size: 0.92rem;
+    font-size: $wizard-card-text-size;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.25;
     color: var(--dark);
   }
 
   .home-wizard-role-aliases {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--gray);
-    line-height: 1.25;
+    line-height: 1.3;
   }
 
   .home-wizard-role-badge {
@@ -278,8 +298,8 @@ article.home-hero {
   }
 
   .home-wizard-etapa-card {
-    justify-content: flex-start;
-    text-align: left;
+    justify-content: center;
+    text-align: center;
     padding-inline: 0.9rem;
 
     &[hidden] {
@@ -290,12 +310,13 @@ article.home-hero {
   .home-wizard-etapa-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.14rem;
+    align-items: center;
+    gap: 0.2rem;
+    text-align: center;
   }
 
   .home-wizard-etapa-phase {
-    font-size: 0.66rem;
+    font-size: 0.68rem;
     line-height: 1.2;
     font-weight: 700;
     text-transform: uppercase;
@@ -305,9 +326,9 @@ article.home-hero {
   }
 
   .home-wizard-etapa-label {
-    font-size: 0.88rem;
-    line-height: 1.3;
-    font-weight: 550;
+    font-size: $wizard-card-text-size;
+    line-height: 1.25;
+    font-weight: 600;
     color: var(--dark);
   }
 
@@ -495,6 +516,9 @@ article.home-hero {
   }
 
   .home-wizard-raci-card {
+    flex-direction: column;
+    gap: 0.35rem;
+
     &.selected {
       &.raci-r {
         border-color: #c0392b;
@@ -536,7 +560,7 @@ article.home-hero {
     font-weight: 700;
     font-size: 0.82rem;
     line-height: 1;
-    margin-top: 0.03rem;
+    margin-top: 0;
 
     &.raci-r {
       color: #c0392b;
@@ -557,9 +581,11 @@ article.home-hero {
   }
 
   .home-wizard-raci-text {
-    font-size: 0.88rem;
-    line-height: 1.3;
+    font-size: $wizard-card-text-size;
+    line-height: $wizard-card-text-line;
     color: var(--dark);
+    text-align: center;
+    max-width: 26ch;
   }
 
   .home-wizard-filter-empty {
@@ -631,6 +657,25 @@ article.home-hero {
     }
   }
 
+  [data-wizard-result-content] {
+    position: relative;
+    z-index: 0;
+    padding-bottom: 1rem;
+
+    // Pod bílým toolbar pásem vrať tmavě modrý full-bleed podklad.
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      background: $rsd-blue-dark;
+      z-index: -1;
+      pointer-events: none;
+    }
+  }
+
   .home-wizard-result-toolbar {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -638,8 +683,8 @@ article.home-hero {
     margin-bottom: 0.9rem;
     padding: 0.65rem max(1rem, calc((100vw - 56rem) / 2));
     background: #fff;
-    border-top: 1px solid color-mix(in srgb, $rsd-blue-dark 18%, var(--lightgray));
-    border-bottom: 1px solid color-mix(in srgb, $rsd-blue-dark 18%, var(--lightgray));
+    border-top: 0;
+    border-bottom: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -658,18 +703,6 @@ article.home-hero {
     align-items: center;
     gap: 0.45rem;
     flex-wrap: wrap;
-  }
-
-  .home-wizard-result-fold-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.45rem;
-    margin: 0 0 0.8rem;
-
-    @media all and ($mobile) {
-      justify-content: flex-start;
-    }
   }
 
   .home-wizard-toolbar-btn {

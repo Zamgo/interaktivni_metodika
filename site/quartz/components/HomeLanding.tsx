@@ -477,14 +477,14 @@ const HomeLanding: QuartzComponent = ({
             <div class="home-wizard-result-summary" data-wizard-summary>
               {/* doplní skript: "Správce stavby · Příprava — 12 úkolů" */}
             </div>
-          </div>
-          <div class="home-wizard-result-fold-actions">
-            <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
-              Sbalit vše
-            </button>
-            <button type="button" class="home-wizard-toolbar-btn" data-wizard-expand-all>
-              Rozbalit vše
-            </button>
+            <div class="home-wizard-result-toolbar-actions">
+              <button type="button" class="home-wizard-toolbar-btn" data-wizard-collapse-all>
+                Sbalit vše
+              </button>
+              <button type="button" class="home-wizard-toolbar-btn" data-wizard-expand-all>
+                Rozbalit vše
+              </button>
+            </div>
           </div>
         {/*
           BACKUP-SPLITPANE: původní split-pane layout (archivováno)
