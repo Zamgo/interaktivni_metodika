@@ -687,19 +687,27 @@ function renderTimeline(
     cardsWrap.id = panelId
 
     const subgroups = splitIntoMetaSubGroups(group.cards)
-    for (const sub of subgroups) {
+    for (const [subIndex, sub] of subgroups.entries()) {
       const subEl = document.createElement("div")
       subEl.className = "wiz-tl-meta-subgroup"
 
-      const subHead = document.createElement("div")
+      const subCardsId = `${panelId}-meta-${subIndex}`
+      const subHead = document.createElement("button")
+      subHead.type = "button"
       subHead.className = "wiz-tl-meta-subgroup-head"
+      subHead.setAttribute("aria-expanded", "true")
+      subHead.setAttribute("aria-controls", subCardsId)
       subHead.innerHTML =
+        `<span class="wiz-tl-meta-subgroup-head-start">` +
+        `<span class="wiz-tl-meta-subgroup-chevron">${chevronSvg}</span>` +
         `<span class="wiz-tl-meta-subgroup-title">${escapeHtml(sub.title)}</span>` +
+        `</span>` +
         `<span class="wiz-tl-meta-subgroup-count">${sub.cards.length} ${pluralCinnosti(sub.cards.length)}</span>`
       subEl.appendChild(subHead)
 
       const cardsEl = document.createElement("div")
       cardsEl.className = "wiz-tl-cards"
+      cardsEl.id = subCardsId
 
       for (const act of sub.cards) {
         const card = document.createElement("article")
@@ -743,6 +751,13 @@ function renderTimeline(
       }
 
       subEl.appendChild(cardsEl)
+      subHead.addEventListener("click", () => {
+        const expanded = subHead.getAttribute("aria-expanded") === "true"
+        const next = !expanded
+        subHead.setAttribute("aria-expanded", String(next))
+        cardsEl.hidden = !next
+        subEl.classList.toggle("wiz-tl-meta-subgroup--collapsed", !next)
+      })
       cardsWrap.appendChild(subEl)
     }
 
@@ -759,6 +774,34 @@ function renderTimeline(
   }
 
   container.appendChild(track)
+}
+
+function setAllTimelineGroupsExpanded(container: HTMLElement, expanded: boolean) {
+  const groupHeaders = Array.from(container.querySelectorAll<HTMLButtonElement>(".wiz-tl-group-header"))
+  for (const header of groupHeaders) {
+    const group = header.closest<HTMLElement>(".wiz-tl-group")
+    const panelId = header.getAttribute("aria-controls")
+    if (!group || !panelId) continue
+    const panel = container.querySelector<HTMLElement>(`#${CSS.escape(panelId)}`)
+    if (!panel) continue
+    header.setAttribute("aria-expanded", expanded ? "true" : "false")
+    panel.hidden = !expanded
+    group.classList.toggle("wiz-tl-group--collapsed", !expanded)
+  }
+
+  const subgroupHeaders = Array.from(
+    container.querySelectorAll<HTMLButtonElement>(".wiz-tl-meta-subgroup-head"),
+  )
+  for (const header of subgroupHeaders) {
+    const subgroup = header.closest<HTMLElement>(".wiz-tl-meta-subgroup")
+    const panelId = header.getAttribute("aria-controls")
+    if (!subgroup || !panelId) continue
+    const panel = container.querySelector<HTMLElement>(`#${CSS.escape(panelId)}`)
+    if (!panel) continue
+    header.setAttribute("aria-expanded", expanded ? "true" : "false")
+    panel.hidden = !expanded
+    subgroup.classList.toggle("wiz-tl-meta-subgroup--collapsed", !expanded)
+  }
 }
 
 /* ═══════════ Wizard main ═══════════ */
@@ -791,10 +834,19 @@ function wireWizard() {
   const resultContentEl = root.querySelector<HTMLElement>("[data-wizard-result-content]")
   const timelineEl = root.querySelector<HTMLElement>("[data-wizard-timeline]")
   const summaryEl = root.querySelector<HTMLElement>("[data-wizard-summary]")
+  const collapseAllBtn = root.querySelector<HTMLButtonElement>("[data-wizard-collapse-all]")
+  const expandAllBtn = root.querySelector<HTMLButtonElement>("[data-wizard-expand-all]")
 
   if (!step2 || !step3 || !timelineEl || !summaryEl || !raciHintEl || !resultContentEl) {
     return
   }
+
+  collapseAllBtn?.addEventListener("click", () => {
+    setAllTimelineGroupsExpanded(timelineEl, false)
+  })
+  expandAllBtn?.addEventListener("click", () => {
+    setAllTimelineGroupsExpanded(timelineEl, true)
+  })
 
   const wizardData = data
 
@@ -870,13 +922,21 @@ function wireWizard() {
   }
 
   function toggleRaciKey(key: string) {
+    const hadAnyRaci = state.raciKeys.size > 0
     if (state.raciKeys.has(key)) {
       state.raciKeys.delete(key)
     } else {
       state.raciKeys.add(key)
     }
     syncRaciCards()
-    if (state.etapaKeys.size > 0) renderResult()
+    if (state.etapaKeys.size > 0) {
+      renderResult()
+      if (!hadAnyRaci && state.raciKeys.size > 0) {
+        requestAnimationFrame(() => {
+          resultContentEl!.scrollIntoView({ behavior: "smooth", block: "start" })
+        })
+      }
+    }
   }
 
   function renderResult() {

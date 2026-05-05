@@ -602,6 +602,59 @@ article.home-hero {
     }
   }
 
+  .home-wizard-result-toolbar {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: 0.9rem;
+    padding: 0.65rem max(1rem, calc((100vw - 56rem) / 2));
+    background: #fff;
+    border-top: 1px solid color-mix(in srgb, $rsd-blue-dark 18%, var(--lightgray));
+    border-bottom: 1px solid color-mix(in srgb, $rsd-blue-dark 18%, var(--lightgray));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+
+    .home-wizard-result-summary {
+      margin: 0;
+      flex: 1 1 28rem;
+      min-width: 0;
+    }
+  }
+
+  .home-wizard-result-toolbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .home-wizard-toolbar-btn {
+    border: 1px solid color-mix(in srgb, $rsd-blue-dark 34%, var(--lightgray));
+    border-radius: 8px;
+    background: #fff;
+    color: $rsd-blue-dark;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.36rem 0.62rem;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+
+    &:hover {
+      background: color-mix(in srgb, $rsd-blue-dark 9%, #fff);
+      border-color: $rsd-blue-dark;
+    }
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 55%, var(--gray));
+      outline-offset: 2px;
+    }
+  }
+
   .home-wizard-result-split {
     display: grid;
     grid-template-columns: minmax(18rem, 24rem) 1fr;
@@ -1004,8 +1057,42 @@ article.home-hero {
     align-items: baseline;
     justify-content: space-between;
     gap: 0.75rem;
+    width: 100%;
     padding: 0.45rem 0.85rem 0.3rem;
     background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
+    margin: 0;
+    border: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 45%, var(--gray));
+      outline-offset: -2px;
+    }
+  }
+
+  .wiz-tl-meta-subgroup-head-start {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .wiz-tl-meta-subgroup-chevron {
+    display: inline-flex;
+    color: var(--darkgray);
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .wiz-tl-meta-subgroup-head[aria-expanded="false"] .wiz-tl-group-chevron-svg {
+    transform: rotate(-90deg);
+  }
+
+  .wiz-tl-meta-subgroup--collapsed .wiz-tl-meta-subgroup-head {
+    padding-bottom: 0.45rem;
   }
 
   .wiz-tl-meta-subgroup-title {
@@ -1102,7 +1189,7 @@ article.home-hero {
         justify-content: center;
         font-size: 3.8rem;
         font-weight: 800;
-        color: color-mix(in srgb, #2f855a 72%, #fff);
+        color: color-mix(in srgb, $rsd-blue-dark 78%, #fff);
         background: color-mix(in srgb, #f0f3f5 70%, transparent);
         pointer-events: none;
       }
@@ -1114,11 +1201,11 @@ article.home-hero {
     top: 0.42rem;
     right: 0.45rem;
     z-index: 2;
-    width: 1.15rem;
-    height: 1.15rem;
-    border-radius: 4px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 999px;
     background: color-mix(in srgb, #fff 85%, var(--lightgray));
-    border: 1px solid color-mix(in srgb, var(--gray) 40%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, $rsd-blue-dark 30%, var(--lightgray));
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1126,11 +1213,21 @@ article.home-hero {
   }
 
   .wiz-tl-card-done-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
     margin: 0;
-    width: 0.86rem;
-    height: 0.86rem;
+    width: 0.78rem;
+    height: 0.78rem;
+    border-radius: 999px;
+    border: 1.5px solid color-mix(in srgb, $rsd-blue-dark 70%, #fff);
+    background: #fff;
     cursor: pointer;
-    accent-color: #2f855a;
+
+    &:checked {
+      background: color-mix(in srgb, $rsd-blue-dark 88%, #fff);
+      border-color: color-mix(in srgb, $rsd-blue-dark 92%, #fff);
+      box-shadow: inset 0 0 0 2px #fff;
+    }
   }
 
   .wiz-tl-card-head {
