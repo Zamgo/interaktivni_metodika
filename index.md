@@ -10,7 +10,7 @@ aliases:
 cssclasses:
   - home-hero
 ---
-Praktický průvodce správou informací o stavbě na projektech ŘSD Plzeň. 
+Praktický průvodce správou informací o stavbě na projektech ŘSD. 
 
 - Pro bližší informace přejděte na stránku [[Použití průvodce]].
 - Pro zobrazení konkrétních činností a postupů pro Vaši situaci začněte výběrem role níže.

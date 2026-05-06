@@ -21,7 +21,7 @@ klicove_pojmy:
 
 # Definice
 
-**Pověřující strana** (v terminologii FIDIC **Objednatel**, na projektech ŘSD Plzeň tedy **ŘSD**) je příjemce informací týkajících se staveb, zboží nebo služeb od vedoucí pověřené strany.
+**Pověřující strana** (v terminologii FIDIC **Objednatel**, na projektech ŘSD tedy **ŘSD**) je příjemce informací týkajících se staveb, zboží nebo služeb od vedoucí pověřené strany.
 
 ## Praktický význam pro správu informací o stavbě / ŘSD
 

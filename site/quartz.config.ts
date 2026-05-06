@@ -11,7 +11,7 @@ const baseUrl = process.env.QUARTZ_BASE_URL ?? "www.ceskesilnice.cz/RSD_Plzen"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Metodika ŘSD Plzeň (POC)",
+    pageTitle: "Metodika ŘSD (POC)",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,

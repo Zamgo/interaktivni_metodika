@@ -37,7 +37,7 @@ function isCdeWorkflowPage(fileData: QuartzPluginData): boolean {
 function isMetodikaUvodPage(fileData: QuartzPluginData): boolean {
   if (fileData.slug === "index") return true
   const fp = String(fileData.filePath ?? "").replace(/\\/g, "/")
-  return fp.endsWith("01_Úvod do metodiky ŘSD Plzeň.md")
+  return fp.endsWith("01_Úvod do metodiky ŘSD.md")
 }
 
 /** Řazení: 1) podle číselného prefixu (01_, 02_, …), 2) složky před soubory, 3) podle názvu. Používá slugSegment (segment cesty), ne displayName (může být z frontmatter). */
@@ -69,7 +69,7 @@ function explorerFilter(node: FileTrieNode): boolean {
   const rootSeg = parts[0]
   const allowedRoot = new Set([
     "index",
-    "01_Úvod-do-metodiky-ŘSD-Plzeň",
+    "01_Úvod-do-metodiky-ŘSD",
     "02---Seznam-všech-činností",
     "03---CDE-workflow",
     "05_Knihovna-průvodce",
