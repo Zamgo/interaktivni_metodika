@@ -19,6 +19,7 @@ Etapy odpovídají sekčnímu dělení Excel podkladu ŘSD (činnosti správce s
 
 | etapa (ID)               | label                                                   | patri_do_faze |
 | ------------------------ | ------------------------------------------------------- | ------------- |
+| `pred_uzavrenim_smlouvy` | Před uzavřením smlouvy                                  | `priprava`    |
 | `po_uzavreni_smlouvy`    | Po uzavření smlouvy před zahájením prací                | `priprava`    |
 | `po_zahajeni_praci`      | Po zahájení prací                                       | `realizace`   |
 | `zkousky_a_prejimky`     | Zkoušky, přejímací zkoušky a přejímací řízení           | `realizace`   |
@@ -27,6 +28,7 @@ Etapy odpovídají sekčnímu dělení Excel podkladu ŘSD (činnosti správce s
 ## Pravidlo pro vyplňování
 
 - `etapa` a `faze` se vyplňují **souběžně**. Mapování je jednoznačné:
+  - `pred_uzavrenim_smlouvy` → `faze: [priprava]`
   - `po_uzavreni_smlouvy` → `faze: [priprava]`
   - `po_zahajeni_praci` → `faze: [realizace]`
   - `zkousky_a_prejimky` → `faze: [realizace]`
@@ -39,6 +41,7 @@ Etapy přímo odpovídají číslovaným sekcím v souboru `00_Podklady/činnost
 
 | Excel sekce | etapa |
 |---|---|
+| 1 — před uzavřením Smlouvy | `pred_uzavrenim_smlouvy` |
 | 2 — po uzavření Smlouvy před zahájením prací | `po_uzavreni_smlouvy` |
 | 3 — po zahájení prací (po Datu zahájení prací) | `po_zahajeni_praci` |
 | 5 — Zkoušky, přejímací zkoušky a přejímací řízení | `zkousky_a_prejimky` |

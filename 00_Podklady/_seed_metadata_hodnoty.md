@@ -5,6 +5,7 @@ faze: []
 stav: draft
 permalink: /sprava-obsahu/seed-metadata-hodnoty
 etapa:
+  - pred_uzavrenim_smlouvy
   - po_uzavreni_smlouvy
   - po_zahajeni_praci
   - zkousky_a_prejimky

@@ -1,0 +1,39 @@
+---
+title: Predlozeni zprav o zkouskach
+typ: ukol
+popis: Zhotovitel predlozi Spravci stavby zpravy o provedenych zkouskach.
+zdroj: FIDIC_red_RSD; 51; 7.4
+faze:
+- realizace
+etapa:
+- zkousky_a_prejimky
+R - Odpěvědnost za provádění činnosti:
+- Zhotovitel
+A - Právní odpovědnost za dokončení činnosti: []
+C - Konzultace v průběhu činnosti: []
+I - Informování po dokončení činnosti:
+- Spravce stavby
+stav: draft
+charakter: podminena
+spousteci_udalost:
+- kontrola_zkouska
+ukoncovaci_podminka: vystup_odevzdan
+oznaceni: ''
+oblast: ''
+cinnost: ''
+---
+
+# Popis
+Zhotovitel predlozi Spravci stavby zpravy o provedenych zkouskach.
+
+# Výstupy
+- Dle smluvnich podkladu FIDIC a projektove dokumentace.
+
+# Postup
+- Cinnost se provede dle role uvedene ve zdroji a navaznosti na smluvni udalost.
+
+# Výstupy
+- Zaznam o provedeni cinnosti nebo vydane rozhodnuti/potvrzeni.
+
+# Kontrolní body pro správce stavby
+- Ověřit soulad se smluvním článkem uvedeným ve zdroji.
