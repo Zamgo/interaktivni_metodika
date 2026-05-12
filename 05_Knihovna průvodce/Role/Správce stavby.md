@@ -9,7 +9,7 @@ ikona: "hard-hat"
 ---
 # Popis
 
-**Správce stavby** je zástupce [[Pověřující strana|objednatele]] v realizační fázi stavby. Na projektech ŘSD zajišťuje, aby zhotovitel plnil smlouvu správně, včas a v požadované kvalitě.
+**Správce stavby** je zástupce [[Objednatel|objednatele]] v realizační fázi stavby. Na projektech ŘSD zajišťuje, aby zhotovitel plnil smlouvu správně, včas a v požadované kvalitě.
 # Hlavní role správce stavby
 
 - zastupuje objednatele vůči zhotoviteli při realizaci stavby

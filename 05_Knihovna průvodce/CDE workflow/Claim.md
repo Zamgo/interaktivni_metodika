@@ -14,7 +14,7 @@ Claim
 
 ## Kdy se spouští
 
-Workflow se spouští, když [[Zhotovitel|zhotovitel]] uplatňuje nárok (claim) vůči [[Pověřující strana|objednateli]] dle smluvních podmínek FIDIC.
+Workflow se spouští, když [[Zhotovitel|zhotovitel]] uplatňuje nárok (claim) vůči [[Objednatel|objednateli]] dle smluvních podmínek FIDIC.
 
 ## Vstupy
 

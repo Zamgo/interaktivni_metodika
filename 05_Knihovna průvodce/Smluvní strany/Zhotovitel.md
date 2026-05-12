@@ -1,17 +1,17 @@
 ---
-title: Vedoucí pověřená strana
+title: Zhotovitel
 typ: smluvni_strana
 ramec: ISO19650
 aliases:
-  - Zhotovitel
-  - Hlavní zhotovitel
-faze: [priprava, realizace]
+  - Vedoucí pověřená strana
+faze:
+  - priprava
+  - realizace
 stav: draft
-permalink: /pojem/smluvni-strana/vedouci-poverena-strana
+permalink: /pojem/smluvni-strana/zhotovitel
 show_na_rozcestniku: true
 order: 40
-popis_karta: "Hlavní zhotovitel stavby. Koordinuje realizační tým a předává informace objednateli."
-ikona: "hard-hat"
+ikona: hard-hat
 klicove_pojmy:
   - "[[BIM Execution Plan (BEP)]]"
   - "[[Hlavní plán předávání informací (MIDP)]]"
@@ -25,6 +25,6 @@ klicove_pojmy:
 
 ## Praktický význam pro správu informací o stavbě / ŘSD
 
-- Vedoucí pověřená strana (např. hlavní zhotovitel) koordinuje [[Realizační tým]] a je hlavním kontaktem vůči [[Pověřující strana|pověřující straně]] pro předávání informací a plnění [[Požadavky objednatele na výměnu informací (EIR)|EIR]].
+- Vedoucí pověřená strana (např. hlavní zhotovitel) koordinuje [[Realizační tým]] a je hlavním kontaktem vůči [[Objednatel|pověřující straně]] pro předávání informací a plnění [[Požadavky objednatele na výměnu informací (EIR)|EIR]].
 - V rámci odpovědi na veřejnou soutěž sestavuje [[Předběžný plán realizace BIM (Pre-BEP)|Pre-BEP]]; po podpisu smlouvy jej rozpracuje do [[BIM Execution Plan (BEP)|BEP]].
 - V terminologii FIDIC (smlouvy používané na projektech ŘSD) vystupuje stejný subjekt pod jménem **Zhotovitel**. V textu metodiky používáme oba názvy zaměnitelně.

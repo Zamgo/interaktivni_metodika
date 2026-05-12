@@ -1,17 +1,16 @@
 ---
-title: Pověřující strana
+title: Objednatel
 typ: smluvni_strana
 ramec: ISO19650
 aliases:
-  - Objednatel
-  - ŘSD
-faze: [priprava]
+  - Pověřující strana
+faze:
+  - priprava
 stav: draft
-permalink: /pojem/smluvni-strana/poverujici-strana
+permalink: /pojem/smluvni-strana/objednatel
 show_na_rozcestniku: true
 order: 30
-popis_karta: "Investor a zadavatel (ŘSD). Přijímá výstupy, stanovuje požadavky na informace (EIR)."
-ikona: "briefcase"
+ikona: briefcase
 klicove_pojmy:
   - "[[Požadavky objednatele na výměnu informací (EIR)]]"
   - "[[Požadavky na projektové informace (PIR)]]"

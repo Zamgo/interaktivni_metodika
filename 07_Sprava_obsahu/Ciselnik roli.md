@@ -32,6 +32,6 @@ ID a odpovídající pojmové stránky:
 
 ID a odpovídající kanonické pojmové stránky (ISO 19650). FIDIC názvy jsou dostupné přes `aliases` — `[[Pověřující strana|Objednatel]]` i `[[Zhotovitel]]` fungují a resolvují na tyto kanonické stránky.
 
-- `poverujici strana` (FIDIC: **Objednatel**, ŘSD) → [[Pověřující strana]]
-- `vedouci poverena strana` (FIDIC: **Zhotovitel**, hlavní zhotovitel) → [[Vedoucí pověřená strana]]
-- `poverena strana` → [[Pověřená strana]]
+- `poverujici strana` (FIDIC: **Objednatel**, ŘSD) → [[Objednatel]]
+- `vedouci poverena strana` (FIDIC: **Zhotovitel**, hlavní zhotovitel) → [[Zhotovitel]]
+- `poverena strana` → [[Podzhotovitel]]

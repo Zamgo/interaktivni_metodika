@@ -13,4 +13,4 @@ Osoba nebo skupina osob, které mají své vlastní funkce s odpovědnostmi, pra
 
 ## Praktický význam pro správu informací o stavbě / ŘSD
 
-- [[Pověřující strana]] i [[Pověřená strana]] jsou organizace; [[Požadavky organizace na informace (OIR)|OIR]] vyjadřují požadavky organizace na informace v celém životním cyklu.
+- [[Objednatel]] i [[Podzhotovitel]] jsou organizace; [[Požadavky organizace na informace (OIR)|OIR]] vyjadřují požadavky organizace na informace v celém životním cyklu.

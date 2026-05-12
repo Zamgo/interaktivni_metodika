@@ -1209,8 +1209,9 @@ article.home-hero {
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: 0.38rem;
-    text-align: left;
+    text-align: start;
     transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
     position: relative;
     overflow: hidden;
@@ -1315,7 +1316,11 @@ article.home-hero {
   .wiz-tl-card-head {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    align-self: stretch;
+    width: 100%;
     gap: 0.22rem;
+    text-align: start;
   }
 
   .wiz-tl-card-num {
@@ -1336,6 +1341,9 @@ article.home-hero {
     line-height: 1.3;
     color: var(--dark);
     margin: 0;
+    align-self: stretch;
+    width: 100%;
+    text-align: start;
   }
 
   .wiz-tl-card-popis {
@@ -1344,6 +1352,9 @@ article.home-hero {
     color: var(--darkgray);
     margin: 0;
     flex: 1;
+    align-self: stretch;
+    width: 100%;
+    text-align: start;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -1355,6 +1366,9 @@ article.home-hero {
     line-height: 1.35;
     color: var(--darkgray);
     margin: 0;
+    align-self: stretch;
+    width: 100%;
+    text-align: start;
   }
 
   .wiz-tl-card-zdroj-label {

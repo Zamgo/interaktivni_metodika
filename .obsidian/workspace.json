@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_Katalog všech činností/FIDIC Red RSD/FRR-09 - oznameni-o-datu-zahajeni-praci.md",
+                "file": "05_Knihovna průvodce/Smluvní strany/Zhotovitel.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "FRR-09 - oznameni-o-datu-zahajeni-praci"
+              "title": "Zhotovitel"
             }
           }
         ]
@@ -186,6 +186,10 @@
   },
   "active": "c078a3fb3b9b766e",
   "lastOpenFiles": [
+    "05_Knihovna průvodce/Smluvní strany/Podzhotovitel.md",
+    "05_Knihovna průvodce/Smluvní strany/Zhotovitel.md",
+    "05_Knihovna průvodce/Smluvní strany/Objednatel.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-09 - oznameni-o-datu-zahajeni-praci.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-65 - predlozeni-prohlaseni-o-splneni-platebnich-zavazku.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-66 - koordinacni-plneni-smluvnich-povinnosti-stran.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-64 - predlozeni-zaverecneho-vyuctovani.md",
@@ -208,10 +212,6 @@
     "03_Katalog všech činností/FIDIC Red RSD/FRR-48 - predkladani-zadosti-o-potvrzeni-prubezne-platby.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-46 - predkladani-zprav-o-postupu-praci.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-45 - zadost-o-schvaleni-formy-vyuctovani.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-44 - predlozeni-nezavaznych-odhadu-plateb.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-43 - predlozeni-pocatecniho-harmonogramu.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-42 - oznameni-o-datu-zahajeni-praci-podzhotovitele.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-41 - zadost-o-souhlas-s-podzhotovitelem.md",
     "00_Podklady/frr_charakter_refactor.py",
     "00_Podklady/__pycache__/migrate_add_metadata.cpython-311.pyc",
     "00_Podklady/__pycache__",

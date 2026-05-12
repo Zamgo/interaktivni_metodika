@@ -167,6 +167,12 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* Karty činností (průvodce): sjednotit vlevo — vnořené <article> dědí #quartz-body article */
+#quartz-body .home-landing article.wiz-tl-card {
+  align-items: stretch;
+  text-align: start;
+}
+
 :root[saved-theme="dark"] body {
   background-color: var(--light);
 }

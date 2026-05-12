@@ -14,7 +14,7 @@ aliases:
 ---
 # Popis
 
-Koordinátor CDE [[Pověřující strana|Pověřující strany]] ([[Pověřující strana|Objednatele]] - ŘSD) zajišťuje a odpovídá na konkrétním projektu za:
+Koordinátor CDE [[Objednatel|Pověřující strany]] ([[Objednatel|Objednatele]] - ŘSD) zajišťuje a odpovídá na konkrétním projektu za:
 - nastavení procesů výměny informací;
 - správu struktury a nastavení nástrojů CDE včetně nastavení přístupových práv;
 - zajištění technické podpory a zaškolení členů Projektového týmu pro nástroje CDE;
