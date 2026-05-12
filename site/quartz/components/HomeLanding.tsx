@@ -74,6 +74,11 @@ type EtapaDef = {
  */
 const ETAPA_DEFS: EtapaDef[] = [
   {
+    key: "pred_uzavrenim_smlouvy",
+    label: "Před uzavřením smlouvy",
+    phaseKeys: ["priprava"],
+  },
+  {
     key: "po_uzavreni_smlouvy",
     label: "Po uzavření smlouvy před zahájením prací",
     phaseKeys: ["priprava"],
