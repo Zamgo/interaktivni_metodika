@@ -9,7 +9,7 @@ faze:
 etapa:
 - po_zahajeni_praci
 R - Odpovědnost za provádění činnosti:
-- Koordinátor CDE
+- '[[Člen týmu správce stavby – Koordinátor CDE|Koordinátor CDE]]'
 A - Právní odpovědnost za dokončení činnosti: []
 C - Konzultace v průběhu činnosti: []
 I - Informování po dokončení činnosti: []
