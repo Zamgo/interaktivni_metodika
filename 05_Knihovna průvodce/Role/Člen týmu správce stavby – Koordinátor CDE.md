@@ -8,6 +8,7 @@ popis_karta: "Spravuje CDE, přístupová práva, procesy výměny informací a 
 ikona: "database"
 nadrizena_role: "[[Správce stavby]]"
 aliases:
+  - Koordinátor CDE
   - CDE koordinátor
   - Administrátor CDE
   - Správce informací
