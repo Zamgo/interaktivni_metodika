@@ -19,10 +19,6 @@ const NAV_LINKS: NavLink[] = [
 
 const DEFINITIONS_ROOT_PATH = "05_Knihovna-průvodce"
 const DEFINITIONS_DROPDOWN_LINKS: DropdownLink[] = [
-  {
-    label: "FAQ - Zkušenosti z projektů ŘSD (CDE)",
-    path: "05_Knihovna-průvodce/FAQ---Zkušenosti-z-projektů-ŘSD-(CDE)",
-  },
   { label: "CDE workflow", path: "05_Knihovna-průvodce/CDE-workflow/" },
   { label: "Smluvní strany", path: "05_Knihovna-průvodce/Smluvní-strany/" },
   { label: "Role", path: "05_Knihovna-průvodce/Role/" },
