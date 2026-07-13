@@ -1,7 +1,7 @@
 """
 FRR charakter refactor — jednorázový migrační skript.
 
-Provede na všech 29 FRR-*.md v 03_Katalog všech činností/FIDIC Red RSD/:
+Provede na všech 29 FRR-*.md v 03_Katalog všech činností/FIDIC Red/:
   1. Odebere `rezim_cinnosti` a `opakovatelnost`
   2. Přidá `charakter` (dle tabulky CHARAKTER_MAP) za klíč `stav`
   3. Opraví / odebere `spousteci_udalost` (dle SPOUSTECI_MAP)
@@ -21,7 +21,7 @@ import re
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 VAULT_ROOT = os.path.dirname(SCRIPT_DIR)
-FRR_DIR = os.path.join(VAULT_ROOT, "03_Katalog všech činností", "FIDIC Red RSD")
+FRR_DIR = os.path.join(VAULT_ROOT, "03_Katalog všech činností", "FIDIC Red")
 
 # charakter hodnota pro každé číslo FRR
 CHARAKTER_MAP = {

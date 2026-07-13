@@ -713,13 +713,13 @@ Tato struktura je dostatečně jednoduchá pro ruční plnění, ale zároveň d
 
 ---
 
-# 16. Poznámka k mapování FIDIC Red RSD
+# 16. Poznámka k mapování FIDIC Red
 
-Při přenosu činností z podkladů FIDIC Red RSD se časové bloky ze vstupní tabulky mapují do stávajících metadat bez přidání nových polí:
+Při přenosu činností z podkladů FIDIC Red se časové bloky ze vstupní tabulky mapují do stávajících metadat bez přidání nových polí:
 
 - `spousteci_udalost` nese primární časový kontext,
 - `etapa` nese projektové zasazení činnosti,
 - `casove_pravidlo` upřesňuje vztah k události (typicky `po`),
-- `zdroj` má formát `FIDIC_red_RSD; <cislo_bodu>; <clanek_smlouvy>`.
+- `zdroj` má formát `FIDIC_red; <cislo_bodu>; <clanek_smlouvy>`.
 
 Tím je zachována kompatibilita katalogu pro ISO 19650 i FIDIC bez změny struktury frontmatteru.
