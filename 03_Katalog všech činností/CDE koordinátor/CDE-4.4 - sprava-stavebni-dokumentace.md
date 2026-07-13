@@ -3,7 +3,7 @@ title: 4.4 - Správa stavební dokumentace
 typ: ukol
 oznaceni: '4.4'
 popis: Správa dokumentů vznikajících během výstavby.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.4
+zdroj: Katalog činností CDE koordinátora; 4.4
 faze:
 - realizace
 etapa:

@@ -3,7 +3,7 @@ title: 1.1 - Analýza zadávací dokumentace
 typ: ukol
 oznaceni: '1.1'
 popis: Vyhodnocení požadavků objednatele na informační management, BIM, CDE a digitální předávání informací.
-zdroj: Katalog činností CDE koordinátora ŘSD; 1.1
+zdroj: Katalog činností CDE koordinátora; 1.1
 faze:
 - priprava
 etapa:

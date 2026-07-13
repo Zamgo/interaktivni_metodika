@@ -3,7 +3,7 @@ title: 5.1 - Archivace projektu
 typ: ukol
 oznaceni: '5.1'
 popis: Vytvoření dlouhodobého archivu projektových informací.
-zdroj: Katalog činností CDE koordinátora ŘSD; 5.1
+zdroj: Katalog činností CDE koordinátora; 5.1
 faze:
 - realizace
 etapa:

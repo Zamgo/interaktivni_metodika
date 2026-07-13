@@ -3,7 +3,7 @@ title: 4.9 - Reporting stavu CDE
 typ: ukol
 oznaceni: '4.9'
 popis: Pravidelné reportování stavu prostředí CDE.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.9
+zdroj: Katalog činností CDE koordinátora; 4.9
 faze:
 - realizace
 etapa:

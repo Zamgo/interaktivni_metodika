@@ -3,7 +3,7 @@ title: 1.2 - Návrh struktury CDE
 typ: ukol
 oznaceni: '1.2'
 popis: Návrh struktury projektového prostředí v souladu s požadavky projektu.
-zdroj: Katalog činností CDE koordinátora ŘSD; 1.2
+zdroj: Katalog činností CDE koordinátora; 1.2
 faze:
 - priprava
 etapa:

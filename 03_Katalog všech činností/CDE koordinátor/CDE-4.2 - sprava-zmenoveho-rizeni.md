@@ -3,7 +3,7 @@ title: 4.2 - Správa změnového řízení
 typ: ukol
 oznaceni: '4.2'
 popis: Evidence a koordinace změn během výstavby.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.2
+zdroj: Katalog činností CDE koordinátora; 4.2
 faze:
 - realizace
 etapa:

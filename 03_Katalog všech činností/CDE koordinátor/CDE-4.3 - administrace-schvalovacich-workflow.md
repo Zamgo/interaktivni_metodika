@@ -3,7 +3,7 @@ title: 4.3 - Administrace schvalovacích workflow
 typ: ukol
 oznaceni: '4.3'
 popis: Řízení schvalovacích procesů během realizace stavby.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.3
+zdroj: Katalog činností CDE koordinátora; 4.3
 faze:
 - realizace
 etapa:

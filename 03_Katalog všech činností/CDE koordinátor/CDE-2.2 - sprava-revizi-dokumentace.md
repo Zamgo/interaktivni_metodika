@@ -3,7 +3,7 @@ title: 2.2 - Správa revizí dokumentace
 typ: ukol
 oznaceni: '2.2'
 popis: Řízení verzování a revizí dokumentace.
-zdroj: Katalog činností CDE koordinátora ŘSD; 2.2
+zdroj: Katalog činností CDE koordinátora; 2.2
 faze:
 - priprava
 etapa:

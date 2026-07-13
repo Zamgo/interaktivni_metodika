@@ -3,7 +3,7 @@ title: 1.4 - Nastavení uživatelů a oprávnění
 typ: ukol
 oznaceni: '1.4'
 popis: Zřízení přístupů a rolí účastníkům projektu.
-zdroj: Katalog činností CDE koordinátora ŘSD; 1.4
+zdroj: Katalog činností CDE koordinátora; 1.4
 faze:
 - priprava
 etapa:

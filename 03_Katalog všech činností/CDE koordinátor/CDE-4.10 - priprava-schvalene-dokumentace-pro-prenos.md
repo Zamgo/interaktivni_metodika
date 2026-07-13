@@ -3,7 +3,7 @@ title: 4.10 - Příprava schválené dokumentace pro přenos do datového skladu
 typ: ukol
 oznaceni: '4.10'
 popis: Příprava schválených dokumentů a modelů pro uložení do datového skladu objednatele.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.10
+zdroj: Katalog činností CDE koordinátora; 4.10
 faze:
 - realizace
 etapa:

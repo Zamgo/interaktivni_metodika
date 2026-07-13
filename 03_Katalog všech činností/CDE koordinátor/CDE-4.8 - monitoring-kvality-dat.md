@@ -3,7 +3,7 @@ title: 4.8 - Monitoring kvality dat
 typ: ukol
 oznaceni: '4.8'
 popis: Průběžná kontrola kvality dokumentace a modelů.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.8
+zdroj: Katalog činností CDE koordinátora; 4.8
 faze:
 - realizace
 etapa:

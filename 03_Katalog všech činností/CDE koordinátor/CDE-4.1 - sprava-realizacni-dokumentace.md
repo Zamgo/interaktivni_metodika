@@ -3,7 +3,7 @@ title: 4.1 - Správa realizační dokumentace
 typ: ukol
 oznaceni: '4.1'
 popis: Kontrola a správa dokumentace používané během realizace.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.1
+zdroj: Katalog činností CDE koordinátora; 4.1
 faze:
 - realizace
 etapa:

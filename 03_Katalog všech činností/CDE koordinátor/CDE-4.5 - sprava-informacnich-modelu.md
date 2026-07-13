@@ -3,7 +3,7 @@ title: 4.5 - Správa informačních modelů
 typ: ukol
 oznaceni: '4.5'
 popis: Koordinace ukládání a publikace BIM modelů.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.5
+zdroj: Katalog činností CDE koordinátora; 4.5
 faze:
 - realizace
 etapa:

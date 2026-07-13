@@ -3,7 +3,7 @@ title: 2.3 - Koordinace sdílení modelů
 typ: ukol
 oznaceni: '2.3'
 popis: Koordinace sdílení BIM modelů mezi účastníky projektu.
-zdroj: Katalog činností CDE koordinátora ŘSD; 2.3
+zdroj: Katalog činností CDE koordinátora; 2.3
 faze:
 - priprava
 etapa:

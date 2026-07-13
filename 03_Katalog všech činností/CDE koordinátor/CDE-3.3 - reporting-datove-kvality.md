@@ -3,7 +3,7 @@ title: 3.3 - Reporting datové kvality
 typ: ukol
 oznaceni: '3.3'
 popis: Vyhodnocování kvality dat uložených v CDE.
-zdroj: Katalog činností CDE koordinátora ŘSD; 3.3
+zdroj: Katalog činností CDE koordinátora; 3.3
 faze:
 - priprava
 etapa:

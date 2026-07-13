@@ -3,7 +3,7 @@ title: 1.3 - Založení projektu v CDE
 typ: ukol
 oznaceni: '1.3'
 popis: Konfigurace a aktivace projektového prostředí.
-zdroj: Katalog činností CDE koordinátora ŘSD; 1.3
+zdroj: Katalog činností CDE koordinátora; 1.3
 faze:
 - priprava
 etapa:

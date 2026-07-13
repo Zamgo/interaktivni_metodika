@@ -3,7 +3,7 @@ title: 2.1 - Koordinace ukládání dokumentace DSP
 typ: ukol
 oznaceni: '2.1'
 popis: Kontrola správného ukládání dokumentace do CDE.
-zdroj: Katalog činností CDE koordinátora ŘSD; 2.1
+zdroj: Katalog činností CDE koordinátora; 2.1
 faze:
 - priprava
 etapa:

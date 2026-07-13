@@ -3,7 +3,7 @@ title: 5.2 - Závěrečný audit CDE
 typ: ukol
 oznaceni: '5.2'
 popis: Vyhodnocení souladu projektu s požadavky informačního managementu.
-zdroj: Katalog činností CDE koordinátora ŘSD; 5.2
+zdroj: Katalog činností CDE koordinátora; 5.2
 faze:
 - realizace
 etapa:

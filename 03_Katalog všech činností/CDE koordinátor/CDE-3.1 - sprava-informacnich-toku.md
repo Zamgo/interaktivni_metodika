@@ -3,7 +3,7 @@ title: 3.1 - Správa informačních toků
 typ: ukol
 oznaceni: '3.1'
 popis: Řízení výměny informací mezi profesemi a organizacemi.
-zdroj: Katalog činností CDE koordinátora ŘSD; 3.1
+zdroj: Katalog činností CDE koordinátora; 3.1
 faze:
 - priprava
 etapa:

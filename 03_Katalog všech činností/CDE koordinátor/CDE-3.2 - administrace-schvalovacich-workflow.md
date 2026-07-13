@@ -3,7 +3,7 @@ title: 3.2 - Administrace schvalovacích workflow
 typ: ukol
 oznaceni: '3.2'
 popis: Správa procesů schvalování dokumentace.
-zdroj: Katalog činností CDE koordinátora ŘSD; 3.2
+zdroj: Katalog činností CDE koordinátora; 3.2
 faze:
 - priprava
 etapa:

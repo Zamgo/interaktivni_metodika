@@ -3,7 +3,7 @@ title: 4.6 - Správa modelu skutečného provedení (As-Built)
 typ: ukol
 oznaceni: '4.6'
 popis: Kontrola a správa modelu skutečného provedení stavby.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.6
+zdroj: Katalog činností CDE koordinátora; 4.6
 faze:
 - realizace
 etapa:

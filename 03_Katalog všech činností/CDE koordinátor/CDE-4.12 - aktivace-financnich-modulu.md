@@ -3,7 +3,7 @@ title: 4.12 - Aktivace a správa finančních modulů v CDE
 typ: ukol
 oznaceni: '4.12'
 popis: Aktivace, konfigurace a správa finančních funkcionalit dostupných v rámci CDE.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.12
+zdroj: Katalog činností CDE koordinátora; 4.12
 faze:
 - realizace
 etapa:

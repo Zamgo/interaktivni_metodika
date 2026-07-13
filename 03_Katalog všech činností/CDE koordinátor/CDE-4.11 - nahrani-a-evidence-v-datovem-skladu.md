@@ -3,7 +3,7 @@ title: 4.11 - Nahrání a evidence dokumentace v datovém skladu objednatele
 typ: ukol
 oznaceni: '4.11'
 popis: Nahrání schválené dokumentace a modelů do datového skladu objednatele a evidence předání.
-zdroj: Katalog činností CDE koordinátora ŘSD; 4.11
+zdroj: Katalog činností CDE koordinátora; 4.11
 faze:
 - realizace
 etapa:
