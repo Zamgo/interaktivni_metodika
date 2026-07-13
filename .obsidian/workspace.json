@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05_Knihovna průvodce/Smluvní strany/Zhotovitel.md",
+                "file": "04_Šablony ke stažení.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Zhotovitel"
+              "title": "04_Šablony ke stažení"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 461.5
+    "width": 323.5
   },
   "right": {
     "id": "925f1fb0b98116e3",
@@ -186,8 +186,16 @@
   },
   "active": "c078a3fb3b9b766e",
   "lastOpenFiles": [
-    "05_Knihovna průvodce/Smluvní strany/Podzhotovitel.md",
+    "03 - CDE workflow.md",
+    "03 - CDE workflow.base",
+    "02 - Seznam všech činností.md",
+    "02 - Seznam všech činností.base",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-12 - schvaleni-formy-vyuctovani.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-05 - nastaveni-formatu-predkladani-zaznamu-o-personalu-a-vybaveni-zhotovitele.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-03 - vyjadrit-souhlas-se-jmenovanym-zastupcem-zhotovitele.md",
+    "03_Katalog všech činností/FIDIC Red RSD/FRR-01 - povereni-asistentu-spravce-stavby.md",
     "05_Knihovna průvodce/Smluvní strany/Zhotovitel.md",
+    "05_Knihovna průvodce/Smluvní strany/Podzhotovitel.md",
     "05_Knihovna průvodce/Smluvní strany/Objednatel.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-09 - oznameni-o-datu-zahajeni-praci.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-65 - predlozeni-prohlaseni-o-splneni-platebnich-zavazku.md",
@@ -206,22 +214,14 @@
     "03_Katalog všech činností/FIDIC Red RSD/FRR-53 - uprava-v-dusledku-zmen-nakladu.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-52 - predlozeni-aktualizovaneho-harmonogramu.md",
     "03_Katalog všech činností/FIDIC Red RSD/FRR-51 - upozorneni-zhotovitele-o-skutecnostech-na-stavbe.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-47 - predkladani-zaznamu-o-personalu-a-vybaveni.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-49 - zalohova-platba-a-platba.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-50 - vytyceni-dila.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-48 - predkladani-zadosti-o-potvrzeni-prubezne-platby.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-46 - predkladani-zprav-o-postupu-praci.md",
-    "03_Katalog všech činností/FIDIC Red RSD/FRR-45 - zadost-o-schvaleni-formy-vyuctovani.md",
     "00_Podklady/frr_charakter_refactor.py",
     "00_Podklady/__pycache__/migrate_add_metadata.cpython-311.pyc",
     "00_Podklady/__pycache__",
     "00_Podklady/_tmp_refactor_frr.py",
-    "02 - Seznam všech činností.base",
     "site/quartz/components/scripts/homeLanding.inline.splitpane.bak.ts",
     "_tmp_chain_frr.py",
     "site/public/proces/provoz-a-udrzba/export-do-aspehub-pavlina.html",
     "site/public/proces/provoz-a-udrzba",
-    "site/public/proces",
     "site/public/05_Knihovna-průvodce/Diagramy/Hierarchie-týmu-správce-stavby.canvas",
     "site/public/static/rsd-logo.svg",
     "site/public/static/rsd-icon.svg",
