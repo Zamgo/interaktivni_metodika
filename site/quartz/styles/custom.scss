@@ -1,9 +1,9 @@
 @use "./variables.scss" as *;
 @use "./base.scss";
 
-// Paleta dle manuálu ŘSD (02/2024): #09417A, #0096DC; sekundární šedá ~#aeb4ab
-$rsd-blue-dark: #09417a;
-$rsd-blue-light: #0096dc;
+// Brand barvy se injektují per-firma přes Head.tsx jako CSS proměnné:
+// var(--brand-dark), var(--brand-light), var(--brand-accent), var(--brand-accent-2).
+// Definice hodnot viz site/tenants.ts.
 :root {
   --left-sidebar-width: 280px;
 }
@@ -23,7 +23,7 @@ body {
    scrollbar-gutter: stable reserves space, takže layout nepoškubává. */
 html {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, $rsd-blue-dark 40%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--brand-dark) 40%, transparent) transparent;
 }
 
 html::-webkit-scrollbar {
@@ -36,14 +36,14 @@ html::-webkit-scrollbar-track {
 }
 
 html::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, $rsd-blue-dark 35%, transparent);
+  background: color-mix(in srgb, var(--brand-dark) 35%, transparent);
   border-radius: 5px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 html::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, $rsd-blue-dark 55%, transparent);
+  background: color-mix(in srgb, var(--brand-dark) 55%, transparent);
   background-clip: padding-box;
 }
 
@@ -59,14 +59,14 @@ html::-webkit-scrollbar-thumb:hover {
     padding-top: 1.5rem;
     padding-left: clamp(1rem, 3vw, 2.25rem);
     padding-right: clamp(1rem, 3vw, 2.25rem);
-    border-right: 1px solid color-mix(in srgb, $rsd-blue-dark 8%, transparent);
+    border-right: 1px solid color-mix(in srgb, var(--brand-dark) 8%, transparent);
     transition:
       width 0.3s ease,
       padding 0.3s ease;
   }
 
   & .sidebar.right {
-    border-left: 1px solid color-mix(in srgb, $rsd-blue-dark 8%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--brand-dark) 8%, transparent);
   }
 
   // Střed: jemně modrošedý podklad (soulad s CI)
@@ -78,16 +78,16 @@ html::-webkit-scrollbar-thumb:hover {
     align-items: stretch;
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, $rsd-blue-dark 4%, #f0f4fa) 0%,
+      color-mix(in srgb, var(--brand-dark) 4%, #f0f4fa) 0%,
       #e8eef6 50%,
-      color-mix(in srgb, $rsd-blue-light 5%, #e6ecf4) 100%
+      color-mix(in srgb, var(--brand-light) 5%, #e6ecf4) 100%
     );
     padding-left: clamp(1rem, 3vw, 2.25rem);
     padding-right: clamp(1rem, 3vw, 2.25rem);
     padding-bottom: 2rem;
     box-shadow:
-      -14px 0 32px -20px color-mix(in srgb, $rsd-blue-dark 25%, transparent),
-      14px 0 32px -20px color-mix(in srgb, $rsd-blue-dark 18%, transparent);
+      -14px 0 32px -20px color-mix(in srgb, var(--brand-dark) 25%, transparent),
+      14px 0 32px -20px color-mix(in srgb, var(--brand-dark) 18%, transparent);
     box-sizing: border-box;
   }
 
@@ -102,14 +102,14 @@ html::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(
       180deg,
       #ffffff 0%,
-      color-mix(in srgb, $rsd-blue-light 2.5%, #ffffff) 100%
+      color-mix(in srgb, var(--brand-light) 2.5%, #ffffff) 100%
     );
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 10%, #d4dce6);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 10%, #d4dce6);
     border-radius: 10px;
     padding: 1.35rem 1.65rem 2.25rem;
     box-shadow:
-      0 1px 2px rgba(9, 65, 122, 0.04),
-      0 8px 28px -8px color-mix(in srgb, $rsd-blue-dark 12%, transparent);
+      0 1px 2px color-mix(in srgb, var(--brand-dark) 4%, transparent),
+      0 8px 28px -8px color-mix(in srgb, var(--brand-dark) 12%, transparent);
   }
 
   // Běžná stránka: <article class="popover-hint"> je sémantický obal bez boxu — bílá karta jen kolem skutečného obsahu
@@ -125,14 +125,14 @@ html::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(
       180deg,
       #ffffff 0%,
-      color-mix(in srgb, $rsd-blue-light 2.5%, #ffffff) 100%
+      color-mix(in srgb, var(--brand-light) 2.5%, #ffffff) 100%
     );
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 10%, #d4dce6);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 10%, #d4dce6);
     border-radius: 10px;
     padding: 1.35rem 1.65rem 2.25rem;
     box-shadow:
-      0 1px 2px rgba(9, 65, 122, 0.04),
-      0 8px 28px -8px color-mix(in srgb, $rsd-blue-dark 12%, transparent);
+      0 1px 2px color-mix(in srgb, var(--brand-dark) 4%, transparent),
+      0 8px 28px -8px color-mix(in srgb, var(--brand-dark) 12%, transparent);
   }
 
   @media all and (max-width: 800px) {
@@ -189,7 +189,7 @@ html::-webkit-scrollbar-thumb:hover {
     & .center {
       background: color-mix(in srgb, var(--lightgray) 28%, var(--light));
       box-shadow:
-        -12px 0 28px -16px rgba(0, 150, 220, 0.12),
+        -12px 0 28px -16px color-mix(in srgb, var(--brand-light) 12%, transparent),
         12px 0 28px -16px rgba(0, 0, 0, 0.3);
     }
 
@@ -261,7 +261,7 @@ html::-webkit-scrollbar-thumb:hover {
 #quartz-body .center > hr:has(+ .page-footer:has([data-raci-backlinks])) {
   display: block;
   border: 0;
-  border-top: 2px solid color-mix(in srgb, $rsd-blue-dark 78%, #fff);
+  border-top: 2px solid color-mix(in srgb, var(--brand-dark) 78%, #fff);
   margin: 0.35rem 0 0.65rem;
   opacity: 0.95;
 }
@@ -299,7 +299,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* File links — base */
 #quartz-body .sidebar.left .explorer-content ul li > a {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   opacity: 1 !important;
   display: block;
   padding: 2px 6px;
@@ -311,15 +311,15 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* File links — hover */
 #quartz-body .sidebar.left .explorer-content ul li > a:hover {
-  color: $rsd-blue-light !important;
-  background-color: color-mix(in srgb, $rsd-blue-dark 7%, transparent) !important;
+  color: var(--brand-light) !important;
+  background-color: color-mix(in srgb, var(--brand-dark) 7%, transparent) !important;
   opacity: 1 !important;
 }
 
 /* File links — active (current page) */
 #quartz-body .sidebar.left .explorer-content ul li > a.active {
-  color: $rsd-blue-light !important;
-  background-color: color-mix(in srgb, $rsd-blue-light 12%, transparent) !important;
+  color: var(--brand-light) !important;
+  background-color: color-mix(in srgb, var(--brand-light) 12%, transparent) !important;
   font-weight: 600;
   opacity: 1 !important;
 }
@@ -332,37 +332,37 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 #quartz-body .sidebar.left .folder-container:hover {
-  background-color: color-mix(in srgb, $rsd-blue-dark 7%, transparent);
+  background-color: color-mix(in srgb, var(--brand-dark) 7%, transparent);
 }
 
 /* Folder button title text */
 #quartz-body .sidebar.left .folder-container div > button .folder-title,
 #quartz-body .sidebar.left .folder-container div > button span {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   font-weight: 600;
   transition: color 0.15s ease;
 }
 
 #quartz-body .sidebar.left .folder-container div > button:hover .folder-title,
 #quartz-body .sidebar.left .folder-container div > button:hover span {
-  color: $rsd-blue-light !important;
+  color: var(--brand-light) !important;
 }
 
 /* Folder expand/collapse icon */
 #quartz-body .sidebar.left .folder-icon {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   transition: color 0.15s ease;
 }
 
 #quartz-body .sidebar.left .folder-icon:hover {
-  color: $rsd-blue-light !important;
+  color: var(--brand-light) !important;
 }
 
 /* ─── Left sidebar: icon toolbar (search / darkmode / readermode) ─ */
 
 /* Darkmode icon — brand color */
 #quartz-body .sidebar.left .darkmode svg {
-  fill: $rsd-blue-dark !important;
+  fill: var(--brand-dark) !important;
   transition:
     fill 0.15s ease,
     opacity 0.15s ease;
@@ -374,8 +374,8 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* Readermode icon — brand color */
 #quartz-body .sidebar.left .readermode svg {
-  fill: $rsd-blue-dark !important;
-  stroke: $rsd-blue-dark !important;
+  fill: var(--brand-dark) !important;
+  stroke: var(--brand-dark) !important;
   transition:
     fill 0.15s ease,
     stroke 0.15s ease,
@@ -421,19 +421,19 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 #quartz-body .sidebar.left .search > .search-button svg .search-path {
-  stroke: $rsd-blue-dark !important;
+  stroke: var(--brand-dark) !important;
 }
 
 /* ─── Markdown article links ─────────────────────────────────────── */
 #quartz-body .center article a,
 #quartz-body .center article a:visited {
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
 }
 
 #quartz-body .center article a:hover,
 #quartz-body .center article a:focus-visible,
 #quartz-body .center article a:active {
-  color: $rsd-blue-light;
+  color: var(--brand-light);
 }
 
 /* ─── Legal text formatting: H5 as normal text with slight indent ───────── */
@@ -475,22 +475,22 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* "Obsah" header button */
 button.toc-header {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   font-weight: 600;
 }
 
 button.toc-header h3 {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
 }
 
 button.toc-header .fold {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   opacity: 1 !important;
 }
 
 /* TOC items */
 ul.toc-content.overflow > li > a {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   opacity: 0.5 !important;
   transition:
     opacity 0.2s ease,
@@ -498,12 +498,12 @@ ul.toc-content.overflow > li > a {
 }
 
 ul.toc-content.overflow > li > a:hover {
-  color: $rsd-blue-light !important;
+  color: var(--brand-light) !important;
   opacity: 1 !important;
 }
 
 ul.toc-content.overflow > li > a.in-view {
-  color: $rsd-blue-light !important;
+  color: var(--brand-light) !important;
   opacity: 1 !important;
   font-weight: 600;
 }
@@ -511,23 +511,23 @@ ul.toc-content.overflow > li > a.in-view {
 /* ─── Right sidebar: Graf ────────────────────────────────────────── */
 
 .graph > h3 {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   font-weight: 600;
 }
 
 .graph > .graph-outer {
-  border-color: color-mix(in srgb, $rsd-blue-dark 18%, transparent) !important;
+  border-color: color-mix(in srgb, var(--brand-dark) 18%, transparent) !important;
   border-radius: 8px !important;
 }
 
 .graph > .graph-outer > .global-graph-icon {
-  color: $rsd-blue-dark !important;
+  color: var(--brand-dark) !important;
   opacity: 0.6;
 }
 
 .graph > .graph-outer > .global-graph-icon:hover {
   opacity: 1;
-  background-color: color-mix(in srgb, $rsd-blue-dark 8%, transparent) !important;
+  background-color: color-mix(in srgb, var(--brand-dark) 8%, transparent) !important;
 }
 
 /* ─── No right sidebar panel ────────────────────────────────────── */
@@ -554,10 +554,10 @@ ul.toc-content.overflow > li > a.in-view {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid color-mix(in srgb, $rsd-blue-dark 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-dark) 15%, transparent);
   border-radius: 6px;
   background: #ffffff;
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
   cursor: pointer;
   transition:
     left 0.3s ease,
@@ -567,7 +567,7 @@ ul.toc-content.overflow > li > a.in-view {
   padding: 0;
 
   &:hover {
-    background: color-mix(in srgb, $rsd-blue-dark 6%, #ffffff);
+    background: color-mix(in srgb, var(--brand-dark) 6%, #ffffff);
   }
 
   svg {
@@ -607,7 +607,7 @@ ul.toc-content.overflow > li > a.in-view {
     left: 5px;
     width: 2px;
     border-radius: 1px;
-    background: color-mix(in srgb, $rsd-blue-dark 20%, transparent);
+    background: color-mix(in srgb, var(--brand-dark) 20%, transparent);
     opacity: 0;
     transition: opacity 0.15s ease;
   }
@@ -795,8 +795,8 @@ html body .page > #quartz-body > footer {
   margin: 0 calc(-1 * clamp(1rem, 3vw, 2.25rem)) !important;
   padding: 0.75rem clamp(1rem, 3vw, 2.25rem);
   background: #ffffff;
-  border-bottom: 2px solid $rsd-blue-dark;
-  box-shadow: 0 4px 12px rgba(9, 65, 122, 0.08);
+  border-bottom: 2px solid var(--brand-dark);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-dark) 8%, transparent);
   box-sizing: border-box;
 }
 
@@ -888,7 +888,7 @@ html {
 
 #quartz-body .page-header .top-nav-link {
   white-space: nowrap;
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
   padding: 0.45rem 0.85rem;
   border-radius: 6px;
   border: 1px solid transparent;
@@ -901,17 +901,17 @@ html {
 }
 
 #quartz-body .page-header .top-nav-link:hover {
-  background: color-mix(in srgb, $rsd-blue-dark 9%, #ffffff);
-  color: $rsd-blue-light;
-  border-color: color-mix(in srgb, $rsd-blue-dark 14%, transparent);
+  background: color-mix(in srgb, var(--brand-dark) 9%, #ffffff);
+  color: var(--brand-light);
+  border-color: color-mix(in srgb, var(--brand-dark) 14%, transparent);
 }
 
 #quartz-body .page-header .top-nav-link.active,
 #quartz-body .page-header .top-nav-dropdown-toggle[aria-expanded="true"] {
-  background: color-mix(in srgb, $rsd-blue-dark 14%, #ffffff);
-  color: $rsd-blue-dark;
+  background: color-mix(in srgb, var(--brand-dark) 14%, #ffffff);
+  color: var(--brand-dark);
   font-weight: 600;
-  border-color: color-mix(in srgb, $rsd-blue-dark 24%, transparent);
+  border-color: color-mix(in srgb, var(--brand-dark) 24%, transparent);
 }
 
 #quartz-body .page-header .top-nav-dropdown-toggle::after {
@@ -928,34 +928,34 @@ html {
 
 #quartz-body .page-header .top-nav-dropdown-menu {
   background: #ffffff;
-  border: 1px solid color-mix(in srgb, $rsd-blue-dark 16%, #dce5f0);
+  border: 1px solid color-mix(in srgb, var(--brand-dark) 16%, #dce5f0);
   border-radius: 8px;
   box-shadow:
-    0 8px 24px -10px rgba(9, 65, 122, 0.32),
-    0 2px 6px rgba(9, 65, 122, 0.08);
+    0 8px 24px -10px color-mix(in srgb, var(--brand-dark) 32%, transparent),
+    0 2px 6px color-mix(in srgb, var(--brand-dark) 8%, transparent);
 }
 
 #quartz-body .page-header .top-nav-dropdown-link {
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
   border-left: 2px solid transparent;
   border-radius: 5px;
 }
 
 #quartz-body .page-header .top-nav-dropdown-link:hover {
-  color: $rsd-blue-light;
-  background: color-mix(in srgb, $rsd-blue-dark 8%, #ffffff);
+  color: var(--brand-light);
+  background: color-mix(in srgb, var(--brand-dark) 8%, #ffffff);
 }
 
 #quartz-body .page-header .top-nav-dropdown-link.active {
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
   font-weight: 600;
-  background: color-mix(in srgb, $rsd-blue-dark 12%, #ffffff);
-  border-left-color: $rsd-blue-light;
+  background: color-mix(in srgb, var(--brand-dark) 12%, #ffffff);
+  border-left-color: var(--brand-light);
 }
 
 #quartz-body .page-header .top-nav-link:focus-visible,
 #quartz-body .page-header .top-nav-dropdown-link:focus-visible {
-  outline: 2px solid color-mix(in srgb, $rsd-blue-light 55%, #ffffff);
+  outline: 2px solid color-mix(in srgb, var(--brand-light) 55%, #ffffff);
   outline-offset: 1px;
 }
 
@@ -971,10 +971,10 @@ html {
   align-items: center;
   gap: 0.45rem;
   background: transparent;
-  border: 1px solid color-mix(in srgb, $rsd-blue-dark 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-dark) 14%, transparent);
   border-radius: 6px;
   padding: 0.4rem 0.85rem 0.4rem 0.7rem;
-  color: $rsd-blue-dark;
+  color: var(--brand-dark);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
@@ -990,12 +990,12 @@ html {
 }
 
 #quartz-body .page-header .search > .search-button:hover {
-  background: color-mix(in srgb, $rsd-blue-dark 9%, transparent);
-  border-color: color-mix(in srgb, $rsd-blue-dark 35%, transparent);
+  background: color-mix(in srgb, var(--brand-dark) 9%, transparent);
+  border-color: color-mix(in srgb, var(--brand-dark) 35%, transparent);
 }
 
 #quartz-body .page-header .search > .search-button:focus-visible {
-  outline: 2px solid color-mix(in srgb, $rsd-blue-light 45%, #ffffff);
+  outline: 2px solid color-mix(in srgb, var(--brand-light) 45%, #ffffff);
   outline-offset: 1px;
 }
 
@@ -1008,7 +1008,7 @@ html {
 }
 
 #quartz-body .page-header .search > .search-button svg .search-path {
-  stroke: $rsd-blue-dark !important;
+  stroke: var(--brand-dark) !important;
   stroke-width: 2px;
 }
 
@@ -1049,11 +1049,11 @@ html {
 }
 
 #quartz-body .page-header .darkmode:hover {
-  background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
+  background: color-mix(in srgb, var(--brand-dark) 10%, transparent);
 }
 
 #quartz-body .page-header .darkmode svg {
-  fill: $rsd-blue-dark !important;
+  fill: var(--brand-dark) !important;
   width: 18px;
   height: 18px;
 }
@@ -1073,7 +1073,7 @@ html {
 :root[saved-theme="dark"] #quartz-body .center > .page-header > header {
   background: var(--light);
   border-color: var(--lightgray);
-  border-bottom-color: $rsd-blue-light;
+  border-bottom-color: var(--brand-light);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 

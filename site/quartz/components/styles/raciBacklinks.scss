@@ -238,7 +238,7 @@
 }
 
 .raci-group {
-  border-bottom: 1px solid color-mix(in srgb, #09417a 55%, #fff);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-dark) 55%, #fff);
 
   &:last-of-type {
     border-bottom: none;
@@ -378,7 +378,7 @@
   gap: 0.4rem;
   padding: 0.2rem 0.4rem 0.2rem 1.4rem;
   font-size: 0.86rem;
-  border-bottom: 1px solid color-mix(in srgb, #09417a 50%, #fff);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-dark) 50%, #fff);
 
   &:last-child {
     border-bottom: none;

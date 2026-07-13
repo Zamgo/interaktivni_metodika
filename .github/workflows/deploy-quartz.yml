@@ -35,11 +35,22 @@ jobs:
         working-directory: site
         run: npm ci
 
-      - name: Build site
+      - name: Build all tenants
         working-directory: site
         env:
-          QUARTZ_BASE_URL: ${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-        run: node ./quartz/bootstrap-cli.mjs build -d ..
+          PAGES_BASE: ${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          # Přidejte další firmu = přidejte její id sem (musí existovat v tenants.ts).
+          for tenant in rsd sz; do
+            echo "::group::Build tenant $tenant"
+            QUARTZ_TENANT="$tenant" \
+            QUARTZ_BASE_URL="$PAGES_BASE/$tenant" \
+            node ./quartz/bootstrap-cli.mjs build -d .. -o "public/$tenant"
+            echo "::endgroup::"
+          done
+
+      - name: Add root landing page
+        run: cp site/root/index.html site/public/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

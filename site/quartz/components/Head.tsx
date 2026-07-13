@@ -5,6 +5,12 @@ import { googleFontHref, googleFontSubsetHref } from "../util/theme"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { unescapeHTML } from "../util/escape"
 import { CustomOgImagesEmitterName } from "../plugins/emitters/ogImage"
+import { getActiveTenant } from "../../tenants"
+
+// Brand barvy aktivní firmy jako CSS proměnné (viz tenants.ts + SCSS var(--brand-*)).
+const tenant = getActiveTenant()
+const brandStyle = `:root{--brand-dark:${tenant.colors.brandDark};--brand-light:${tenant.colors.brandLight};--brand-accent:${tenant.colors.brandAccent};--brand-accent-2:${tenant.colors.brandAccent2};}`
+
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
@@ -25,7 +31,7 @@ export default (() => {
     const url = new URL(`https://${cfg.baseUrl ?? "example.com"}`)
     const path = url.pathname as FullSlug
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
-    const iconPath = joinSegments(baseDir, "static/icon.png")
+    const iconPath = joinSegments(baseDir, `static/${tenant.icon}`)
 
     // Url of current page
     const socialUrl =
@@ -40,6 +46,7 @@ export default (() => {
       <head>
         <title>{title}</title>
         <meta charSet="utf-8" />
+        <style dangerouslySetInnerHTML={{ __html: brandStyle }} />
         {cfg.theme.cdnCaching && cfg.theme.fontOrigin === "googleFonts" && (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />

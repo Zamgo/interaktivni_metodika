@@ -1,5 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { sitePath } from "../util/path"
+import { getActiveTenant } from "../../tenants"
+
+const tenant = getActiveTenant()
 
 type NavLink = {
   label: string
@@ -29,14 +32,14 @@ const DEFINITIONS_DROPDOWN_LINKS: DropdownLink[] = [
 
 const TopNav: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
   const homeHref = sitePath(cfg.baseUrl)
-  const logoSrc = sitePath(cfg.baseUrl, "static/rsd-logo.svg")
+  const logoSrc = sitePath(cfg.baseUrl, `static/${tenant.logo}`)
 
   return (
     <div class="top-nav">
       <a href={homeHref} class="top-nav-logo" aria-label="Zpět na úvod">
         <img
           src={logoSrc}
-          alt="Ředitelství silnic a dálnic"
+          alt={tenant.logoAlt}
           width="120"
           height="49"
           class="top-nav-logo-img"

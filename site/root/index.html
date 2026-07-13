@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metodika správy informací o stavbě – rozcestník</title>
+    <meta name="robots" content="noindex" />
+    <style>
+      :root {
+        --rsd: #09417a;
+        --sz: #002b59;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        padding: 2rem;
+        font-family:
+          system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(180deg, #f0f4fa 0%, #e6ecf4 100%);
+        color: #2b2b2b;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        text-align: center;
+        font-weight: 700;
+      }
+      p.lead {
+        margin: 0;
+        text-align: center;
+        color: #4e4e4e;
+        max-width: 40rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 1.25rem;
+        width: min(100%, 44rem);
+      }
+      a.card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 1.5rem 1.6rem;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid #d4dce6;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 8px 28px -12px rgba(9, 65, 122, 0.25);
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease,
+          border-color 120ms ease;
+      }
+      a.card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 34px -12px rgba(9, 65, 122, 0.35);
+      }
+      a.card .short {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+      a.card .full {
+        color: #4e4e4e;
+        font-size: 0.95rem;
+      }
+      a.card[data-tenant="rsd"] {
+        border-top: 5px solid var(--rsd);
+      }
+      a.card[data-tenant="rsd"] .short {
+        color: var(--rsd);
+      }
+      a.card[data-tenant="sz"] {
+        border-top: 5px solid var(--sz);
+      }
+      a.card[data-tenant="sz"] .short {
+        color: var(--sz);
+      }
+      footer {
+        color: #7a7a7a;
+        font-size: 0.82rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Praktický průvodce správou informací o stavbě</h1>
+    <p class="lead">Vyberte variantu podle organizace:</p>
+    <div class="grid">
+      <a class="card" href="./rsd/" data-tenant="rsd">
+        <span class="short">ŘSD</span>
+        <span class="full">Ředitelství silnic a dálnic</span>
+      </a>
+      <a class="card" href="./sz/" data-tenant="sz">
+        <span class="short">SŽ</span>
+        <span class="full">Správa železnic</span>
+      </a>
+    </div>
+    <footer>Metodika CDE (POC)</footer>
+  </body>
+</html>

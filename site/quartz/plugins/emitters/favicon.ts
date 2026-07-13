@@ -3,11 +3,12 @@ import { joinSegments, QUARTZ, FullSlug } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
 import { BuildCtx } from "../../util/ctx"
+import { getActiveTenant } from "../../../tenants"
 
 export const Favicon: QuartzEmitterPlugin = () => ({
   name: "Favicon",
   async *emit({ argv }) {
-    const iconPath = joinSegments(QUARTZ, "static", "rsd-icon.svg")
+    const iconPath = joinSegments(QUARTZ, "static", getActiveTenant().icon)
 
     const faviconContent = sharp(iconPath).resize(48, 48).toFormat("png")
 

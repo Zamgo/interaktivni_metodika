@@ -1,7 +1,4 @@
-// ŘSD manuál VI 02/2024: tmavá modrá #09417A, světlá modrá #0096DC
-$rsd-blue-dark: #09417a;
-$rsd-blue-light: #0096dc;
-
+// Brand barvy per-firma přes CSS proměnné (--brand-dark, --brand-light). Viz site/tenants.ts.
 #quartz-body > footer.site-footer {
   width: 100%;
   max-width: none !important;
@@ -10,9 +7,14 @@ $rsd-blue-light: #0096dc;
   padding: 2.25rem clamp(1.25rem, 5vw, 3.5rem) 2.5rem;
   box-sizing: border-box;
 
-  background: linear-gradient(180deg, #08365f 0%, $rsd-blue-dark 28%, $rsd-blue-dark 100%);
-  border-top: 4px solid $rsd-blue-light;
-  box-shadow: 0 -6px 24px rgba(9, 65, 122, 0.15);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand-dark) 88%, #000) 0%,
+    var(--brand-dark) 28%,
+    var(--brand-dark) 100%
+  );
+  border-top: 4px solid var(--brand-light);
+  box-shadow: 0 -6px 24px color-mix(in srgb, var(--brand-dark) 15%, transparent);
 
   color: rgba(255, 255, 255, 0.92);
   text-align: left;
@@ -40,7 +42,7 @@ $rsd-blue-light: #0096dc;
   }
 
   & a {
-    color: color-mix(in srgb, $rsd-blue-light 85%, white);
+    color: color-mix(in srgb, var(--brand-light) 85%, white);
     font-weight: 600;
     text-decoration: none;
     background: none !important;

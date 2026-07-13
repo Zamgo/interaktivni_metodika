@@ -644,8 +644,8 @@
   }
 
   .cinnosti-pill-raci-role {
-    background: color-mix(in srgb, #2f855a 11%, var(--light));
-    color: color-mix(in srgb, #2f855a 80%, var(--dark));
+    background: color-mix(in srgb, var(--brand-accent-2) 11%, var(--light));
+    color: color-mix(in srgb, var(--brand-accent-2) 80%, var(--dark));
   }
 
   .cinnosti-pill-raci-other {

@@ -1,9 +1,7 @@
 @use "../../styles/variables.scss" as *;
 
-$rsd-blue-dark: #09417a;
-$rsd-blue-light: #2b6cb0;
-$rsd-orange: #d97706;
-$rsd-green: #2f855a;
+// Brand barvy se injektují per-firma přes Head.tsx jako CSS proměnné
+// (--brand-dark, --brand-light, --brand-accent, --brand-accent-2). Viz site/tenants.ts.
 $wizard-card-radius: 10px;
 $wizard-card-min-height: 3.5rem;
 $wizard-card-text-size: 0.9rem;
@@ -17,10 +15,10 @@ article.home-hero {
   .article-surface {
     padding: 1rem 1.2rem;
     border-radius: 12px;
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 18%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 18%, var(--lightgray));
     background:
-      linear-gradient(180deg, color-mix(in srgb, $rsd-blue-dark 5%, #fff) 0%, #fff 100%);
-    box-shadow: 0 6px 18px rgba(9, 65, 122, 0.08);
+      linear-gradient(180deg, color-mix(in srgb, var(--brand-dark) 5%, #fff) 0%, #fff 100%);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-dark) 8%, transparent);
   }
 
   p:first-child {
@@ -42,13 +40,13 @@ article.home-hero {
   margin: 0.75rem 0;
   height: 1px;
   border: 0;
-  background: color-mix(in srgb, #0096dc 78%, #fff);
+  background: color-mix(in srgb, var(--brand-light) 78%, #fff);
   opacity: 1;
 }
 
 /* Fallback, pokud je hr v některém layoutu vynecháno */
 #quartz-body .center > article.home-hero + .home-landing {
-  border-top: 1px solid color-mix(in srgb, #0096dc 78%, #fff);
+  border-top: 1px solid color-mix(in srgb, var(--brand-light) 78%, #fff);
   padding-top: 0.75rem;
 }
 
@@ -154,15 +152,15 @@ article.home-hero {
     &:hover {
       border-color: var(--secondary);
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(9, 65, 122, 0.1);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-dark) 10%, transparent);
     }
 
     &.selected {
-      border-color: $rsd-blue-dark;
+      border-color: var(--brand-dark);
       border-width: 2px;
       padding: calc(0.72rem - 1px) calc(0.85rem - 1px);
-      background: color-mix(in srgb, $rsd-blue-dark 8%, var(--light));
-      box-shadow: 0 6px 20px rgba(9, 65, 122, 0.14);
+      background: color-mix(in srgb, var(--brand-dark) 8%, var(--light));
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--brand-dark) 14%, transparent);
 
       &::after {
         content: "✓";
@@ -172,7 +170,7 @@ article.home-hero {
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
-        background: $rsd-blue-dark;
+        background: var(--brand-dark);
         color: #fff;
         display: inline-flex;
         align-items: center;
@@ -221,15 +219,15 @@ article.home-hero {
   }
 
   .home-wizard-role-badge-role {
-    color: color-mix(in srgb, $rsd-blue-dark 85%, #000);
-    background: color-mix(in srgb, $rsd-blue-dark 12%, #fff);
-    border-color: color-mix(in srgb, $rsd-blue-dark 32%, var(--lightgray));
+    color: color-mix(in srgb, var(--brand-dark) 85%, #000);
+    background: color-mix(in srgb, var(--brand-dark) 12%, #fff);
+    border-color: color-mix(in srgb, var(--brand-dark) 32%, var(--lightgray));
   }
 
   .home-wizard-role-badge-contract {
-    color: color-mix(in srgb, $rsd-orange 85%, #000);
-    background: color-mix(in srgb, $rsd-orange 16%, #fff);
-    border-color: color-mix(in srgb, $rsd-orange 36%, var(--lightgray));
+    color: color-mix(in srgb, var(--brand-accent) 85%, #000);
+    background: color-mix(in srgb, var(--brand-accent) 16%, #fff);
+    border-color: color-mix(in srgb, var(--brand-accent) 36%, var(--lightgray));
   }
 
   /* ═══════════ Step 2 — Fáze dlaždice ═══════════ */
@@ -319,80 +317,80 @@ article.home-hero {
 
   // Barevné varianty etapa karet — shodné s barvami sekcí ve výsledcích
   .home-wizard-etapa-blue {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 8%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-blue-dark 22%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-dark) 8%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-dark) 22%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-blue-dark;
+      border-color: var(--brand-dark);
     }
 
     &.selected {
-      border-color: $rsd-blue-dark;
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 16%, #fff) 0%, #fff 100%);
+      border-color: var(--brand-dark);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-dark) 16%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-blue-dark;
+        background: var(--brand-dark);
       }
     }
 
     .home-wizard-etapa-label {
-      color: $rsd-blue-dark;
+      color: var(--brand-dark);
     }
 
     .home-wizard-etapa-phase {
-      color: color-mix(in srgb, $rsd-blue-dark 72%, #666);
+      color: color-mix(in srgb, var(--brand-dark) 72%, #666);
     }
   }
 
   .home-wizard-etapa-orange {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 10%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-orange 28%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent) 10%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-accent) 28%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-orange;
+      border-color: var(--brand-accent);
     }
 
     &.selected {
-      border-color: $rsd-orange;
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 18%, #fff) 0%, #fff 100%);
+      border-color: var(--brand-accent);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent) 18%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-orange;
+        background: var(--brand-accent);
       }
     }
 
     .home-wizard-etapa-label {
-      color: color-mix(in srgb, $rsd-orange 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent) 80%, #000);
     }
 
     .home-wizard-etapa-phase {
-      color: color-mix(in srgb, $rsd-orange 72%, #666);
+      color: color-mix(in srgb, var(--brand-accent) 72%, #666);
     }
   }
 
   .home-wizard-etapa-green {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 10%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-green 28%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent-2) 10%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-accent-2) 28%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-green;
+      border-color: var(--brand-accent-2);
     }
 
     &.selected {
-      border-color: $rsd-green;
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 18%, #fff) 0%, #fff 100%);
+      border-color: var(--brand-accent-2);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent-2) 18%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-green;
+        background: var(--brand-accent-2);
       }
     }
 
     .home-wizard-etapa-label {
-      color: color-mix(in srgb, $rsd-green 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent-2) 80%, #000);
     }
 
     .home-wizard-etapa-phase {
-      color: color-mix(in srgb, $rsd-green 72%, #666);
+      color: color-mix(in srgb, var(--brand-accent-2) 72%, #666);
     }
   }
 
@@ -414,74 +412,74 @@ article.home-hero {
 
   /* Barevné varianty fází */
   .home-wizard-phase-blue {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 12%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-blue-dark 25%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-dark) 12%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-dark) 25%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-blue-dark;
+      border-color: var(--brand-dark);
     }
 
     &.selected {
-      border-color: $rsd-blue-dark;
+      border-color: var(--brand-dark);
       border-width: 2px;
       padding: calc(0.72rem - 1px) calc(0.85rem - 1px);
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-blue-dark 22%, #fff) 0%, #fff 100%);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-dark) 22%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-blue-dark;
+        background: var(--brand-dark);
       }
     }
 
     .home-wizard-phase-label {
-      color: $rsd-blue-dark;
+      color: var(--brand-dark);
     }
   }
 
   .home-wizard-phase-orange {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 15%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-orange 30%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent) 15%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-accent) 30%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-orange;
+      border-color: var(--brand-accent);
     }
 
     &.selected {
-      border-color: $rsd-orange;
+      border-color: var(--brand-accent);
       border-width: 2px;
       padding: calc(0.72rem - 1px) calc(0.85rem - 1px);
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-orange 25%, #fff) 0%, #fff 100%);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent) 25%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-orange;
+        background: var(--brand-accent);
       }
     }
 
     .home-wizard-phase-label {
-      color: color-mix(in srgb, $rsd-orange 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent) 80%, #000);
     }
   }
 
   .home-wizard-phase-green {
-    background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 15%, #fff) 0%, #fff 100%);
-    border-color: color-mix(in srgb, $rsd-green 30%, var(--lightgray));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent-2) 15%, #fff) 0%, #fff 100%);
+    border-color: color-mix(in srgb, var(--brand-accent-2) 30%, var(--lightgray));
 
     &:hover {
-      border-color: $rsd-green;
+      border-color: var(--brand-accent-2);
     }
 
     &.selected {
-      border-color: $rsd-green;
+      border-color: var(--brand-accent-2);
       border-width: 2px;
       padding: calc(0.72rem - 1px) calc(0.85rem - 1px);
-      background: linear-gradient(135deg, color-mix(in srgb, $rsd-green 25%, #fff) 0%, #fff 100%);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand-accent-2) 25%, #fff) 0%, #fff 100%);
 
       &::after {
-        background: $rsd-green;
+        background: var(--brand-accent-2);
       }
     }
 
     .home-wizard-phase-label {
-      color: color-mix(in srgb, $rsd-green 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent-2) 80%, #000);
     }
   }
 
@@ -527,7 +525,7 @@ article.home-hero {
       }
 
       &::after {
-        background: var(--raci-accent, #09417a);
+        background: var(--raci-accent, var(--brand-dark));
       }
     }
   }
@@ -540,8 +538,8 @@ article.home-hero {
     width: 1.35rem;
     height: 1.35rem;
     border-radius: 6px;
-    background: color-mix(in srgb, $rsd-blue-dark 14%, #fff);
-    color: $rsd-blue-dark;
+    background: color-mix(in srgb, var(--brand-dark) 14%, #fff);
+    color: var(--brand-dark);
     font-weight: 700;
     font-size: 0.82rem;
     line-height: 1;
@@ -605,16 +603,16 @@ article.home-hero {
   }
 
   .home-wizard-advanced-reset {
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 45%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 45%, var(--lightgray));
     border-radius: 8px;
     background: var(--light);
-    color: $rsd-blue-dark;
+    color: var(--brand-dark);
     font-size: 0.82rem;
     padding: 0.35rem 0.6rem;
     cursor: pointer;
 
     &:hover {
-      background: color-mix(in srgb, $rsd-blue-dark 8%, #fff);
+      background: color-mix(in srgb, var(--brand-dark) 8%, #fff);
     }
   }
 
@@ -635,8 +633,8 @@ article.home-hero {
       display: inline-block;
       padding: 0.15rem 0.55rem;
       border-radius: 999px;
-      background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
-      color: $rsd-blue-dark;
+      background: color-mix(in srgb, var(--brand-dark) 10%, transparent);
+      color: var(--brand-dark);
       font-weight: 600;
       margin: 0 0.2rem;
     }
@@ -680,10 +678,10 @@ article.home-hero {
   }
 
   .home-wizard-toolbar-btn {
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 34%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 34%, var(--lightgray));
     border-radius: 8px;
     background: #fff;
-    color: $rsd-blue-dark;
+    color: var(--brand-dark);
     font: inherit;
     font-size: 0.82rem;
     font-weight: 600;
@@ -693,19 +691,19 @@ article.home-hero {
     transition: background 120ms ease, border-color 120ms ease;
 
     &:hover {
-      background: color-mix(in srgb, $rsd-blue-dark 9%, #fff);
-      border-color: $rsd-blue-dark;
+      background: color-mix(in srgb, var(--brand-dark) 9%, #fff);
+      border-color: var(--brand-dark);
     }
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 55%, var(--gray));
+      outline: 2px solid color-mix(in srgb, var(--brand-dark) 55%, var(--gray));
       outline-offset: 2px;
     }
   }
 
   .home-wizard-toolbar-btn-primary {
-    background: color-mix(in srgb, $rsd-blue-dark 10%, #fff);
-    border-color: color-mix(in srgb, $rsd-blue-dark 50%, var(--lightgray));
+    background: color-mix(in srgb, var(--brand-dark) 10%, #fff);
+    border-color: color-mix(in srgb, var(--brand-dark) 50%, var(--lightgray));
   }
 
   .home-wizard-result-split {
@@ -731,7 +729,7 @@ article.home-hero {
 
     @media all and ($mobile) {
       border-right: 0;
-      border-bottom: 1px solid color-mix(in srgb, $rsd-blue-dark 55%, #fff);
+      border-bottom: 1px solid color-mix(in srgb, var(--brand-dark) 55%, #fff);
       max-height: 22rem;
     }
   }
@@ -754,7 +752,7 @@ article.home-hero {
     align-items: flex-start;
     gap: 0.55rem;
     padding: 0.7rem 0.9rem;
-    border-bottom: 1px solid color-mix(in srgb, $rsd-blue-dark 60%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-dark) 60%, #fff);
     color: var(--dark);
     text-decoration: none;
     background: transparent;
@@ -773,8 +771,8 @@ article.home-hero {
     }
 
     &.active {
-      background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
-      border-left-color: $rsd-blue-dark;
+      background: color-mix(in srgb, var(--brand-dark) 10%, transparent);
+      border-left-color: var(--brand-dark);
     }
   }
 
@@ -782,8 +780,8 @@ article.home-hero {
     flex: 0 0 auto;
     font-size: 0.78rem;
     font-weight: 700;
-    color: $rsd-blue-dark;
-    background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
+    color: var(--brand-dark);
+    background: color-mix(in srgb, var(--brand-dark) 10%, transparent);
     padding: 0.15rem 0.45rem;
     border-radius: 6px;
     margin-top: 0.12rem;
@@ -904,7 +902,7 @@ article.home-hero {
       margin: 0 0 1rem;
       padding: 0.45rem 0.9rem;
       border-radius: 6px;
-      background: $rsd-blue-dark;
+      background: var(--brand-dark);
       color: #fff;
       text-decoration: none;
       font-size: 0.9rem;
@@ -912,7 +910,7 @@ article.home-hero {
       transition: background 120ms ease;
 
       &:hover {
-        background: $rsd-blue-light;
+        background: var(--brand-light);
       }
     }
   }
@@ -962,15 +960,15 @@ article.home-hero {
 
   // Barevné variace skupiny dle fáze — tvoří levý pruhem na skupině
   .wiz-tl-group--blue {
-    border-color: color-mix(in srgb, $rsd-blue-dark 30%, var(--lightgray));
+    border-color: color-mix(in srgb, var(--brand-dark) 30%, var(--lightgray));
   }
 
   .wiz-tl-group--orange {
-    border-color: color-mix(in srgb, $rsd-orange 35%, var(--lightgray));
+    border-color: color-mix(in srgb, var(--brand-accent) 35%, var(--lightgray));
   }
 
   .wiz-tl-group--green {
-    border-color: color-mix(in srgb, $rsd-green 35%, var(--lightgray));
+    border-color: color-mix(in srgb, var(--brand-accent-2) 35%, var(--lightgray));
   }
 
   // Barevná hlavička sekce etapy (tlačítko = sbalit/rozbalit karty)
@@ -989,7 +987,7 @@ article.home-hero {
     box-sizing: border-box;
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 55%, var(--gray));
+      outline: 2px solid color-mix(in srgb, var(--brand-dark) 55%, var(--gray));
       outline-offset: 2px;
     }
   }
@@ -1027,47 +1025,47 @@ article.home-hero {
   }
 
   .wiz-tl-group-header--blue {
-    background: color-mix(in srgb, $rsd-blue-dark 10%, #fff);
-    border-bottom: 1px solid color-mix(in srgb, $rsd-blue-dark 22%, var(--lightgray));
+    background: color-mix(in srgb, var(--brand-dark) 10%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-dark) 22%, var(--lightgray));
 
     .wiz-tl-group-label {
-      color: $rsd-blue-dark;
+      color: var(--brand-dark);
     }
 
     .wiz-tl-group-count {
-      color: color-mix(in srgb, $rsd-blue-dark 70%, #fff);
-      background: color-mix(in srgb, $rsd-blue-dark 14%, #fff);
-      border-color: color-mix(in srgb, $rsd-blue-dark 25%, var(--lightgray));
+      color: color-mix(in srgb, var(--brand-dark) 70%, #fff);
+      background: color-mix(in srgb, var(--brand-dark) 14%, #fff);
+      border-color: color-mix(in srgb, var(--brand-dark) 25%, var(--lightgray));
     }
   }
 
   .wiz-tl-group-header--orange {
-    background: color-mix(in srgb, $rsd-orange 10%, #fff);
-    border-bottom: 1px solid color-mix(in srgb, $rsd-orange 28%, var(--lightgray));
+    background: color-mix(in srgb, var(--brand-accent) 10%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent) 28%, var(--lightgray));
 
     .wiz-tl-group-label {
-      color: color-mix(in srgb, $rsd-orange 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent) 80%, #000);
     }
 
     .wiz-tl-group-count {
-      color: color-mix(in srgb, $rsd-orange 80%, #000);
-      background: color-mix(in srgb, $rsd-orange 14%, #fff);
-      border-color: color-mix(in srgb, $rsd-orange 30%, var(--lightgray));
+      color: color-mix(in srgb, var(--brand-accent) 80%, #000);
+      background: color-mix(in srgb, var(--brand-accent) 14%, #fff);
+      border-color: color-mix(in srgb, var(--brand-accent) 30%, var(--lightgray));
     }
   }
 
   .wiz-tl-group-header--green {
-    background: color-mix(in srgb, $rsd-green 10%, #fff);
-    border-bottom: 1px solid color-mix(in srgb, $rsd-green 28%, var(--lightgray));
+    background: color-mix(in srgb, var(--brand-accent-2) 10%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent-2) 28%, var(--lightgray));
 
     .wiz-tl-group-label {
-      color: color-mix(in srgb, $rsd-green 80%, #000);
+      color: color-mix(in srgb, var(--brand-accent-2) 80%, #000);
     }
 
     .wiz-tl-group-count {
-      color: color-mix(in srgb, $rsd-green 75%, #000);
-      background: color-mix(in srgb, $rsd-green 14%, #fff);
-      border-color: color-mix(in srgb, $rsd-green 30%, var(--lightgray));
+      color: color-mix(in srgb, var(--brand-accent-2) 75%, #000);
+      background: color-mix(in srgb, var(--brand-accent-2) 14%, #fff);
+      border-color: color-mix(in srgb, var(--brand-accent-2) 30%, var(--lightgray));
     }
   }
 
@@ -1136,7 +1134,7 @@ article.home-hero {
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, $rsd-blue-dark 45%, var(--gray));
+      outline: 2px solid color-mix(in srgb, var(--brand-dark) 45%, var(--gray));
       outline-offset: -2px;
     }
   }
@@ -1217,15 +1215,15 @@ article.home-hero {
     overflow: hidden;
 
     &:hover {
-      border-color: $rsd-blue-dark;
-      box-shadow: 0 4px 16px rgba(9, 65, 122, 0.13);
+      border-color: var(--brand-dark);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--brand-dark) 13%, transparent);
       transform: translateY(-2px);
     }
 
     &:focus {
-      outline: 2px solid $rsd-blue-dark;
+      outline: 2px solid var(--brand-dark);
       outline-offset: 2px;
-      border-color: $rsd-blue-dark;
+      border-color: var(--brand-dark);
     }
 
     &.wiz-tl-card--done {
@@ -1259,7 +1257,7 @@ article.home-hero {
         justify-content: center;
         font-size: 3.8rem;
         font-weight: 800;
-        color: color-mix(in srgb, $rsd-blue-dark 78%, #fff);
+        color: color-mix(in srgb, var(--brand-dark) 78%, #fff);
         background: color-mix(in srgb, #f0f3f5 70%, transparent);
         pointer-events: none;
       }
@@ -1289,7 +1287,7 @@ article.home-hero {
     width: 1rem;
     height: 1rem;
     border-radius: 999px;
-    border: 1px solid color-mix(in srgb, $rsd-blue-dark 30%, var(--lightgray));
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 30%, var(--lightgray));
     background: color-mix(in srgb, #fff 85%, var(--lightgray));
     cursor: pointer;
     display: inline-flex;
@@ -1307,8 +1305,8 @@ article.home-hero {
     }
 
     &:checked {
-      background: $rsd-blue-dark;
-      border-color: $rsd-blue-dark;
+      background: var(--brand-dark);
+      border-color: var(--brand-dark);
       color: #fff;
     }
   }
@@ -1328,8 +1326,8 @@ article.home-hero {
     align-self: flex-start;
     font-size: 0.7rem;
     font-weight: 700;
-    color: $rsd-blue-dark;
-    background: color-mix(in srgb, $rsd-blue-dark 10%, transparent);
+    color: var(--brand-dark);
+    background: color-mix(in srgb, var(--brand-dark) 10%, transparent);
     padding: 0.08rem 0.4rem;
     border-radius: 4px;
     letter-spacing: 0.04em;
@@ -1515,7 +1513,7 @@ article.home-hero {
     gap: 0.2rem;
     font-size: 0.76rem;
     line-height: 1.3;
-    color: $rsd-blue-dark;
+    color: var(--brand-dark);
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1530,7 +1528,7 @@ article.home-hero {
 
     &:hover {
       text-decoration: underline;
-      color: $rsd-blue-light;
+      color: var(--brand-light);
     }
   }
 }

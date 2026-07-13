@@ -1,16 +1,19 @@
 import { sitePath } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { getActiveTenant } from "../../tenants"
 
-/** ŘSD logo nad levým panelem (menu / explorer) */
+const tenant = getActiveTenant()
+
+/** Logo firmy nad levým panelem (menu / explorer) */
 const SiteBranding: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
   const homeHref = sitePath(cfg.baseUrl)
-  const logoSrc = sitePath(cfg.baseUrl, "static/rsd-logo.svg")
+  const logoSrc = sitePath(cfg.baseUrl, `static/${tenant.logo}`)
   return (
     <div class="site-branding">
       <a href={homeHref} class="site-branding__link" aria-label="Zpět na úvod">
         <img
           src={logoSrc}
-          alt="Ředitelství silnic a dálnic"
+          alt={tenant.logoAlt}
           class="site-branding__logo"
           width="172"
           height="70"
